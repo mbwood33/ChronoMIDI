@@ -1,24 +1,79 @@
 #!/usr/bin/env python3
 # chronomidi_gui.py
-# GUI prototype for ChronoMIDI with real-time event highlighting
+# ChronoMIDI GUI with sample‑accurate MIDI scheduling via sounddevice callback
 
 import sys
 import os
-import threading
-import time
 import mido
+import numpy as np
+import sounddevice as sd
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QFileDialog, QWidget, QVBoxLayout,
     QHBoxLayout, QLabel, QPushButton, QTabWidget, QTableWidget,
     QTableWidgetItem, QGroupBox, QFormLayout, QStyledItemDelegate,
-    QAbstractItemView
+    QAbstractItemView, QHeaderView
 )
 from PyQt5.QtGui import QColor, QFont, QPalette, QFontDatabase
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtCore import pyqtSignal
 from fluidsynth import Synth
 
 # Note name conversion
 NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+
+# Control Change number to human-readable name mapping
+CONTROL_CHANGE_NAMES = {
+    0: 'Bank Select',
+    1: 'Modulation Wheel',
+    2: 'Breath Controller',
+    4: 'Foot Controller',
+    5: 'Portamento Time',
+    6: 'Data Entry MSB',
+    7: 'Channel Volume',
+    8: 'Balance',
+    10: 'Pan',
+    11: 'Expression Controller',
+    12: 'Effect Control 1',
+    13: 'Effect Control 2',
+    64: 'Sustain Pedal',
+    65: 'Portamento On/Off',
+    66: 'Sostenuto Pedal',
+    67: 'Soft Pedal',
+    68: 'Legato Footswitch',
+    69: 'Hold 2',
+    70: 'Sound Controller 1 (Sound Variation)',
+    71: 'Sound Controller 2 (Timbre)',
+    72: 'Sound Controller 3 (Release Time)',
+    73: 'Sound Controller 4 (Attack Time)',
+    74: 'Sound Controller 5 (Brightness)',
+    75: 'Sound Controller 6',
+    76: 'Sound Controller 7',
+    77: 'Sound Controller 8',
+    78: 'Sound Controller 9',
+    79: 'Sound Controller 10',
+    80: 'General Purpose Controller 1',
+    81: 'General Purpose Controller 2',
+    82: 'General Purpose Controller 3',
+    83: 'General Purpose Controller 4',
+    84: 'Portamento Control',
+    91: 'Effects 1 Depth (Reverb)',
+    92: 'Effects 2 Depth (Tremolo)',
+    93: 'Effects 3 Depth (Chorus)',
+    94: 'Effects 4 Depth (Celeste)',
+    95: 'Effects 5 Depth (Phaser)',
+    96: 'Data Increment',
+    97: 'Data Decrement',
+    98: 'NRPN LSB',
+    99: 'NRPN MSB',
+    100: 'RPN LSB',
+    101: 'RPN MSB',
+    121: 'Reset All Controllers',
+    122: 'Local Control On/Off',
+    123: 'All Notes Off',
+    124: 'Omni Mode Off',
+    125: 'Omni Mode On',
+    126: 'Mono Mode On',
+    127: 'Poly Mode On',
+}
 
 def midi_note_to_name(note):
     octave = (note // 12) - 1
@@ -35,7 +90,6 @@ class EditDelegate(QStyledItemDelegate):
         return editor
 
 class ChronoMIDIWindow(QMainWindow):
-    # Signal to highlight row index
     event_signal = pyqtSignal(int)
 
     def __init__(self):
@@ -43,43 +97,31 @@ class ChronoMIDIWindow(QMainWindow):
         self.setWindowTitle("ChronoMIDI")
         self.resize(900, 600)
 
-        # ––––––––––––––––––––––––
-        # Setup the central widget & layout
+        # Audio scheduling
+        self.sr = 44100
+        self.sample_events = []
+        self.current_sample = 0
+        self.stream = None
+
+        # Synth
+        self.synth = None
+
+        # Data
+        self.events = []
+        self.channels = []
+
+        # Connect highlight
+        self.event_signal.connect(self.on_event_highlight)
+
+        # Setup UI
         central = QWidget()
         self.setCentralWidget(central)
         main_layout = QVBoxLayout(central)
 
-        # File display label (now correctly defined)
+        # File label
         self.label_file = QLabel("No file loaded")
         self.label_file.setStyleSheet("color: white; font-weight: bold;")
         main_layout.addWidget(self.label_file)
-        # ––––––––––––––––––––––––
-
-        # Data placeholders
-        self.events = []
-        self.channels = []
-        self.midi_path = None
-        self.sf2_path = None
-        self.synth = None
-        self.play_thread = None
-        self.pause_flag = False
-        self.stop_flag = False
-        self.playback_start = 0.0
-        self.pause_time = 0.0
-        # Tables per tab
-        self.tables = []
-
-        # Connect highlight signal
-        self.event_signal.connect(self.on_event_highlight)
-
-                # Setup UI
-        central = QWidget()
-        self.setCentralWidget(central)
-        # Create main layout
-        main_layout = QVBoxLayout(central)
-        main_layout.addWidget(self.label_file)
-        # Main layout continued
-        
 
         # Metadata panel
         self.meta_group = QGroupBox("File Metadata")
@@ -87,15 +129,13 @@ class ChronoMIDIWindow(QMainWindow):
         self.meta_group.setLayout(meta_layout)
         self.label_tempo = QLabel("N/A")
         self.label_time_sig = QLabel("N/A")
-        self.label_key_sig = QLabel("N/A")
+        self.label_key = QLabel("N/A")
         self.label_meta = QLabel("N/A")
-        # File name label updated on load
-        # Already defined above as self.label_file
-        for w in (self.label_tempo, self.label_time_sig, self.label_key_sig, self.label_meta):
+        for w in (self.label_tempo, self.label_time_sig, self.label_key, self.label_meta):
             w.setStyleSheet("color: white;")
         meta_layout.addRow("Tempo:", self.label_tempo)
         meta_layout.addRow("Time Sig:", self.label_time_sig)
-        meta_layout.addRow("Key Sig:", self.label_key_sig)
+        meta_layout.addRow("Key Sig:", self.label_key)
         meta_layout.addRow("Other Meta:", self.label_meta)
         self.meta_group.setStyleSheet("QGroupBox { color: white; }")
         main_layout.addWidget(self.meta_group)
@@ -104,92 +144,86 @@ class ChronoMIDIWindow(QMainWindow):
         self.tab_widget = QTabWidget()
         self.tab_widget.setStyleSheet(
             "QTabWidget::pane { border: none; }"
-            "QTabBar::tab { background: #222; color: white; padding: 5px; }"
-            "QTabBar::tab:selected { background: #555; }"
+            "QTabBar::tab { background-color: #222; color: white; padding: 5px; }"
+            "QTabBar::tab:selected { background-color: #555; }"
         )
         main_layout.addWidget(self.tab_widget)
 
-        # Transport & file controls
+        # Controls
         ctrl_layout = QHBoxLayout()
-        btn_open = QPushButton("Open MIDI File...")
-        btn_open.clicked.connect(self.open_file)
-        btn_sf2 = QPushButton("Select SoundFont...")
-        btn_sf2.clicked.connect(self.open_sf2)
-        self.btn_play = QPushButton("Play")
-        self.btn_play.clicked.connect(self.on_play)
-        self.btn_pause = QPushButton("Pause")
-        self.btn_pause.clicked.connect(self.on_pause)
-        self.btn_stop = QPushButton("Stop")
-        self.btn_stop.clicked.connect(self.on_stop)
-        for b in (btn_open, btn_sf2, self.btn_play, self.btn_pause, self.btn_stop):
-            b.setStyleSheet(
-                "QPushButton { background: #333; color: white; padding: 5px; }"
-                "QPushButton:hover { background: #444; }"
+        for txt, slot in [
+            ("Open MIDI...", self.open_file),
+            ("Load SF2...", self.open_sf2),
+            ("Play", self.on_play),
+            ("Pause", self.on_pause),
+            ("Stop", self.on_stop),
+        ]:
+            btn = QPushButton(txt)
+            btn.clicked.connect(slot)
+            btn.setStyleSheet(
+                "QPushButton { background-color: #333; color: white; padding: 5px; }"
+                "QPushButton:hover { background-color: #444; }"
             )
-            ctrl_layout.addWidget(b)
+            ctrl_layout.addWidget(btn)
         ctrl_layout.addStretch()
         main_layout.addLayout(ctrl_layout)
 
     def open_file(self):
         path, _ = QFileDialog.getOpenFileName(self, "Open MIDI File", "", "MIDI Files (*.mid *.midi)")
         if path:
-            self.midi_path = path
+            self.on_stop()
+            self.label_file.setText(os.path.basename(path))
             self.load_midi(path)
 
     def open_sf2(self):
-        path, _ = QFileDialog.getOpenFileName(self, "Select SoundFont", "", "SoundFont Files (*.sf2)")
-        if path:
-            self.sf2_path = path
+        path, _ = QFileDialog.getOpenFileName(self, "Load SoundFont", "", "SF2 Files (*.sf2)")
+        if not path:
+            return
+        if not self.synth:
+            self.synth = Synth()
+        sfid = self.synth.sfload(path)
+        self.synth.program_select(0, sfid, 0, 0)
 
     def load_midi(self, path):
-        # Update file label
-        self.label_file.setText(os.path.basename(path))
-        # Load MIDI and extract metadata
         mid = mido.MidiFile(path)
-        # Global metadata
+        # metadata
         tempo = 500000
-        time_sig = (4, 4)
-        key_sig = None
-        other_meta = []
-        for track in mid.tracks:
-            for msg in track:
-                if msg.is_meta:
-                    if msg.type == 'set_tempo': tempo = msg.tempo
-                    elif msg.type == 'time_signature': time_sig = (msg.numerator, msg.denominator)
-                    elif msg.type == 'key_signature': key_sig = msg.key
-                    else: other_meta.append(msg.type)
-        bpm = mido.tempo2bpm(tempo)
-        self.label_tempo.setText(f"{bpm:.2f} BPM")
-        self.label_time_sig.setText(f"{time_sig[0]}/{time_sig[1]}")
-        self.label_key_sig.setText(key_sig or "N/A")
-        self.label_meta.setText(', '.join(other_meta) or "N/A")
-        # Build event list with dynamic tempo
-        ticks_per_beat = mid.ticks_per_beat
-        curr_tempo = tempo
+        ts = (4, 4)
+        key = None
+        others = []
+        for msg in mido.merge_tracks(mid.tracks):
+            if msg.is_meta:
+                if msg.type == 'set_tempo': tempo = msg.tempo
+                elif msg.type == 'time_signature': ts = (msg.numerator, msg.denominator)
+                elif msg.type == 'key_signature': key = msg.key
+                else: others.append(msg.type)
+        self.label_tempo.setText(f"{mido.tempo2bpm(tempo):.2f} BPM")
+        self.label_time_sig.setText(f"{ts[0]}/{ts[1]}")
+        self.label_key.setText(key or "N/A")
+        self.label_meta.setText(', '.join(others) or "N/A")
+
+        # events + sample offsets
+        tpb = mid.ticks_per_beat
+        curr_t = tempo
         abs_time = 0.0
         abs_ticks = 0
-        events = []
+        evs = []
         for msg in mido.merge_tracks(mid.tracks):
-            delta_ticks = msg.time
-            # convert delta ticks to seconds using current tempo
-            delta_secs = mido.tick2second(delta_ticks, ticks_per_beat, curr_tempo)
-            abs_time += delta_secs
-            abs_ticks += delta_ticks
-            # handle tempo change
+            delta = msg.time
+            abs_ticks += delta
+            abs_time += mido.tick2second(delta, tpb, curr_t)
             if msg.is_meta and msg.type == 'set_tempo':
-                curr_tempo = msg.tempo
+                curr_t = msg.tempo
                 continue
-            if msg.is_meta:
-                continue
-            # calculate measure and beat
-            total_beats = abs_ticks / ticks_per_beat
-            measure = int(total_beats // time_sig[0]) + 1
-            beat_in_measure = total_beats % time_sig[0]
-            events.append({
+            if msg.is_meta: continue
+            tb = abs_ticks / tpb
+            measure = int(tb // ts[0]) + 1
+            beat = tb % ts[0]
+            evs.append({
                 'time_s': abs_time,
                 'measure': measure,
-                'beat': beat_in_measure,
-                'channel': getattr(msg, 'channel', 0),
+                'beat': beat,
+                'channel': msg.channel,
                 'type': msg.type,
                 'note': getattr(msg, 'note', None),
                 'velocity': getattr(msg, 'velocity', None),
@@ -198,137 +232,134 @@ class ChronoMIDIWindow(QMainWindow):
                 'pitch': getattr(msg, 'pitch', None),
                 'program': getattr(msg, 'program', None),
             })
-        self.events = events
-        self.channels = sorted({e['channel'] for e in events})
+        self.events = evs
+        self.channels = sorted({e['channel'] for e in evs})
+
+        self.sample_events = sorted((int(e['time_s'] * self.sr), i) for i, e in enumerate(self.events))
+        self.current_sample = 0
         self.update_event_tabs()
 
     def update_event_tabs(self):
         self.tab_widget.clear()
         self.tables = []
-        self.tab_widget.addTab(self._add_table(self.events), "All")
+        self.tab_widget.addTab(self._make_table(self.events), "All")
         for ch in self.channels:
-            tab = self._add_table([e for e in self.events if e['channel']==ch])
-            self.tab_widget.addTab(tab, f"Ch {ch}")
+            subset = [e for e in self.events if e['channel'] == ch]
+            self.tab_widget.addTab(self._make_table(subset), f"Ch {ch}")
 
-    def _add_table(self, events):
+    def _make_table(self, evts):
         tb = QTableWidget()
         self.tables.append(tb)
         tb.setItemDelegate(EditDelegate(tb))
+        tb.setFont(QApplication.font())
         tb.setStyleSheet(
             "QTableWidget { background-color: black; color: white; gridline-color: gray; }"
-            "QHeaderView::section { background-color: #444; color: white; font: bold; }"
+            "QHeaderView::section { background-color: #444444; color: white; font-weight: bold; }"
             "QTableWidget::item:selected { background-color: #444444; color: white; }"
         )
-        tb.setFont(QApplication.font())
         tb.setColumnCount(6)
-        tb.setHorizontalHeaderLabels(['Measure','Beat','Time(s)','Channel','Type','Param'])
-        tb.setRowCount(len(events))
-        type_colors = {
-            'note_on': QColor('#8BE9FD'), 'note_off': QColor('#6272A4'),
-            'control_change': QColor('#FFB86C'),'program_change': QColor('#50FA7B'),
-            'pitchwheel': QColor('#FF79C6'),'default': QColor('#F8F8F2')
-        }
-        for r,e in enumerate(events):
-            tb.setItem(r,0,QTableWidgetItem(str(e['measure'])))
-            tb.setItem(r,1,QTableWidgetItem(f"{e['beat']:.2f}"))
-            tb.setItem(r,2,QTableWidgetItem(f"{e['time_s']:.3f}"))
-            tb.setItem(r,3,QTableWidgetItem(str(e['channel'])))
-            ti=QTableWidgetItem(e['type']); ti.setForeground(type_colors.get(e['type'],type_colors['default']))
-            tb.setItem(r,4,ti)
-            parts=[]
-            if e['note']!=None: parts.append(midi_note_to_name(e['note'])+f"({e['note']})")
-            if e['velocity']!=None: parts.append(f"vel={e['velocity']}")
-            if e['control']!=None: parts.append(f"ctrl={e['control']}={e['value']}")
-            tb.setItem(r,5,QTableWidgetItem(','.join(parts)))
-        tb.verticalHeader().setDefaultSectionSize(18)
-        # limit column widths to avoid oversized tables
-        from PyQt5.QtWidgets import QHeaderView
+        tb.setHorizontalHeaderLabels(['Measure', 'Beat', 'Time(s)', 'Ch', 'Type', 'Param'])
+        tb.setRowCount(len(evts))
         header = tb.horizontalHeader()
-        # Columns 0–4 auto-size, Param column interactive with max width
-        for i in range(5):
-            header.setSectionResizeMode(i, QHeaderView.ResizeToContents)
+        for i in range(5): header.setSectionResizeMode(i, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(5, QHeaderView.Interactive)
         tb.setColumnWidth(5, 200)
+        colors = {
+            'note_on': '#8BE9FD', 'note_off': '#6272A4',
+            'control_change': '#FFB86C', 'program_change': '#50FA7B',
+            'pitchwheel': '#FF79C6'
+        }
+        for r, e in enumerate(evts):
+            tb.setItem(r, 0, QTableWidgetItem(str(e['measure'])))
+            tb.setItem(r, 1, QTableWidgetItem(f"{e['beat']:.2f}"))
+            tb.setItem(r, 2, QTableWidgetItem(f"{e['time_s']:.3f}"))
+            tb.setItem(r, 3, QTableWidgetItem(str(e['channel'])))
+            ti = QTableWidgetItem(e['type'])
+            ti.setForeground(QColor(colors.get(e['type'], '#F8F8F2')))
+            tb.setItem(r, 4, ti)
+            parts = []
+            if e['note'] is not None: parts.append(midi_note_to_name(e['note'])+f"({e['note']})")
+            if e['velocity'] is not None: parts.append(f"vel={e['velocity']}")
+            if e['control'] is not None:
+                cc_name = CONTROL_CHANGE_NAMES.get(e['control'], f"CC{e['control']}")
+                parts.append(f"{cc_name}={e['value']}")
+            # Display pitch wheel value
+            if e['pitch'] is not None:
+                parts.append(f"pitch={e['pitch']}")
+            tb.setItem(r, 5, QTableWidgetItem(', '.join(parts)))
+        tb.verticalHeader().setDefaultSectionSize(18)
         return tb
 
-    def on_event_highlight(self, row_index):
-        """
-        Highlight and scroll to the given row index in the active table.
-        """
-        # Determine current table based on active tab
-        current_tab = self.tab_widget.currentIndex()
-        if current_tab < len(self.tables):
-            table = self.tables[current_tab]
-            # Clear previous selection
-            table.clearSelection()
-            # Select the row
-            table.selectRow(row_index)
-            # Scroll to the row
-            item = table.item(row_index, 0)
-            if item:
-                table.scrollToItem(item, QAbstractItemView.PositionAtCenter)
-
+    def on_event_highlight(self, idx):
+        ti = self.tab_widget.currentIndex()
+        if ti < len(self.tables):
+            tbl = self.tables[ti]
+            tbl.clearSelection()
+            tbl.selectRow(idx)
+            item = tbl.item(idx, 0)
+            if item: tbl.scrollToItem(item, QAbstractItemView.PositionAtCenter)
 
     def on_play(self):
-        if not (self.events and self.sf2_path): return
-        if self.play_thread and self.play_thread.is_alive():
-            if self.pause_flag:
-                paused_dur = time.monotonic() - self.pause_time
-                self.playback_start += paused_dur
-                self.pause_flag = False
-            return
-        self.pause_flag=False; self.stop_flag=False
-        self.playback_start=time.monotonic()
-        if not self.synth:
-            self.synth=Synth(); self.synth.start(driver="dsound", midi_driver="winmidi")
-            sfid=self.synth.sfload(self.sf2_path)
-            self.synth.program_select(0,sfid,0,0)
-        self.play_thread=threading.Thread(target=self._playback,daemon=True)
-        self.play_thread.start()
+        if not self.events or not self.synth: return
+        if self.stream and self.stream.active: return
+        if not self.stream:
+            # Reset events and pointer
+            self.sample_events = sorted((int(e['time_s']*self.sr), i) for i,e in enumerate(self.events))
+            self.current_sample = 0
+            # Open stream
+            self.stream = sd.OutputStream(
+                samplerate=self.sr, channels=2, dtype='int16',
+                callback=self.audio_callback, blocksize=128
+            )
+        self.stream.start()
 
-    def on_pause(self):
-        if self.play_thread and self.play_thread.is_alive():
-            self.pause_flag=True; self.pause_time=time.monotonic()
-
-    def on_stop(self):
-        self.stop_flag=True
-
-    def _playback(self):
-        for idx,e in enumerate(self.events):
-            if self.stop_flag: break
-            while self.pause_flag and not self.stop_flag: time.sleep(0.1)
-            if self.stop_flag: break
-            target=self.playback_start+e['time_s']
-            now=time.monotonic();
-            if target>now: time.sleep(target-now)
-            t=e['type']
+    def audio_callback(self, outdata, frames, time_info, status):
+        start = self.current_sample; end = start+frames
+        while self.sample_events and self.sample_events[0][0] < end:
+            off, idx = self.sample_events.pop(0)
+            e=self.events[idx]; t=e['type']
             if t=='note_on': self.synth.noteon(e['channel'],e['note'],e['velocity'])
             elif t=='note_off': self.synth.noteoff(e['channel'],e['note'])
             elif t=='control_change': self.synth.cc(e['channel'],e['control'],e['value'])
             elif t=='program_change' and e['program']!=None: self.synth.program_change(e['channel'],e['program'])
-            elif t=='pitchwheel':
-                # use captured pitch value
-                if e['pitch'] is not None:
-                    self.synth.pitch_bend(e['channel'], e['pitch'])
-            # emit row index for highlighting
+            elif t=='pitchwheel' and e['pitch']!=None: self.synth.pitch_bend(e['channel'],e['pitch'])
             self.event_signal.emit(idx)
-        if self.synth: self.synth.delete(); self.synth=None
-        self.pause_flag=False; self.stop_flag=False
+        self.current_sample = end
+        data=self.synth.get_samples(frames)
+        pcm=np.frombuffer(data,dtype=np.int16).reshape(-1,2)
+        outdata[:]=pcm
+
+    def on_pause(self):
+        if self.stream and self.stream.active:
+            self.stream.stop()
+
+    def on_stop(self):
+        if self.stream:
+            self.stream.stop(); self.stream.close(); self.stream=None
+        if self.synth:
+            try: self.synth.system_reset()
+            except AttributeError:
+                for ch in range(16): self.synth.cc(ch,123,0)
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
-    # load font
+    # Load pixel font
     script_dir=os.path.dirname(os.path.abspath(__file__))
-    font_fp=os.path.join(script_dir,'fonts','PixelCode.ttf')
-    if os.path.exists(font_fp):
-        fid=QFontDatabase.addApplicationFont(font_fp)
-        fam=QFontDatabase.applicationFontFamilies(fid)
+    fp=os.path.join(script_dir,'fonts','PixelCode.ttf')
+    if os.path.exists(fp):
+        fid=QFontDatabase.addApplicationFont(fp); fam=QFontDatabase.applicationFontFamilies(fid)
         if fam: app.setFont(QFont(fam[0],10))
-    else: app.setFont(QFont('Courier New',10))
-    # dark palette
-    pal=QPalette(); pal.setColor(QPalette.Window,QColor('black')); pal.setColor(QPalette.WindowText,QColor('white'))
-    pal.setColor(QPalette.Base,QColor('black')); pal.setColor(QPalette.Text,QColor('white'))
-    pal.setColor(QPalette.Button,QColor('#333')); pal.setColor(QPalette.ButtonText,QColor('white'))
-    pal.setColor(QPalette.Highlight,QColor('#444444')); pal.setColor(QPalette.HighlightedText,QColor('white'))
+    else:
+        app.setFont(QFont('Courier New',10))
+    # Dark palette
+    pal=QPalette()
+    pal.setColor(QPalette.Window,QColor('black'))
+    pal.setColor(QPalette.WindowText,QColor('white'))
+    pal.setColor(QPalette.Base,QColor('black'))
+    pal.setColor(QPalette.Text,QColor('white'))
+    pal.setColor(QPalette.Button,QColor('#333'))
+    pal.setColor(QPalette.ButtonText,QColor('white'))
+    pal.setColor(QPalette.Highlight,QColor('#444444'))
+    pal.setColor(QPalette.HighlightedText,QColor('white'))
     app.setPalette(pal)
     w=ChronoMIDIWindow(); w.show(); sys.exit(app.exec_())
