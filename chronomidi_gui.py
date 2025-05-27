@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # chronomidi_gui.py – ChronoMIDI GUI/playback/visualizer
 
-import sys, os, subprocess, random
+import sys, os, subprocess, random, math
 from collections import deque
 
 import mido
@@ -103,24 +103,31 @@ class EqualizerGLWidget(QOpenGLWidget):
 
 class Oscilloscope(QOpenGLWidget):
     """
-    A scrolling, ghosted oscilloscope using OpenGL for performance.
-    - Displays the latest block of audio as a time-domain line (white)
-    - Each frame: scroll existing image up+right by 1px
-    - Each ghost of the waveform shifts in hue to form a rainbow gradient as it scrolls.
+    A real-time oscilloscope visualizer with linear and circular modes.
+    - Displays the latest block of audio as a time-domain line (white).
+    - Ghosts of the waveform trace back with a rainbow gradient.
+    - Modes: Linear (scrolling diagonally) and Circular (spiraling outwards).
+    - Toggle mode with left-click.
     """
-    def __init__(self, width=512, height=240, parent=None):
+    LINEAR_MODE = 0
+    CIRCULAR_MODE = 1
+
+    def __init__(self, width=512, height=512, parent=None): # Changed height to match width
         super().__init__(parent)
-        self.setFixedSize(width, height)
+        self.setFixedSize(width, height) # Square window
 
         self.hue_offset = 0 
 
-        self.trace_history = deque(maxlen=60) 
+        # Increased maxlen for more ghosts / further back tracing
+        self.trace_history = deque(maxlen=100) # Increased from 60 to 100 for longer trail
 
         self.audio_queue = deque()
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update)
         self.timer.start(1000 // 60)
+
+        self.current_mode = self.LINEAR_MODE # Start in linear mode
 
     def initializeGL(self):
         glEnable(GL_BLEND)
@@ -131,14 +138,22 @@ class Oscilloscope(QOpenGLWidget):
         glViewport(0, 0, w, h)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glOrtho(0, w, 0, h, -1, 1)
+        # Set up orthographic projection: (0,0) bottom-left, (w,h) top-right
+        glOrtho(0, w, 0, h, -1, 1) 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            # Toggle mode on left click
+            self.current_mode = (self.current_mode + 1) % 2 
+            self.update() # Request repaint with new mode
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT)
 
         w, h = self.width(), self.height()
+        center_x, center_y = w / 2.0, h / 2.0
 
         while self.audio_queue:
             pcm = self.audio_queue.popleft()
@@ -149,54 +164,104 @@ class Oscilloscope(QOpenGLWidget):
         if num_traces == 0:
             return
 
-        # --- FIX: Get the length from the *most recent* mono_data ---
-        # All mono_data arrays should have the same length if blocksize is constant.
-        # Use the last one added as a reference.
         mono_data_len_ref = len(self.trace_history[-1]) 
-        # --- END FIX ---
 
-        hue_step_per_ghost = 360 / max(1, num_traces + 5)
-        max_scroll_dist = 60 
+        hue_step_per_ghost = 360 / max(1, num_traces + 10) # Adjusted for more ghosts
         
-        points_to_draw = w // 2 # Example: half the width, i.e., skip every other pixel
-        # points_to_draw = w // 4 # More aggressive reduction, skip 3 out of 4 pixels
+        # Increased max_scroll_dist for linear mode to allow longer trails
+        max_linear_scroll_dist = 100 # Increased from 60 to 100 for longer linear trails
         
-        # Calculate step based on desired number of points, using the reference length
+        # For circular mode
+        max_spiral_radius_offset = min(w, h) * 0.45 # Max offset from center for oldest ghost
+        # How much the spiral 'tightens' per ghost. Smaller value means tighter spiral.
+        spiral_angle_offset_per_ghost = 0.05 * math.pi # In radians, e.g., 9 degrees per ghost
+
+        # Number of points to draw per waveform, optimized for performance
+        points_to_draw = w // 2 # Still half the width, balance detail and performance
         sample_step = max(1, mono_data_len_ref // points_to_draw)
 
         # --- Main Ghost Drawing Loop ---
+        # Draw from oldest to newest ghost to ensure correct layering
         for i, mono_data in enumerate(self.trace_history):
+            # Calculate hue and alpha for this specific ghost
             ghost_hue = (self.hue_offset + i * hue_step_per_ghost) % 360
-            alpha_val = int(255 * (i / max(1, num_traces)) * 0.8 + 20)
+            
+            # Alpha calculation: more aggressive fade for older ghosts, but visible
+            # Adjusted for longer trail: start very transparent, end less transparent
+            alpha_val = int(255 * (i / max(1, num_traces))**2 * 0.6 + 5) # Power of 2 for faster initial fade, min alpha 5
             alpha_val = min(255, max(0, alpha_val))
 
             qt_color = QColor.fromHsv(int(ghost_hue), 220, 255, alpha_val)
             glColor4f(qt_color.redF(), qt_color.greenF(), qt_color.blueF(), qt_color.alphaF())
 
-            current_scroll_dist = int(max_scroll_dist * (1 - (i / max(1, num_traces))))
-            current_scroll_dist = max(1, current_scroll_dist)
+            # --- Drawing Logic based on Mode ---
+            if self.current_mode == self.LINEAR_MODE:
+                # Calculate the linear scroll offset for this ghost
+                # Older ghosts are shifted further up and right.
+                current_scroll_dist = int(max_linear_scroll_dist * (1 - (i / max(1, num_traces))))
+                current_scroll_dist = max(1, current_scroll_dist) # ensure at least 1 pixel scroll
 
-            scroll_offset_x = current_scroll_dist
-            scroll_offset_y = current_scroll_dist
-            
-            glBegin(GL_LINE_STRIP)
-            for k in range(points_to_draw):
-                sample_idx = min(int(k * sample_step), len(mono_data) - 1)
+                scroll_offset_x = current_scroll_dist
+                scroll_offset_y = current_scroll_dist
                 
-                val = mono_data[sample_idx]
-                
-                y_pos_gl = (h / 2) + val * (h / 3) 
-                
-                x_final = k * (w / points_to_draw) + scroll_offset_x
-                y_final = y_pos_gl + scroll_offset_y
+                glBegin(GL_LINE_STRIP)
+                for k in range(points_to_draw):
+                    sample_idx = min(int(k * sample_step), len(mono_data) - 1)
+                    val = mono_data[sample_idx]
+                    
+                    y_pos_gl = (h / 2) + val * (h / 3) 
+                    
+                    x_final = k * (w / points_to_draw) + scroll_offset_x
+                    y_final = y_pos_gl + scroll_offset_y
 
-                x_final = max(0.0, min(w - 1.0, x_final))
-                y_final = max(0.0, min(h - 1.0, y_final))
-                
-                glVertex2f(x_final, y_final)
-            glEnd() 
+                    x_final = max(0.0, min(w - 1.0, x_final))
+                    y_final = max(0.0, min(h - 1.0, y_final))
+                    
+                    glVertex2f(x_final, y_final)
+                glEnd()
 
-        self.hue_offset = (self.hue_offset + 5) % 360
+            elif self.current_mode == self.CIRCULAR_MODE:
+                # Circular Mode Ghosting: Spiral Outwards + Hue Shift + Fade
+                
+                # Calculate the spiral offset for this ghost
+                # Oldest ghost (i=0) has largest spiral_radius_offset
+                # Newest ghost (i=num_traces-1) has smallest spiral_radius_offset
+                current_spiral_offset_factor = (1 - (i / max(1, num_traces))) # 1.0 for oldest, ~0 for newest
+                current_spiral_radius_offset = max_spiral_radius_offset * current_spiral_offset_factor
+                
+                # Each ghost is also slightly rotated for the spiraling effect
+                current_spiral_angle_offset = spiral_angle_offset_per_ghost * i
+                
+                glBegin(GL_LINE_STRIP)
+                # Map time (k) to angle, and amplitude (val) to radius.
+                # The total angle covered by one waveform is `2 * pi` (one full circle).
+                # Audio value `val` (from -1.0 to 1.0) maps to an inner/outer radius from a base.
+                base_radius = min(w, h) / 4.0 # Base radius for the non-offset current trace
+                amplitude_scale = min(w, h) / 8.0 # How much amplitude changes radius
+
+                for k in range(points_to_draw):
+                    sample_idx = min(int(k * sample_step), len(mono_data) - 1)
+                    val = mono_data[sample_idx]
+
+                    # Angle for this point, covering 2PI over the waveform's duration
+                    angle = (k / points_to_draw) * (2 * math.pi) + current_spiral_angle_offset
+
+                    # Radius for this point, based on base_radius + amplitude + spiral offset
+                    radius = base_radius + (val * amplitude_scale) + current_spiral_radius_offset
+
+                    # Convert polar to Cartesian coordinates, centered in the widget
+                    x_final = center_x + radius * math.cos(angle)
+                    y_final = center_y + radius * math.sin(angle)
+
+                    # Clip to window boundaries (optional, but good for safety)
+                    x_final = max(0.0, min(w - 1.0, x_final))
+                    y_final = max(0.0, min(h - 1.0, y_final))
+
+                    glVertex2f(x_final, y_final)
+                glEnd()
+
+        # Update base hue for the next frame's "newest" ghost
+        self.hue_offset = (self.hue_offset + 5) % 360 # Adjust '5' for rainbow speed
 
         # --- Draw the Current (Newest) Audio Waveform in White ---
         current_mono_data = self.trace_history[-1]
@@ -204,19 +269,38 @@ class Oscilloscope(QOpenGLWidget):
         glColor4f(1.0, 1.0, 1.0, 1.0) # White color for current trace
 
         glBegin(GL_LINE_STRIP)
-        for k in range(points_to_draw):
-            sample_idx = min(int(k * sample_step), len(current_mono_data) - 1)
-            val = current_mono_data[sample_idx]
-            
-            y_pos_gl = (h / 2) + val * (h / 3)
-            
-            x_final = k * (w / points_to_draw)
-            y_final = y_pos_gl 
+        if self.current_mode == self.LINEAR_MODE:
+            for k in range(points_to_draw):
+                sample_idx = min(int(k * sample_step), len(current_mono_data) - 1)
+                val = current_mono_data[sample_idx]
+                
+                y_pos_gl = (h / 2) + val * (h / 3)
+                
+                x_final = k * (w / points_to_draw) # No scroll offset for current trace
+                y_final = y_pos_gl 
 
-            x_final = max(0.0, min(w - 1.0, x_final))
-            y_final = max(0.0, min(h - 1.0, y_final))
+                x_final = max(0.0, min(w - 1.0, x_final))
+                y_final = max(0.0, min(h - 1.0, y_final))
 
-            glVertex2f(x_final, y_final)
+                glVertex2f(x_final, y_final)
+        elif self.current_mode == self.CIRCULAR_MODE:
+            base_radius = min(w, h) / 4.0 # Same base radius as ghosts
+            amplitude_scale = min(w, h) / 8.0 # Same amplitude scale as ghosts
+
+            for k in range(points_to_draw):
+                sample_idx = min(int(k * sample_step), len(current_mono_data) - 1)
+                val = current_mono_data[sample_idx]
+
+                angle = (k / points_to_draw) * (2 * math.pi) # Full 2PI for current trace
+                radius = base_radius + (val * amplitude_scale) # No spiral offset for current trace
+
+                x_final = center_x + radius * math.cos(angle)
+                y_final = center_y + radius * math.sin(angle)
+
+                x_final = max(0.0, min(w - 1.0, x_final))
+                y_final = max(0.0, min(h - 1.0, y_final))
+
+                glVertex2f(x_final, y_final)
         glEnd()
 
 
@@ -226,7 +310,7 @@ class VisualizerWindow(QMainWindow):
     def __init__(self, sr):
         super().__init__()
         self.setWindowTitle("Oscilloscope Visualizer")
-        self.osc = Oscilloscope(width=600, height=240)
+        self.osc = Oscilloscope(width=512, height=512)
         # expose its audio_queue to ChronoMIDI
         self.audio_queue = self.osc.audio_queue
 
@@ -234,7 +318,7 @@ class VisualizerWindow(QMainWindow):
         layout = QVBoxLayout(cw)
         layout.addWidget(self.osc)
         self.setCentralWidget(cw)
-        self.resize(620, 280)
+        self.resize(532, 550)
 
 
 # ─── Event Table Model (No Change) ────────────────────────────────────────
