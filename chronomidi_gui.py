@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 # chronomidi_gui.py – ChronoMIDI GUI/playback/visualizer
 
-import sys, os, subprocess, random, math
+import sys, os, subprocess, random
 from collections import deque
+import math 
 
 import mido
-import numpy as np
+import numpy as np # Ensure numpy is imported for array operations
 import sounddevice as sd
 from fluidsynth import Synth
+
+import oscilloscope_computations
 
 from PyQt5.QtCore import (
     Qt, QTimer, pyqtSignal,
@@ -26,8 +29,20 @@ from PyQt5.QtWidgets import (
 from OpenGL.GL import (
     glViewport, glMatrixMode, glLoadIdentity, glOrtho,
     glClearColor, glClear, GL_COLOR_BUFFER_BIT, GL_PROJECTION, GL_MODELVIEW,
-    glEnable, glBlendFunc, glBegin, glColor4f, glVertex2f, glEnd,
-    GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_QUADS, GL_LINE_STRIP
+    glEnable, glBlendFunc,
+    GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_LINE_STRIP,
+    glLineWidth, 
+
+    # VBO related imports (used by Oscilloscope)
+    glGenBuffers, glBindBuffer, glBufferData, glDrawArrays,
+    glEnableClientState, glDisableClientState,
+    glVertexPointer, glColorPointer,
+    GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW,
+    GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_FLOAT,
+
+    # Added for EqualizerGLWidget (or other widgets using immediate mode)
+    # These are needed for glColor4f, glBegin, glEnd, glVertex2f calls
+    glColor4f, glBegin, glEnd, glVertex2f, GL_QUADS 
 )
 
 # ─── Helpers ───────────────────────────────────────────────────────────────
@@ -49,6 +64,40 @@ class EditDelegate(QStyledItemDelegate):
             "QLineEdit{selection-background-color:#666;"
             " selection-color:white;}")
         return e
+
+
+
+class PandasModel(QAbstractTableModel):
+    # ... (PandasModel code) ...
+    def __init__(self, data):
+        super().__init__()
+        self._data = data
+
+    def rowCount(self, parent=QModelIndex()):
+        return self._data.shape[0]
+
+    def columnCount(self, parent=QModelIndex()):
+        return self._data.shape[1]
+
+    def data(self, index, role=Qt.DisplayRole):
+        if not index.isValid():
+            return QVariant()
+        if role == Qt.DisplayRole:
+            return str(self._data.iloc[index.row(), index.column()])
+        return QVariant()
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(self._data.columns[section])
+            elif orientation == Qt.Vertical:
+                return str(self._data.index[section])
+        return QVariant()
+
+class ReadOnlyDelegate(QStyledItemDelegate):
+    # ... (ReadOnlyDelegate code) ...
+    def createEditor(self, parent, option, index):
+        return None # Prevents editing
 
 # ─── OpenGL Equalizer Widget (No Change) ──────────────────────────────────
 
@@ -108,18 +157,19 @@ class Oscilloscope(QOpenGLWidget):
     - Ghosts of the waveform trace back with a rainbow gradient.
     - Modes: Linear (scrolling diagonally) and Circular (spiraling outwards).
     - Toggle mode with left-click.
+    - Includes an "Edge Glow" effect for waveform emphasis.
+    - Optimized with OpenGL Vertex Buffer Objects (VBOs) and pre-allocated NumPy arrays,
+      with core computations offloaded to Cython for consistent 60 FPS.
     """
     LINEAR_MODE = 0
     CIRCULAR_MODE = 1
 
-    def __init__(self, width=512, height=512, parent=None): # Changed height to match width
+    def __init__(self, width=512, height=512, parent=None):
         super().__init__(parent)
-        self.setFixedSize(width, height) # Square window
+        self.setFixedSize(width, height) 
 
         self.hue_offset = 0 
-
-        # Increased maxlen for more ghosts / further back tracing
-        self.trace_history = deque(maxlen=100) # Increased from 60 to 100 for longer trail
+        self.trace_history = deque(maxlen=100) # Max 100 ghosts
 
         self.audio_queue = deque()
 
@@ -127,27 +177,42 @@ class Oscilloscope(QOpenGLWidget):
         self.timer.timeout.connect(self.update)
         self.timer.start(1000 // 60)
 
-        self.current_mode = self.LINEAR_MODE # Start in linear mode
+        self.current_mode = self.LINEAR_MODE 
+
+        self.vbo_vertex = None
+        self.vbo_color = None
+
+        # --- Pre-allocate max possible NumPy arrays ---
+        max_lines_to_draw = (self.trace_history.maxlen + 1) * 2 
+        max_points_per_line = width // 2 # Assuming this is consistent
+        
+        self.max_total_vertices = max_lines_to_draw * max_points_per_line
+
+        # Pre-allocate the buffers that Cython will write into
+        self.all_vertices_buffer = np.zeros((self.max_total_vertices, 2), dtype=np.float32)
+        self.all_colors_buffer = np.zeros((self.max_total_vertices, 4), dtype=np.float32)
+
 
     def initializeGL(self):
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glClearColor(0, 0, 0, 1)
 
+        self.vbo_vertex = glGenBuffers(1)
+        self.vbo_color = glGenBuffers(1)
+
     def resizeGL(self, w: int, h: int):
         glViewport(0, 0, w, h)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        # Set up orthographic projection: (0,0) bottom-left, (w,h) top-right
         glOrtho(0, w, 0, h, -1, 1) 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            # Toggle mode on left click
             self.current_mode = (self.current_mode + 1) % 2 
-            self.update() # Request repaint with new mode
+            self.update()
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT)
@@ -166,142 +231,152 @@ class Oscilloscope(QOpenGLWidget):
 
         mono_data_len_ref = len(self.trace_history[-1]) 
 
-        hue_step_per_ghost = 360 / max(1, num_traces + 10) # Adjusted for more ghosts
+        hue_step_per_ghost = 360 / max(1, num_traces + 10)
+        max_linear_scroll_dist = 100
         
-        # Increased max_scroll_dist for linear mode to allow longer trails
-        max_linear_scroll_dist = 100 # Increased from 60 to 100 for longer linear trails
-        
-        # For circular mode
-        max_spiral_radius_offset = min(w, h) * 0.45 # Max offset from center for oldest ghost
-        # How much the spiral 'tightens' per ghost. Smaller value means tighter spiral.
-        spiral_angle_offset_per_ghost = 0.05 * math.pi # In radians, e.g., 9 degrees per ghost
+        max_spiral_radius_offset = min(w, h) * 0.45 
+        spiral_angle_offset_per_ghost = 0.05 * math.pi 
 
-        # Number of points to draw per waveform, optimized for performance
-        points_to_draw = w // 2 # Still half the width, balance detail and performance
+        points_to_draw = w // 2 
         sample_step = max(1, mono_data_len_ref // points_to_draw)
 
-        # --- Main Ghost Drawing Loop ---
-        # Draw from oldest to newest ghost to ensure correct layering
+        # --- GLOW PARAMETERS ---
+        glow_color_base = QColor(200, 200, 255) 
+        glow_alpha_factor = 0.25 
+        glow_width_linear = 3.0 
+        glow_width_circular = 4.0 
+        
+        glow_offset_x = 0.5 
+        glow_offset_y = 0.5
+        glow_radius_offset_amount = 2.0 
+        
+        draw_commands = [] 
+        current_vertex_offset = 0 # Tracks current position in self.all_vertices_buffer / self.all_colors_buffer
+
+        # --- Populate Data for Ghosts (Glow + Core) using Cython ---
         for i, mono_data in enumerate(self.trace_history):
-            # Calculate hue and alpha for this specific ghost
             ghost_hue = (self.hue_offset + i * hue_step_per_ghost) % 360
-            
-            # Alpha calculation: more aggressive fade for older ghosts, but visible
-            # Adjusted for longer trail: start very transparent, end less transparent
-            alpha_val = int(255 * (i / max(1, num_traces))**2 * 0.6 + 5) # Power of 2 for faster initial fade, min alpha 5
+            alpha_val = int(255 * (i / max(1, num_traces))**2 * 0.6 + 5)
             alpha_val = min(255, max(0, alpha_val))
 
             qt_color = QColor.fromHsv(int(ghost_hue), 220, 255, alpha_val)
-            glColor4f(qt_color.redF(), qt_color.greenF(), qt_color.blueF(), qt_color.alphaF())
 
-            # --- Drawing Logic based on Mode ---
-            if self.current_mode == self.LINEAR_MODE:
-                # Calculate the linear scroll offset for this ghost
-                # Older ghosts are shifted further up and right.
-                current_scroll_dist = int(max_linear_scroll_dist * (1 - (i / max(1, num_traces))))
-                current_scroll_dist = max(1, current_scroll_dist) # ensure at least 1 pixel scroll
+            # Pre-calculate float color components for Cython
+            glow_r, glow_g, glow_b = glow_color_base.redF(), glow_color_base.greenF(), glow_color_base.blueF()
+            glow_a_current = qt_color.alphaF() * glow_alpha_factor 
+            
+            core_r, core_g, core_b, core_a = qt_color.redF(), qt_color.greenF(), qt_color.blueF(), qt_color.alphaF()
 
-                scroll_offset_x = current_scroll_dist
-                scroll_offset_y = current_scroll_dist
-                
-                glBegin(GL_LINE_STRIP)
-                for k in range(points_to_draw):
-                    sample_idx = min(int(k * sample_step), len(mono_data) - 1)
-                    val = mono_data[sample_idx]
-                    
-                    y_pos_gl = (h / 2) + val * (h / 3) 
-                    
-                    x_final = k * (w / points_to_draw) + scroll_offset_x
-                    y_final = y_pos_gl + scroll_offset_y
+            # --- GLOW Pass ---
+            start_index_glow = current_vertex_offset
+            oscilloscope_computations.fill_trace_data_cython(
+                mono_data, self.all_vertices_buffer, self.all_colors_buffer,
+                start_index_glow,
+                float(w), float(h), float(center_x), float(center_y),
+                points_to_draw, sample_step,
+                self.current_mode,
+                i, num_traces,
+                max_linear_scroll_dist,
+                max_spiral_radius_offset, spiral_angle_offset_per_ghost,
+                glow_offset_x, glow_offset_y, glow_radius_offset_amount,
+                glow_r, glow_g, glow_b, glow_a_current,
+                True, # is_glow_pass = True
+                False # <--- FIX: is_current_trace = False for ghosts
+            )
+            draw_commands.append((start_index_glow, points_to_draw, glow_width_linear if self.current_mode == self.LINEAR_MODE else glow_width_circular))
+            current_vertex_offset += points_to_draw
 
-                    x_final = max(0.0, min(w - 1.0, x_final))
-                    y_final = max(0.0, min(h - 1.0, y_final))
-                    
-                    glVertex2f(x_final, y_final)
-                glEnd()
-
-            elif self.current_mode == self.CIRCULAR_MODE:
-                # Circular Mode Ghosting: Spiral Outwards + Hue Shift + Fade
-                
-                # Calculate the spiral offset for this ghost
-                # Oldest ghost (i=0) has largest spiral_radius_offset
-                # Newest ghost (i=num_traces-1) has smallest spiral_radius_offset
-                current_spiral_offset_factor = (1 - (i / max(1, num_traces))) # 1.0 for oldest, ~0 for newest
-                current_spiral_radius_offset = max_spiral_radius_offset * current_spiral_offset_factor
-                
-                # Each ghost is also slightly rotated for the spiraling effect
-                current_spiral_angle_offset = spiral_angle_offset_per_ghost * i
-                
-                glBegin(GL_LINE_STRIP)
-                # Map time (k) to angle, and amplitude (val) to radius.
-                # The total angle covered by one waveform is `2 * pi` (one full circle).
-                # Audio value `val` (from -1.0 to 1.0) maps to an inner/outer radius from a base.
-                base_radius = min(w, h) / 4.0 # Base radius for the non-offset current trace
-                amplitude_scale = min(w, h) / 8.0 # How much amplitude changes radius
-
-                for k in range(points_to_draw):
-                    sample_idx = min(int(k * sample_step), len(mono_data) - 1)
-                    val = mono_data[sample_idx]
-
-                    # Angle for this point, covering 2PI over the waveform's duration
-                    angle = (k / points_to_draw) * (2 * math.pi) + current_spiral_angle_offset
-
-                    # Radius for this point, based on base_radius + amplitude + spiral offset
-                    radius = base_radius + (val * amplitude_scale) + current_spiral_radius_offset
-
-                    # Convert polar to Cartesian coordinates, centered in the widget
-                    x_final = center_x + radius * math.cos(angle)
-                    y_final = center_y + radius * math.sin(angle)
-
-                    # Clip to window boundaries (optional, but good for safety)
-                    x_final = max(0.0, min(w - 1.0, x_final))
-                    y_final = max(0.0, min(h - 1.0, y_final))
-
-                    glVertex2f(x_final, y_final)
-                glEnd()
+            # --- CORE Pass ---
+            start_index_core = current_vertex_offset
+            oscilloscope_computations.fill_trace_data_cython(
+                mono_data, self.all_vertices_buffer, self.all_colors_buffer,
+                start_index_core,
+                float(w), float(h), float(center_x), float(center_y),
+                points_to_draw, sample_step,
+                self.current_mode,
+                i, num_traces,
+                max_linear_scroll_dist,
+                max_spiral_radius_offset, spiral_angle_offset_per_ghost,
+                glow_offset_x, glow_offset_y, glow_radius_offset_amount, # These are not used for core, but must be passed
+                core_r, core_g, core_b, core_a,
+                False, # is_glow_pass = False
+                False # <--- FIX: is_current_trace = False for ghosts
+            )
+            draw_commands.append((start_index_core, points_to_draw, 1.0)) # Core width is 1.0
+            current_vertex_offset += points_to_draw
 
         # Update base hue for the next frame's "newest" ghost
-        self.hue_offset = (self.hue_offset + 5) % 360 # Adjust '5' for rainbow speed
+        self.hue_offset = (self.hue_offset + 5) % 360
 
-        # --- Draw the Current (Newest) Audio Waveform in White ---
+        # --- Populate Data for CURRENT (Newest) Trace (Glow + Core) using Cython ---
         current_mono_data = self.trace_history[-1]
+
+        # --- CURRENT GLOW Pass (always full alpha, white-ish glow) ---
+        start_index_current_glow = current_vertex_offset
+        oscilloscope_computations.fill_trace_data_cython(
+            current_mono_data, self.all_vertices_buffer, self.all_colors_buffer,
+            start_index_current_glow,
+            float(w), float(h), float(center_x), float(center_y),
+            points_to_draw, sample_step,
+            self.current_mode,
+            0, 1, # i, num_traces - these values will be ignored by Cython for current trace
+            max_linear_scroll_dist, # These will be ignored by Cython as it's the current trace
+            max_spiral_radius_offset, spiral_angle_offset_per_ghost, # These will be ignored by Cython as it's the current trace
+            glow_offset_x, glow_offset_y, glow_radius_offset_amount,
+            glow_color_base.redF(), glow_color_base.greenF(), glow_color_base.blueF(), 1.0, # Full alpha for current glow
+            True, # is_glow_pass = True
+            True # is_current_trace = True
+        )
+        draw_commands.append((start_index_current_glow, points_to_draw, glow_width_linear + 1.0))
+        current_vertex_offset += points_to_draw
+
+        # --- CURRENT CORE Pass (pure white core) ---
+        start_index_current_core = current_vertex_offset
+        oscilloscope_computations.fill_trace_data_cython(
+            current_mono_data, self.all_vertices_buffer, self.all_colors_buffer,
+            start_index_current_core,
+            float(w), float(h), float(center_x), float(center_y),
+            points_to_draw, sample_step,
+            self.current_mode,
+            0, 1, # i, num_traces - ignored
+            max_linear_scroll_dist, # Ignored
+            max_spiral_radius_offset, spiral_angle_offset_per_ghost, # Ignored
+            glow_offset_x, glow_offset_y, glow_radius_offset_amount, # Ignored
+            1.0, 1.0, 1.0, 1.0, # Pure white core
+            False, # is_glow_pass = False
+            True # is_current_trace = True
+        )
+        draw_commands.append((start_index_current_core, points_to_draw, 1.5)) 
+        current_vertex_offset += points_to_draw
+
+
+        # --- Send ALL data to GPU (only two glBufferData calls!) ---
+        # Buffer the entire pre-allocated NumPy array.
+        # glDrawArrays will use the start_idx and num_pts to pick out the relevant part.
+        glBindBuffer(GL_ARRAY_BUFFER, self.vbo_vertex)
+        glBufferData(GL_ARRAY_BUFFER, self.all_vertices_buffer.nbytes, self.all_vertices_buffer, GL_DYNAMIC_DRAW)
         
-        glColor4f(1.0, 1.0, 1.0, 1.0) # White color for current trace
+        glBindBuffer(GL_ARRAY_BUFFER, self.vbo_color)
+        glBufferData(GL_ARRAY_BUFFER, self.all_colors_buffer.nbytes, self.all_colors_buffer, GL_DYNAMIC_DRAW)
 
-        glBegin(GL_LINE_STRIP)
-        if self.current_mode == self.LINEAR_MODE:
-            for k in range(points_to_draw):
-                sample_idx = min(int(k * sample_step), len(current_mono_data) - 1)
-                val = current_mono_data[sample_idx]
-                
-                y_pos_gl = (h / 2) + val * (h / 3)
-                
-                x_final = k * (w / points_to_draw) # No scroll offset for current trace
-                y_final = y_pos_gl 
+        # --- Enable Client States and Set Pointers (once) ---
+        glEnableClientState(GL_VERTEX_ARRAY)
+        glEnableClientState(GL_COLOR_ARRAY)
 
-                x_final = max(0.0, min(w - 1.0, x_final))
-                y_final = max(0.0, min(h - 1.0, y_final))
+        glBindBuffer(GL_ARRAY_BUFFER, self.vbo_vertex)
+        glVertexPointer(2, GL_FLOAT, 0, None) 
 
-                glVertex2f(x_final, y_final)
-        elif self.current_mode == self.CIRCULAR_MODE:
-            base_radius = min(w, h) / 4.0 # Same base radius as ghosts
-            amplitude_scale = min(w, h) / 8.0 # Same amplitude scale as ghosts
+        glBindBuffer(GL_ARRAY_BUFFER, self.vbo_color)
+        glColorPointer(4, GL_FLOAT, 0, None) 
 
-            for k in range(points_to_draw):
-                sample_idx = min(int(k * sample_step), len(current_mono_data) - 1)
-                val = current_mono_data[sample_idx]
+        # --- Execute ALL Draw Calls (only glDrawArrays calls) ---
+        for start_idx, num_pts, line_width in draw_commands:
+            glLineWidth(line_width)
+            glDrawArrays(GL_LINE_STRIP, start_idx, num_pts)
 
-                angle = (k / points_to_draw) * (2 * math.pi) # Full 2PI for current trace
-                radius = base_radius + (val * amplitude_scale) # No spiral offset for current trace
-
-                x_final = center_x + radius * math.cos(angle)
-                y_final = center_y + radius * math.sin(angle)
-
-                x_final = max(0.0, min(w - 1.0, x_final))
-                y_final = max(0.0, min(h - 1.0, y_final))
-
-                glVertex2f(x_final, y_final)
-        glEnd()
+        # --- Disable Client States ---
+        glDisableClientState(GL_COLOR_ARRAY)
+        glDisableClientState(GL_VERTEX_ARRAY)
 
 
 # ─── Visualizer Window (No Change) ────────────────────────────────────────
