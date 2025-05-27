@@ -18,7 +18,7 @@ from PyQt5.QtCore import (
 )
 from PyQt5.QtGui import (
     QColor, QFont, QPalette, QFontDatabase,
-    QImage, QPainter, QPen, QPolygonF
+    QImage, QPainter, QPen, QPolygonF, QIcon
 )
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QFileDialog,
@@ -628,6 +628,8 @@ class ChronoMIDI(QMainWindow):
 
 if __name__=="__main__":
     app=QApplication(sys.argv)
+    icon_path = os.path.join(os.path.dirname(__file__), "ChronoMIDI.png")   # Load app icon
+    app.setWindowIcon(QIcon(icon_path))     # Set app icon    
     font_fp=os.path.join(os.path.dirname(__file__),"fonts","PixelCode.ttf")
     if os.path.exists(font_fp):
         fid=QFontDatabase.addApplicationFont(font_fp)
