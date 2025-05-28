@@ -803,8 +803,7 @@ class ChronoMIDI(QMainWindow):
             samplerate=self.sr,
             channels=2,     # Stereo output
             dtype='int16',  # 16-bit integer PCM
-            callback=self._audio_cb,    # Reference the audio callback method
-            blocksize=1024  # Specify the block size for the callback
+            callback=1024   # Size of audio blocks requested by the callback
         )
 
         # --- GUI Layout Setup ---
