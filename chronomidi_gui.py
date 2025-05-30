@@ -28,6 +28,9 @@ from fluidsynth import Synth  # The Python binding for FluidSynth, a software sy
 # Ensure 'oscilloscope_computations.py' or 'oscilloscope_computations.so' (Cython build) is available
 import oscilloscope_computations
 
+# NEW: Import the Cythonized kaleidoscope computations
+import kaleidoscope_computations
+
 # PyQt5 Core Modules
 from PyQt5.QtCore import (
     Qt, QTimer, pyqtSignal,  # Core utilities, timers, and signals for event handling
@@ -899,11 +902,12 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
             # Calculate strobe_val for this ghost based on its amplitude
             strobe_val_for_ghost = hist_amplitude * 0.9 + 0.1
 
-            total_vertices_added, sub_commands = self._fill_kaleidoscope_data_vbo(
+            total_vertices_added, sub_commands = kaleidoscope_computations.fill_kaleidoscope_data_cython( # CALLING CYTHON
                 self.kaleidoscope_vertices_buffer, self.kaleidoscope_colors_buffer,
                 current_kaleidoscope_vertex_offset,
                 hist_rot_angle, hist_hue_offset, hist_amplitude,
-                False, strobe_val_for_ghost, alpha_fade # Pass strobe_val for lines
+                False, strobe_val_for_ghost, alpha_fade, # Pass strobe_val for lines
+                self.frame_count, self.oscillation_mode # Pass frame_count and oscillation_mode
             )
             # Add each sub-command with its line width, z_offset, and rotation_angle
             for rel_start_idx, num_pts in sub_commands:
@@ -913,11 +917,12 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
 
         # Draw the current, most prominent kaleidoscope pattern
         strobe_val_for_current = self.current_amplitude * 0.9 + 0.1
-        total_vertices_added, sub_commands = self._fill_kaleidoscope_data_vbo(
+        total_vertices_added, sub_commands = kaleidoscope_computations.fill_kaleidoscope_data_cython( # CALLING CYTHON
             self.kaleidoscope_vertices_buffer, self.kaleidoscope_colors_buffer,
             current_kaleidoscope_vertex_offset,
             self.rotation_angle, self.hue_offset, self.current_amplitude,
-            True, strobe_val_for_current, 1.0 # Current pattern at Z=0, full opacity
+            True, strobe_val_for_current, 1.0, # Current pattern at Z=0, full opacity
+            self.frame_count, self.oscillation_mode
         )
         for rel_start_idx, num_pts in sub_commands:
             kaleidoscope_draw_commands.append((current_kaleidoscope_vertex_offset + rel_start_idx, num_pts, 4.0, 0.0, self.rotation_angle)) # Thicker lines for current pattern
@@ -1000,146 +1005,6 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
                 glEnd()
                 glPopMatrix() # Restore matrix state
         self.particles = new_particles
-
-    def _fill_kaleidoscope_data_vbo(self, vertices_buffer: np.ndarray, colors_buffer: np.ndarray,
-                                    start_offset: int,
-                                    rotation_angle: float, hue_offset: float, amplitude: float,
-                                    is_current_pattern: bool, strobe_val: float,
-                                    base_alpha: float) -> tuple:
-        """
-        Helper function to fill the VBO buffers for a single kaleidoscope pattern (current or ghost).
-        This function calculates all vertices and colors for the lines of one pattern.
-
-        Args:
-            vertices_buffer (np.ndarray): The NumPy array for vertex coordinates.
-            colors_buffer (np.ndarray): The NumPy array for vertex colors.
-            start_offset (int): The starting index in the buffers for this pattern's data.
-            rotation_angle (float): The rotation angle for this pattern.
-            hue_offset (float): The hue offset for this pattern's color.
-            amplitude (float): The audio amplitude for this pattern (for oscillation).
-            is_current_pattern (bool): True if this is the live pattern, False for ghosts.
-            strobe_val (float): The current strobing value to apply to colors.
-            base_alpha (float): The base alpha for this pattern (fading for ghosts).
-
-        Returns:
-            tuple: A tuple (total_vertices_added, list_of_sub_draw_commands).
-                   total_vertices_added (int): The total number of vertices written for this pattern.
-                   list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip) for each line.
-        """
-        current_write_idx = start_offset
-        num_segments = 12
-        
-        # Dynamic grid size based on amplitude for "scatter" effect
-        # Base grid size 150, expands up to 350 with max amplitude
-        dynamic_grid_size = 150 + amplitude * 200 
-        
-        num_lines = 10
-        # Increased oscillation magnitude significantly
-        osc_magnitude = amplitude * 1000.0 # Even more exaggerated oscillation
-
-        # Calculate saturation and value based on strobe_val (which is audio amplitude reactive)
-        # Saturation: High amplitude -> low saturation (closer to white)
-        #             Low amplitude -> high saturation (full color)
-        # Value:      High amplitude -> high value (bright)
-        #             Low amplitude -> low value (dark)
-        
-        # Saturation: goes from 255 (full color) down to 0 (pure white)
-        # This makes it fully desaturated (white) at max amplitude.
-        target_saturation_hsv = int((1.0 - strobe_val) * 255) 
-        target_saturation_hsv = max(0, min(255, target_saturation_hsv)) # Ensure it's within 0-255 bounds
-        
-        # Value: Ensures brightness is always high, from 100 (normal) to 255 (dazzlingly bright).
-        # This means it never gets darker, only brighter with louder audio.
-        target_value_hsv = int(strobe_val * 155 + 100) 
-        target_value_hsv = max(100, min(255, target_value_hsv)) # Ensure it's within 100-255 bounds
-
-        # Base color for the lines, cycling through hues, now using calculated saturation and value
-        base_qt_color = QColor.fromHsv(int(hue_offset), target_saturation_hsv, target_value_hsv, int(base_alpha * 255))
-        base_r, base_g, base_b, base_a_final = base_qt_color.getRgbF()
-        
-        sub_draw_commands = [] # To store (relative_start_idx, num_points_in_strip)
-
-        # Dynamic oscillation frequency multipliers
-        # Spatial frequency: increases waviness with amplitude
-        osc_spatial_freq = 0.05 + amplitude * 0.25 
-        # Temporal frequency: increases speed of oscillation with amplitude
-        osc_temporal_freq = 0.05 + amplitude * 0.2 
-
-        for i in range(num_segments):
-            seg_rot_angle = i * (360.0 / num_segments)
-            scale_y = -1 if i % 2 == 1 else 1
-
-            # Horizontal lines
-            for y_line_idx in range(num_lines + 1): # Iterate for each horizontal line
-                line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
-                
-                for x_point_idx in range(num_lines + 1): # Iterate for points along this line
-                    x = (x_point_idx / num_lines) * dynamic_grid_size - (dynamic_grid_size / 2)
-                    y = (y_line_idx / num_lines) * dynamic_grid_size - (dynamic_grid_size / 2)
-                    
-                    osc_offset = 0.0
-                    if self.oscillation_mode == 0:
-                        # Linear mode oscillation: depends on y-position and frame count
-                        osc_offset = osc_magnitude * math.sin(y * osc_spatial_freq + self.frame_count * osc_temporal_freq)
-                    else:
-                        # Circular mode oscillation: depends on distance from center, angle, and frame count
-                        angle = math.atan2(y, x)
-                        dist = math.sqrt(x*x + y*y)
-                        osc_offset = osc_magnitude * math.sin(dist * osc_spatial_freq + angle * 2.0 + self.frame_count * osc_temporal_freq)
-                    
-                    temp_x = x + osc_offset
-                    temp_y = y
-                    
-                    rad_seg_rot = math.radians(seg_rot_angle)
-                    rotated_x = temp_x * math.cos(rad_seg_rot) - temp_y * math.sin(rad_seg_rot)
-                    rotated_y = temp_x * math.sin(rad_seg_rot) + temp_y * math.cos(rad_seg_rot)
-                    scaled_y = rotated_y * scale_y
-
-                    vertices_buffer[current_write_idx][0] = rotated_x
-                    vertices_buffer[current_write_idx][1] = scaled_y
-                    colors_buffer[current_write_idx] = [base_r, base_g, base_b, base_a_final] # Use calculated HSV colors
-                    current_write_idx += 1
-                
-                # Add command for this horizontal line strip
-                sub_draw_commands.append((line_start_idx, num_lines + 1))
-
-            # Vertical lines
-            for x_line_idx in range(num_lines + 1): # Iterate for each vertical line
-                line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
-
-                for y_point_idx in range(num_lines + 1): # Iterate for points along this line
-                    x = (x_line_idx / num_lines) * dynamic_grid_size - (dynamic_grid_size / 2)
-                    y = (y_point_idx / num_lines) * dynamic_grid_size - (dynamic_grid_size / 2)
-                    
-                    osc_offset = 0.0
-                    if self.oscillation_mode == 0:
-                        # Linear mode oscillation: depends on x-position and frame count
-                        osc_offset = osc_magnitude * math.sin(x * osc_spatial_freq + self.frame_count * osc_temporal_freq)
-                    else:
-                        # Circular mode oscillation: depends on distance from center, angle, and frame count
-                        angle = math.atan2(y, x)
-                        dist = math.sqrt(x*x + y*y)
-                        osc_offset = osc_magnitude * math.sin(dist * osc_spatial_freq + angle * 2.0 + self.frame_count * osc_temporal_freq)
-                    
-                    temp_x = x
-                    temp_y = y + osc_offset
-
-                    rad_seg_rot = math.radians(seg_rot_angle)
-                    rotated_x = temp_x * math.cos(rad_seg_rot) - temp_y * math.sin(rad_seg_rot)
-                    rotated_y = temp_x * math.sin(rad_seg_rot) + temp_y * math.cos(rad_seg_rot)
-                    scaled_y = rotated_y * scale_y
-
-                    vertices_buffer[current_write_idx][0] = rotated_x
-                    vertices_buffer[current_write_idx][1] = scaled_y
-                    colors_buffer[current_write_idx] = [base_r, base_g, base_b, base_a_final] # Use calculated HSV colors
-                    current_write_idx += 1
-                
-                # Add command for this vertical line strip
-                sub_draw_commands.append((line_start_idx, num_lines + 1))
-        
-        total_vertices_added = current_write_idx - start_offset
-        return total_vertices_added, sub_draw_commands
-
 
 class KaleidoscopeVisualizerWindow(QMainWindow):
     """
