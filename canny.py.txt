@@ -1,0 +1,1328 @@
+import os
+import math
+import subprocess
+import cv2
+import numpy as np
+from moviepy.editor import VideoFileClip, AudioFileClip, ImageSequenceClip
+
+# ───────────────────────────────────────────────────────────────
+# CONFIG – edit these paths / settings as you need
+# ───────────────────────────────────────────────────────────────
+VIDEO_IN   = "trippy-spinning-kaleidoscope-vj-loop-2024-10-14-19-35-11-utc.mov"  # video to use for visuals
+AUDIO_IN   = "2025-05-27_14-32-23.mp4"  # separate audio file to drive oscillation
+LOOP_VIDEO = True                 # loop video to match audio length
+TMP_DIR    = "tmp_frames"         # will be created / overwritten
+FPS        = 30                   # target fps (matches original is best)
+EDGE_LOW   = 50                   # Canny thresholds – tweak to taste
+EDGE_HIGH  = 150
+OSC_RADIUS = 300                  # pixels; overall size of circular scope
+OSC_THICK  = 2                    # line thickness of scope
+SCOPE_COLOR = (255,255,255,255)   # RGBA white
+OUT_FILE   = "final_composite.mp4"
+MAX_WIDTH  = 960                  # Resize frames to this maximum width to save memory
+MAX_HEIGHT = 540                  # Resize frames to this maximum height to save memory
+
+# ───────────────────────────────────────────────────────────────
+# VISUAL ENHANCEMENT OPTIONS
+# ───────────────────────────────────────────────────────────────
+
+# Color Options
+COLOR_MODE = "rainbow"  # Options: "white", "spectrum", "gradient", "pulse", "rainbow"
+BASE_COLOR = (255, 255, 255)  # Default color (white)
+COLOR_PULSE_SPEED = 7  # Speed of color pulsing
+COLOR_INTENSITY = 1.0  # Multiplier for color intensity/saturation
+MULTI_COLOR_LINES = True  # Enable different colors for different frequency bands
+
+# Spike Visualization Options
+SPIKE_LINE_THICKNESS = 2  # Thickness of lines during spikes
+SPIKE_DEVIATION_FACTOR = 10.0  # How much more oscillation during spikes
+
+# Color Transition Options
+COLOR_TRANSITION_ENABLED = True  # Enable smooth color transitions
+COLOR_TRANSITION_SPEED = 0.5  # How fast colors transition (lower is slower)
+COLOR_TRANSITION_FRAMES = 180  # Frames to transition between colors (slower)
+
+# Spatial Effects
+ENABLE_MIRROR = True  # Enable mirroring effects
+MIRROR_MODE = ""  # Options: "horizontal", "vertical", "quad", "radial"
+ENABLE_ZOOM = True  # Enable zoom effects on peaks
+ZOOM_FACTOR = 3.0  # Maximum zoom factor on peaks
+ENABLE_DEPTH = True  # Enable depth layer effects
+DEPTH_LAYERS = 9  # Number of depth layers
+FREQUENCY_LAYERS = True  # Enable separate layers for different frequency bands
+
+# Animation Effects
+ENABLE_ROTATION = True  # Enable rotation effects
+MAX_ROTATION = 0  # Maximum rotation angle in degrees
+ENABLE_WAVES = True  # Enable wave propagation effects
+WAVE_SPEED = 8.0  # Wave propagation speed
+ENABLE_PARTICLES = True  # Enable particle system
+MAX_PARTICLES = 100  # Maximum number of particles
+PARTICLE_LIFETIME = 10  # Particle lifetime in frames
+# ───────────────────────────────────────────────────────────────
+
+os.makedirs(TMP_DIR, exist_ok=True)
+
+# 0. ─── Re-encode input video for compatibility ──────────────────
+print("[0/6] Re-encoding input video for compatibility (this may take a while)...")
+VIDEO_IN_ORIGINAL = VIDEO_IN
+VIDEO_IN_RECODED_FILENAME = "input_reencoded.mp4"
+VIDEO_IN_FOR_PROCESSING = os.path.join(TMP_DIR, VIDEO_IN_RECODED_FILENAME)
+ffmpeg_path = ".\\ffmpeg-2025-05-26-git-43a69886b2-full_build\\bin\\ffmpeg.exe"
+reencode_command = [
+    ffmpeg_path, "-y", "-i", VIDEO_IN_ORIGINAL,
+    "-c:v", "libx264", "-preset", "medium", "-crf", "23",
+    "-c:a", "aac", "-b:a", "192k",
+    VIDEO_IN_FOR_PROCESSING
+]
+subprocess.run(reencode_command, check=True)
+print("Re-encoding complete.")
+
+# 1. ─── Extract or use provided audio ─────────────────
+print("[1/6] Setting up audio …")
+audio_file_path = os.path.join(TMP_DIR, "audio.aac")
+
+# Check if separate audio file is provided
+if AUDIO_IN and os.path.exists(AUDIO_IN):
+    print(f"Using separate audio file: {AUDIO_IN}")
+    # Copy or convert the provided audio file
+    subprocess.run([
+        ffmpeg_path, "-y", "-i", AUDIO_IN, "-acodec", "aac", "-b:a", "192k",
+        audio_file_path
+    ], check=True)
+else:
+    # Extract audio from the video (original behavior)
+    print(f"Extracting audio from video: {VIDEO_IN_FOR_PROCESSING}")
+    subprocess.run([
+        ffmpeg_path, "-y", "-i", VIDEO_IN_FOR_PROCESSING, "-vn", "-acodec", "copy",
+        audio_file_path
+    ], check=True)
+
+# 2. ─── Build edge‑detected video frames ──────────────────
+print("[2/6] Generating line‑map frames …")
+
+# Get audio duration to determine how long the video needs to be
+if AUDIO_IN and os.path.exists(AUDIO_IN):
+    audio_clip_temp = AudioFileClip(AUDIO_IN)
+    audio_duration = audio_clip_temp.duration
+    audio_clip_temp.close()
+    print(f"Audio duration: {audio_duration} seconds")
+else:
+    # If using the video's own audio, just use the video duration
+    audio_duration = None
+
+# Use moviepy to read frames as OpenCV (cv2.VideoCapture) is failing
+video_clip_for_frames = VideoFileClip(VIDEO_IN_FOR_PROCESSING)
+orig_fps = video_clip_for_frames.fps
+# Always use original FPS for frame processing and output clip with moviepy
+# This can avoid issues if the user-defined FPS is incompatible with the video structure
+fps_to_use = orig_fps 
+w = video_clip_for_frames.w
+h = video_clip_for_frames.h
+
+# Calculate resize factor to keep aspect ratio but stay within max dimensions
+original_width = video_clip_for_frames.w
+original_height = video_clip_for_frames.h
+print(f"Original video dimensions: {original_width}x{original_height}")
+
+# Calculate the scaling factor to resize the frames
+width_ratio = MAX_WIDTH / original_width if original_width > MAX_WIDTH else 1
+height_ratio = MAX_HEIGHT / original_height if original_height > MAX_HEIGHT else 1
+scale_factor = min(width_ratio, height_ratio)  # Use the smaller ratio to ensure both dimensions fit
+
+# Calculate new dimensions
+resize_width = int(original_width * scale_factor)
+resize_height = int(original_height * scale_factor)
+print(f"Resizing frames to: {resize_width}x{resize_height} (scale factor: {scale_factor:.2f})")
+
+# If we need to loop the video to match audio length
+if LOOP_VIDEO and audio_duration:
+    video_duration = video_clip_for_frames.duration
+    loops_needed = int(np.ceil(audio_duration / video_duration))
+    print(f"Video duration: {video_duration} seconds")
+    print(f"Looping video {loops_needed} times to match audio")
+    
+    # Create a function to get frames that loops the video
+    total_frames = int(audio_duration * fps_to_use)
+    original_total_frames = int(video_duration * fps_to_use)
+    
+    edge_frames = []
+    frame_count = 0
+    
+    # Process frames for the entire audio duration
+    for i in range(total_frames):
+        # Calculate which frame of the original video to use
+        original_frame_index = i % original_total_frames
+        
+        # Get the frame from the original video
+        frame_time = original_frame_index / fps_to_use
+        frame_np_rgb = video_clip_for_frames.get_frame(frame_time)
+        
+        # Resize the frame to save memory
+        if scale_factor < 1:  # Only resize if we need to make it smaller
+            frame_np_rgb = cv2.resize(frame_np_rgb, (resize_width, resize_height), interpolation=cv2.INTER_AREA)
+        
+        frame_count += 1
+        # moviepy frames are RGB, cv2 Canny works on grayscale.
+        gray = cv2.cvtColor(frame_np_rgb, cv2.COLOR_RGB2GRAY)
+        edges = cv2.Canny(gray, EDGE_LOW, EDGE_HIGH)
+        # Convert single-channel Canny output (grayscale) to 3-channel BGR for ImageSequenceClip
+        edges_bgr = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        if frame_count % 100 == 0: # Print every 100 frames to avoid too much output
+            print(f"DEBUG: Processing frame {frame_count}/{total_frames}, shape: {edges_bgr.shape}")
+        edge_frames.append(edges_bgr)
+        
+        # Break if we've processed enough frames
+        if frame_count >= total_frames:
+            break
+else:
+    # Original behavior - no looping
+    edge_frames = []
+    frame_count = 0
+    for frame_np_rgb in video_clip_for_frames.iter_frames(fps=fps_to_use):
+        # Resize the frame to save memory
+        if scale_factor < 1:  # Only resize if we need to make it smaller
+            frame_np_rgb = cv2.resize(frame_np_rgb, (resize_width, resize_height), interpolation=cv2.INTER_AREA)
+        
+        frame_count += 1
+        # moviepy frames are RGB, cv2 Canny works on grayscale.
+        gray = cv2.cvtColor(frame_np_rgb, cv2.COLOR_RGB2GRAY)
+        edges = cv2.Canny(gray, EDGE_LOW, EDGE_HIGH)
+        # Convert single-channel Canny output (grayscale) to 3-channel BGR for ImageSequenceClip
+        edges_bgr = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        if frame_count % 100 == 0: # Print every 100 frames to avoid too much output
+            print(f"DEBUG: Processing frame {frame_count}, shape: {edges_bgr.shape}, dtype: {edges_bgr.dtype}")
+        edge_frames.append(edges_bgr)
+
+print(f"DEBUG: Finished iterating frames. Total frames processed: {frame_count}")
+video_clip_for_frames.close() # Important to close the clip
+
+if not edge_frames:
+    print(f"Error: No frames could be read from video '{VIDEO_IN_FOR_PROCESSING}'.")
+    print("Please check if the video file is valid and readable by OpenCV.")
+    import sys
+    sys.exit(1)
+
+# DEBUGGING: Inspect edge_frames and fps_to_use
+print(f"DEBUG: Number of edge frames collected: {len(edge_frames)}")
+if edge_frames:
+    print(f"DEBUG: First edge frame shape: {edge_frames[0].shape}, dtype: {edge_frames[0].dtype}")
+    # Check if all frames have the same shape
+    if len(edge_frames) > 1:
+        consistent_shape = all(f.shape == edge_frames[0].shape for f in edge_frames)
+        print(f"DEBUG: All frames have consistent shape: {consistent_shape}")
+        if not consistent_shape:
+            for i, f in enumerate(edge_frames):
+                if f.shape != edge_frames[0].shape:
+                    print(f"DEBUG: Frame {i} has different shape: {f.shape}")
+                    break # Print first inconsistent frame
+else:
+    print("DEBUG: edge_frames is empty!") # Should not happen if previous check passed
+print(f"DEBUG: FPS for ImageSequenceClip: {fps_to_use}")
+# END DEBUGGING
+
+edge_clip = ImageSequenceClip(edge_frames, fps=fps_to_use)
+edge_clip.write_videofile(os.path.join(TMP_DIR,"edges.mp4"),
+                          codec="libx264", audio=False, verbose=False)
+
+# 3. ─── Create audio-reactive Canny edges ──────
+print("[3/6] Creating audio-reactive edge frames …")
+audio_clip_path = os.path.join(TMP_DIR,"audio.aac")
+print(f"DEBUG: Attempting to load AudioFileClip from: {audio_clip_path}")
+try:
+    audio_clip = AudioFileClip(audio_clip_path)
+except Exception as e:
+    print(f"ERROR: Failed to load AudioFileClip('{audio_clip_path}'): {type(e).__name__} - {e}")
+    import traceback
+    traceback.print_exc()
+    raise
+
+print(f"DEBUG: AudioFileClip loaded. Duration: {audio_clip.duration}, FPS: {audio_clip.fps}")
+if audio_clip.fps is None or audio_clip.fps <= 0:
+    raise ValueError(f"Invalid audio_clip.fps: {audio_clip.fps}. Cannot proceed.")
+
+audio_array_target_fps = int(audio_clip.fps)
+print(f"DEBUG: Target FPS for audio processing: {audio_array_target_fps}")
+
+# Get audio data - limit the number of chunks to prevent memory issues
+try:
+    # Calculate a reasonable chunk size for memory efficiency
+    # Instead of loading all audio data at once, we'll process it in chunks
+    chunk_iterator = audio_clip.iter_chunks(fps=audio_array_target_fps, nbytes=2, chunksize=10000)
+    
+    # Get a small sample to estimate the max amplitude
+    sample_chunks = []
+    for i, chunk in enumerate(chunk_iterator):
+        sample_chunks.append(chunk)
+        if i >= 20:  # Just take 20 chunks as a sample
+            break
+    
+    if not sample_chunks:
+        raise ValueError("No audio chunks collected. Audio processing cannot continue.")
+    
+    # Calculate max amplitude from sample
+    sample_audio = np.vstack(sample_chunks)
+    max_amp = np.max(np.abs(sample_audio[:, 0])) + 1e-6
+    print(f"DEBUG: Estimated max amplitude: {max_amp} from sample of {len(sample_chunks)} chunks")
+    
+    # We don't need to keep the full audio array in memory anymore
+    # We'll process each audio segment on-demand in the process_frame function
+    
+    # Calculate the total number of audio frames to help with indexing later
+    audio_duration = audio_clip.duration
+    total_audio_samples = int(audio_duration * audio_array_target_fps)
+    print(f"DEBUG: Total audio samples: {total_audio_samples}")
+    
+    # Clean up the sample to free memory
+    del sample_audio
+    del sample_chunks
+    
+except Exception as e:
+    print(f"ERROR: Exception during audio processing: {type(e).__name__} - {e}")
+    import traceback
+    traceback.print_exc()
+    raise
+
+# Calculate samples per frame for audio-to-video sync
+samples_per_frame = int(audio_array_target_fps / fps_to_use)
+print(f"DEBUG: Samples per frame: {samples_per_frame}")
+
+# Function to extract contours from a single frame
+def extract_contours(edge_frame):
+    # Convert to grayscale if it's not already
+    gray = cv2.cvtColor(edge_frame, cv2.COLOR_BGR2GRAY) if edge_frame.shape[-1] == 3 else edge_frame
+    
+    # Find contours in the edge image
+    contours, _ = cv2.findContours(gray, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+    
+    # Filter out very small contours (noise)
+    contours = [cnt for cnt in contours if len(cnt) > 5]
+    
+    # Simplify contours to reduce processing time
+    simplified_contours = []
+    for contour in contours:
+        epsilon = 0.002 * cv2.arcLength(contour, True)  # Precision parameter
+        approx = cv2.approxPolyDP(contour, epsilon, True)
+        simplified_contours.append(approx)
+    
+    return simplified_contours
+
+# Function to analyze audio frequency bands and get spectrum data
+def analyze_audio_frequencies(audio_segment, n_bands=3):
+    if len(audio_segment) < 10:
+        return [0] * n_bands
+    
+    # Perform FFT on the audio segment
+    try:
+        # Ensure audio_segment is a numpy array
+        if not isinstance(audio_segment, np.ndarray):
+            audio_segment = np.array(audio_segment)
+        
+        # Handle NaN or Inf values that might cause issues
+        audio_segment = np.nan_to_num(audio_segment)
+        
+        # Apply a window function to reduce spectral leakage
+        window = np.hanning(len(audio_segment))
+        windowed_segment = audio_segment * window
+        
+        # Compute the FFT
+        fft_result = np.abs(np.fft.rfft(windowed_segment))
+        
+        # Normalize the result
+        max_val = np.max(fft_result)
+        fft_result = fft_result / max_val if max_val > 0 else fft_result
+        
+        # Split the FFT result into frequency bands
+        band_size = max(1, len(fft_result) // n_bands)
+        bands = []
+        
+        for i in range(n_bands):
+            start = i * band_size
+            end = min((i + 1) * band_size, len(fft_result))
+            if start < end:
+                band_value = np.mean(fft_result[start:end])
+                bands.append(band_value)
+            else:
+                bands.append(0.0)
+        
+        # Ensure we have exactly n_bands
+        while len(bands) < n_bands:
+            bands.append(0.0)
+        
+        # Ensure all values are finite
+        bands = [b if np.isfinite(b) else 0.0 for b in bands]
+        
+        return bands
+    except Exception as e:
+        print(f"Error analyzing frequencies: {e}")
+        return [0] * n_bands
+
+# Function to detect beats in audio
+def detect_beat(audio_segment, history, threshold_factor=1.5):
+    if len(audio_segment) < 10 or len(history) < 5:
+        return False
+    
+    current_energy = np.mean(np.abs(audio_segment))
+    avg_energy = np.mean(history)
+    
+    # A beat is detected when energy is significantly above the average
+    return current_energy > avg_energy * threshold_factor
+
+# Function to get audio segment for a specific frame
+def get_audio_segment(audio_clip, frame_index, samples_per_frame, audio_array_target_fps):
+    # Calculate time position in the audio
+    start_time = frame_index / fps_to_use
+    end_time = (frame_index + 1) / fps_to_use
+    
+    # Ensure we don't go past the end of audio
+    if start_time >= audio_clip.duration:
+        return np.zeros(samples_per_frame)
+    
+    try:
+        # Get a small chunk of audio for just this frame
+        end_time = min(end_time, audio_clip.duration)
+        audio_segment = audio_clip.subclip(start_time, end_time).to_soundarray()
+        
+        # Convert to mono if stereo
+        if len(audio_segment.shape) > 1 and audio_segment.shape[1] > 1:
+            # Convert stereo to mono by averaging channels
+            audio_segment = np.mean(audio_segment, axis=1)
+            
+        # Ensure we have enough samples
+        if len(audio_segment) < samples_per_frame:
+            # Pad with zeros if needed
+            padding = np.zeros(samples_per_frame - len(audio_segment))
+            audio_segment = np.concatenate([audio_segment, padding])
+        elif len(audio_segment) > samples_per_frame:
+            # Truncate if too many samples
+            audio_segment = audio_segment[:samples_per_frame]
+            
+        return audio_segment
+    except Exception as e:
+        print(f"Error getting audio segment: {e}")
+        return np.zeros(samples_per_frame)
+
+# Function to get color based on audio and mode
+def get_audio_reactive_color(audio_segment, normalized_mean_amp, frame_index, is_spike=False, freq_band_idx=None):
+    # Store last non-spike colors to prevent flashing
+    global current_hue, target_hue, transition_progress, last_colors
+    
+    # Initialize last_colors dictionary if it doesn't exist
+    if 'last_colors' not in globals():
+        global last_colors
+        last_colors = {}
+        for band in range(3):
+            last_colors[band] = (255, 255, 255)  # Default color
+    global current_hue, target_hue, transition_progress
+    
+    # Default color (white)
+    default_color = (255, 255, 255)
+    
+    try:
+        # Handle color transition if enabled
+        if COLOR_TRANSITION_ENABLED:
+            # Update the transition progress
+            transition_progress += COLOR_TRANSITION_SPEED / COLOR_TRANSITION_FRAMES
+            
+            # If we've completed a transition, set a new target
+            if transition_progress >= 1.0:
+                # Current becomes the target we just reached
+                current_hue = target_hue
+                # Choose a new target that's significantly different
+                hue_shift = np.random.randint(30, 150)  # At least 30 degrees different
+                target_hue = (current_hue + hue_shift) % 180
+                # Reset progress
+                transition_progress = 0.0
+            
+            # Calculate the current interpolated hue
+            interpolated_hue = int(current_hue + (target_hue - current_hue) * transition_progress)
+            if interpolated_hue < 0:
+                interpolated_hue += 180
+            interpolated_hue = interpolated_hue % 180
+        
+        # Get frequency bands for color mapping
+        bands = analyze_audio_frequencies(audio_segment, n_bands=3)
+        
+        # If we're using multi-color mode and we have a specific frequency band
+        if MULTI_COLOR_LINES and freq_band_idx is not None:
+            # Each frequency band gets its own dominant color based on the transitioning hue
+            if COLOR_TRANSITION_ENABLED:
+                # Use the transitioning hue as a base, with offsets for each frequency band
+                if freq_band_idx == 0:  # Low frequencies -> Base hue
+                    base_hue = interpolated_hue
+                elif freq_band_idx == 1:  # Mid frequencies -> Shifted hue
+                    base_hue = (interpolated_hue + 60) % 180
+                else:  # High frequencies -> Another shifted hue
+                    base_hue = (interpolated_hue + 120) % 180
+                
+                # Convert to RGB with audio-reactive brightness
+                sat = 255
+                val = min(255, int(180 + 75 * bands[freq_band_idx] * COLOR_INTENSITY))
+                
+                # Convert HSV to BGR
+                hsv_color = np.array([[[base_hue, sat, val]]], dtype=np.uint8)
+                return tuple(cv2.cvtColor(hsv_color, cv2.COLOR_HSV2BGR)[0][0].tolist())
+            else:
+                # Traditional RGB mapping if transitions are disabled
+                if freq_band_idx == 0:  # Low frequencies -> Red dominant
+                    r = int(min(255, 150 + 105 * bands[0] * COLOR_INTENSITY))
+                    g = int(min(255, 50 + 50 * bands[1]))
+                    b = int(min(255, 50 + 50 * bands[2]))
+                elif freq_band_idx == 1:  # Mid frequencies -> Green dominant
+                    r = int(min(255, 50 + 50 * bands[0]))
+                    g = int(min(255, 150 + 105 * bands[1] * COLOR_INTENSITY))
+                    b = int(min(255, 50 + 50 * bands[2]))
+                elif freq_band_idx == 2:  # High frequencies -> Blue dominant
+                    r = int(min(255, 50 + 50 * bands[0]))
+                    g = int(min(255, 50 + 50 * bands[1]))
+                    b = int(min(255, 150 + 105 * bands[2] * COLOR_INTENSITY))
+                else:  # Default to full spectrum
+                    r = int(min(255, 100 + 155 * bands[0] * COLOR_INTENSITY))
+                    g = int(min(255, 100 + 155 * bands[1] * COLOR_INTENSITY))
+                    b = int(min(255, 100 + 155 * bands[2] * COLOR_INTENSITY))
+                
+                return (b, g, r)  # BGR format for OpenCV
+        
+        # Regular color modes
+        if COLOR_MODE == "white":
+            # Even in white mode, we can make it more dynamic with subtle color hints
+            intensity = int(220 + 35 * normalized_mean_amp)
+            return (intensity, intensity, intensity)
+        
+        elif COLOR_MODE == "spectrum":
+            # Map frequency bands to RGB with more intensity
+            r = int(min(255, 80 + 175 * bands[0] * COLOR_INTENSITY))
+            g = int(min(255, 80 + 175 * bands[1] * COLOR_INTENSITY))
+            b = int(min(255, 80 + 175 * bands[2] * COLOR_INTENSITY))
+            return (b, g, r)  # BGR format for OpenCV
+        
+        elif COLOR_MODE == "gradient":
+            # Use audio amplitude to shift through color spectrum (HSV)
+            if COLOR_TRANSITION_ENABLED:
+                # Use the transitioning hue, modulated by audio amplitude
+                hue = interpolated_hue
+                hue_shift = int(30 * normalized_mean_amp)  # Slight shift based on audio
+                final_hue = (hue + hue_shift) % 180
+            else:
+                # Traditional mapping without transitions
+                final_hue = int(180 - 180 * normalized_mean_amp)
+            
+            sat = 255
+            val = min(255, int(180 + 75 * normalized_mean_amp * COLOR_INTENSITY))
+            
+            # Convert HSV to BGR
+            hsv_color = np.array([[[final_hue, sat, val]]], dtype=np.uint8)
+            bgr_color = cv2.cvtColor(hsv_color, cv2.COLOR_HSV2BGR)[0][0].tolist()
+            return tuple(bgr_color)
+        
+        elif COLOR_MODE == "pulse":
+            # Color pulses on beats and audio spikes
+            # Modified by audio amplitude for intensity
+            pulse_phase = frame_index * COLOR_PULSE_SPEED
+            r = int(min(255, 128 + 127 * np.sin(pulse_phase) * normalized_mean_amp * COLOR_INTENSITY))
+            g = int(min(255, 128 + 127 * np.sin(pulse_phase + 2*np.pi/3) * normalized_mean_amp * COLOR_INTENSITY))
+            b = int(min(255, 128 + 127 * np.sin(pulse_phase + 4*np.pi/3) * normalized_mean_amp * COLOR_INTENSITY))
+            return (b, g, r)  # BGR format for OpenCV
+        
+        elif COLOR_MODE == "rainbow":
+            # If this is a spike, use the last color for this frequency band to prevent flashing
+            if is_spike and freq_band_idx is not None and freq_band_idx in last_colors:
+                return last_colors[freq_band_idx]
+                
+            if COLOR_TRANSITION_ENABLED:
+                # Use the transitioning hue as a base
+                hue = interpolated_hue
+            else:
+                # Rainbow colors that shift slowly over time
+                hue = (frame_index * 0.5) % 180
+            
+            # Only apply audio modulation to the hue if it's not a spike
+            if not is_spike:
+                # Smaller hue shift for more consistent colors
+                hue_shift = normalized_mean_amp * 10
+                # Final hue
+                final_hue = int((hue + hue_shift) % 180)
+            else:
+                # During spikes, keep hue steady
+                final_hue = int(hue % 180)
+            
+            # Higher saturation for more vibrant colors
+            sat = 255
+            # Less variation in brightness to reduce flashing
+            base_val = 220  # Higher base value
+            amplitude_effect = 35  # Smaller effect from amplitude
+            val = min(255, int(base_val + amplitude_effect * normalized_mean_amp * COLOR_INTENSITY))
+            
+            # Convert HSV to BGR
+            hsv_color = np.array([[[final_hue, sat, val]]], dtype=np.uint8)
+            bgr_color = cv2.cvtColor(hsv_color, cv2.COLOR_HSV2BGR)[0][0].tolist()
+            result_color = tuple(bgr_color)
+            
+            # Store this color for future spikes
+            if not is_spike and freq_band_idx is not None:
+                last_colors[freq_band_idx] = result_color
+                
+            return result_color
+        
+        else:
+            return default_color
+    
+    except Exception as e:
+        print(f"Error generating color: {e}")
+        return default_color
+
+# Function to process a single frame with oscillation effect
+def process_frame(frame_data, amplitude_factor, frequency_factor, max_amp, audio_clip, samples_per_frame, audio_array_target_fps):
+    i, edge_frame, contours = frame_data
+    
+    # Get audio data for this frame directly from audio_clip
+    audio_segment = get_audio_segment(audio_clip, i, samples_per_frame, audio_array_target_fps)
+    
+    # Create empty canvas
+    h, w = edge_frame.shape[:2]
+    oscillating_frame = np.zeros((h, w, 3), dtype=np.uint8)
+    
+    # Keep track of energy for beat detection
+    mean_amp = np.mean(np.abs(audio_segment)) if len(audio_segment) > 0 else 0
+    normalized_mean_amp = float(mean_amp) / max_amp if max_amp > 0 else 0
+    if not np.isfinite(normalized_mean_amp):
+        normalized_mean_amp = 0.0
+    
+    # Detect if this is a spike frame
+    is_spike = normalized_mean_amp > 0.75
+    
+    # Create a list to store oscillating points for all contours (needed for particle effects)
+    all_oscillating_points = []
+    
+    # Analyze frequency bands for color
+    color = get_audio_reactive_color(audio_segment, normalized_mean_amp, i, is_spike)
+    
+    # Get frequency bands for frequency-specific layers
+    freq_bands = analyze_audio_frequencies(audio_segment, n_bands=3)
+    
+    # For depth and frequency layers effect
+    depth_factor = 1.0
+    if ENABLE_DEPTH:
+        depth_factor = 1.0 + 0.5 * normalized_mean_amp  # Depth effect increases with audio amplitude
+    
+    # Create separate frames for each frequency band if frequency layers are enabled
+    freq_frames = []
+    if FREQUENCY_LAYERS:
+        for _ in range(3):  # One frame per frequency band
+            freq_frames.append(np.zeros((h, w, 3), dtype=np.uint8))
+    
+    # Process each contour
+    for contour_idx, contour in enumerate(contours):
+        # Determine frequency band for this contour if using frequency layers
+        if FREQUENCY_LAYERS:
+            freq_band = contour_idx % 3  # Assign contours to low, mid, high bands
+            # Get color specific to this frequency band
+            band_color = get_audio_reactive_color(audio_segment, normalized_mean_amp, i, is_spike, freq_band)
+            # Get the specific band amplitude for this contour
+            band_amp = freq_bands[freq_band] * 3.0  # Amplify for better visibility
+        else:
+            freq_band = None
+            band_color = color
+            band_amp = normalized_mean_amp
+        
+        # For depth layers, only process some contours for each layer
+        if ENABLE_DEPTH and DEPTH_LAYERS > 1:
+            layer = contour_idx % DEPTH_LAYERS
+            # Scale amplitude based on layer (foreground moves more)
+            layer_amplitude = amplitude_factor * (1.0 - 0.3 * layer / DEPTH_LAYERS)
+        else:
+            layer_amplitude = amplitude_factor
+        
+        # Reshape contour for easier processing
+        points = contour.reshape(-1, 2)
+        
+        # Don't process empty contours
+        if len(points) < 2:
+            continue
+        
+        # Create oscillating version of the contour
+        oscillating_points = []
+        
+        # Use ramped spike intensity for smooth transitions before and after spikes
+        # This creates a gradual build-up and fade-out rather than an abrupt change
+        # Scale between 1.0 (no spike) and 5.0 (full spike)
+        smooth_spike_multiplier = 1.0 + 4.0 * ramped_spike_intensity
+        base_amp = np.power(abs(band_amp), 0.5)  # Use frequency-specific amplitude
+        enhanced_mean_amp = base_amp * smooth_spike_multiplier
+        
+        # Create a frequency-specific phase offset for wave propagation
+        freq_phase_offset = 0
+        if FREQUENCY_LAYERS:
+            # Low frequencies move slower, high frequencies move faster
+            freq_phase_offset = freq_band * np.pi / 4
+        
+        # Process each point in contour
+        for j, point in enumerate(points):
+            # Create a position-dependent phase offset with frequency variation
+            phase_offset = frequency_factor * j / len(points) * 2 * np.pi + freq_phase_offset
+            
+            # Create oscillation pattern with multiple frequencies
+            # Adjust wave parameters based on frequency band
+            if FREQUENCY_LAYERS and freq_band == 0:  # Low frequencies: slower, larger waves
+                wave1 = np.sin(phase_offset * 2.0)
+                wave2 = 0.7 * np.sin(phase_offset * 5.0 + band_amp * np.pi)
+                wave3 = 0.5 * np.cos(phase_offset * 3.0)
+            elif FREQUENCY_LAYERS and freq_band == 1:  # Mid frequencies: balanced waves
+                wave1 = np.sin(phase_offset * 3.0)
+                wave2 = 0.6 * np.sin(phase_offset * 7.0 + band_amp * np.pi)
+                wave3 = 0.4 * np.cos(phase_offset * 5.0)
+            elif FREQUENCY_LAYERS and freq_band == 2:  # High frequencies: faster, smaller waves
+                wave1 = np.sin(phase_offset * 5.0)
+                wave2 = 0.5 * np.sin(phase_offset * 11.0 + band_amp * np.pi)
+                wave3 = 0.3 * np.cos(phase_offset * 8.0)
+            else:  # Default oscillation
+                wave1 = np.sin(phase_offset * 3.0)
+                wave2 = 0.6 * np.sin(phase_offset * 7.0 + normalized_mean_amp * np.pi)
+                wave3 = 0.4 * np.cos(phase_offset * 5.0)
+            
+            # Combine waves
+            wave_sum = wave1 + wave2 + wave3
+            
+            # Amplitude modulation based on audio
+            oscillation = layer_amplitude * enhanced_mean_amp * wave_sum
+            
+            # Safety check
+            if not np.isfinite(oscillation):
+                oscillation = 0.0
+            
+            # Apply oscillation perpendicular to the contour direction
+            if j > 0 and j < len(points) - 1:
+                # Calculate direction vector
+                dx = points[j+1][0] - points[j-1][0]
+                dy = points[j+1][1] - points[j-1][1]
+                
+                # Normalize
+                length = max(np.sqrt(dx*dx + dy*dy), 0.1)
+                dx, dy = dx/length, dy/length
+                
+                # Perpendicular vector
+                px, py = -dy, dx
+                
+                # Apply oscillation in perpendicular direction
+                new_x = int(point[0] + oscillation * px)
+                new_y = int(point[1] + oscillation * py)
+            else:
+                # For first and last points
+                new_x = int(point[0] + oscillation)
+                new_y = int(point[1] + oscillation)
+            
+            # Keep within bounds
+            new_x = max(0, min(w-1, new_x))
+            new_y = max(0, min(h-1, new_y))
+            
+            oscillating_points.append([new_x, new_y])
+        
+        # Add to collection of all points for particle effects
+        all_oscillating_points.extend(oscillating_points)
+        
+        # Draw the oscillating contour with audio-reactive color
+        if oscillating_points:
+            pts = np.array(oscillating_points, dtype=np.int32)
+            
+            # Apply spike-specific visual effects - focus on oscillation rather than color flashing
+            if is_extreme_spike or is_spike:
+                # Determine line thickness - make it thicker for spikes
+                line_thickness = SPIKE_LINE_THICKNESS if is_extreme_spike else SPIKE_LINE_THICKNESS - 1
+                
+                # Keep the original band color without enhancement to avoid flashing
+                enhanced_color = band_color
+                
+                # For extreme spikes, create multiple oscillating lines with outward movement
+                if is_extreme_spike and len(pts) > 10:
+                    # Calculate the center of the frame for radial movement
+                    center_x, center_y = w // 2, h // 2
+                    
+                    # Create multiple oscillation versions with increasing outward displacement
+                    oscillation_layers = 5 if is_extreme_spike else 3  # More layers for stronger effect
+                    
+                    for layer in range(oscillation_layers):
+                        # Calculate outward vector for each point (from center of frame)
+                        outward_pts = pts.copy()
+                        
+                        for j in range(len(pts)):
+                            # Vector from center to point
+                            dx = pts[j][0] - center_x
+                            dy = pts[j][1] - center_y
+                            
+                            # Normalize the vector
+                            length = max(np.sqrt(dx*dx + dy*dy), 0.1)
+                            dx, dy = dx/length, dy/length
+                            
+                            # Scale by layer and spike intensity with more exponential scaling
+                            # Use exponential scaling for more dramatic effect on outer layers
+                            outward_factor = (layer + 1) ** 1.5 * normalized_peak_amp * SPIKE_DEVIATION_FACTOR
+                            
+                            # Apply outward movement
+                            outward_pts[j][0] = int(pts[j][0] + dx * outward_factor)
+                            outward_pts[j][1] = int(pts[j][1] + dy * outward_factor)
+                            
+                            # Keep within bounds
+                            outward_pts[j][0] = max(0, min(w-1, outward_pts[j][0]))
+                            outward_pts[j][1] = max(0, min(h-1, outward_pts[j][1]))
+                        
+                        # Draw on the appropriate frame
+                        if FREQUENCY_LAYERS and freq_frames:
+                            # Keep color consistent across all layers to avoid flashing
+                            # Use the same color for all oscillation layers with minimal transparency change
+                            layer_color = enhanced_color
+                            if layer > 0:  # Very subtle transparency for outer layers
+                                alpha = 0.95 - 0.05 * layer  # Minimal fade to maintain color consistency
+                                layer_color = tuple(int(c * alpha) for c in enhanced_color)
+                            
+                            cv2.polylines(freq_frames[freq_band], 
+                                        [outward_pts], 
+                                        False,             # Don't close the contour
+                                        layer_color,       # Same color, just faded for outer layers
+                                        max(1, line_thickness - layer),  # Thinner for outer layers
+                                        cv2.LINE_AA)      # Anti-aliased
+                        else:
+                            # Keep color consistent across all layers to avoid flashing
+                            # Use the same color for all oscillation layers with minimal transparency change
+                            layer_color = enhanced_color
+                            if layer > 0:  # Very subtle transparency for outer layers
+                                alpha = 0.95 - 0.05 * layer  # Minimal fade to maintain color consistency
+                                layer_color = tuple(int(c * alpha) for c in enhanced_color)
+                            
+                            cv2.polylines(oscillating_frame, 
+                                        [outward_pts], 
+                                        False,             # Don't close the contour
+                                        layer_color,       # Same color, just faded for outer layers
+                                        max(1, line_thickness - layer),  # Thinner for outer layers
+                                        cv2.LINE_AA)      # Anti-aliased
+                else:
+                    # Regular spike - just use enhanced color and thicker line
+                    if FREQUENCY_LAYERS and freq_frames:
+                        cv2.polylines(freq_frames[freq_band], 
+                                    [pts], 
+                                    False,             # Don't close the contour
+                                    enhanced_color,    # Slightly enhanced color
+                                    line_thickness,    # Thicker for spikes
+                                    cv2.LINE_AA)       # Anti-aliased
+                    else:
+                        cv2.polylines(oscillating_frame, 
+                                    [pts], 
+                                    False,             # Don't close the contour
+                                    enhanced_color,    # Slightly enhanced color
+                                    line_thickness,    # Thicker for spikes
+                                    cv2.LINE_AA)       # Anti-aliased
+            else:
+                # Normal non-spike rendering
+                line_thickness = 1
+                # Draw on the appropriate frame
+                if FREQUENCY_LAYERS and freq_frames:
+                    # Draw each frequency band on its own layer with its own color
+                    cv2.polylines(freq_frames[freq_band], 
+                                [pts], 
+                                False,             # Don't close the contour
+                                band_color,        # Frequency-specific color
+                                line_thickness,    # Regular thickness
+                                cv2.LINE_AA)       # Anti-aliased
+                else:
+                    # Draw on the main frame if not using frequency layers
+                    cv2.polylines(oscillating_frame, 
+                                [pts], 
+                                False,             # Don't close the contour
+                                band_color,        # Band-specific color
+                                line_thickness,    # Regular thickness
+                                cv2.LINE_AA)       # Anti-aliased
+    
+    # If we're using frequency layers, combine them with slight offsets for depth effect
+    if FREQUENCY_LAYERS and freq_frames:
+        # Use frequency-specific offsets for a layered effect
+        for i, frame in enumerate(freq_frames):
+            if i == 0:  # Low frequencies
+                # No offset for base layer
+                oscillating_frame = cv2.add(oscillating_frame, frame)
+            elif i == 1:  # Mid frequencies
+                # Small offset for mid layer
+                h_offset, v_offset = int(3 * normalized_mean_amp), int(3 * normalized_mean_amp)
+                if h_offset > 0 or v_offset > 0:
+                    M = np.float32([[1, 0, h_offset], [0, 1, v_offset]])
+                    shifted = cv2.warpAffine(frame, M, (w, h))
+                    oscillating_frame = cv2.add(oscillating_frame, shifted)
+                else:
+                    oscillating_frame = cv2.add(oscillating_frame, frame)
+            elif i == 2:  # High frequencies
+                # Larger offset for high layer
+                h_offset, v_offset = int(6 * normalized_mean_amp), int(6 * normalized_mean_amp)
+                if h_offset > 0 or v_offset > 0:
+                    M = np.float32([[1, 0, h_offset], [0, 1, v_offset]])
+                    shifted = cv2.warpAffine(frame, M, (w, h))
+                    oscillating_frame = cv2.add(oscillating_frame, shifted)
+                else:
+                    oscillating_frame = cv2.add(oscillating_frame, frame)
+    
+    # Apply special effects to the entire frame
+    # Create a processed frame with all spatial effects applied
+    processed_frame = oscillating_frame.copy()
+    
+    # Apply zoom effect on peaks
+    if ENABLE_ZOOM and is_spike:
+        # Calculate zoom factor based on audio amplitude
+        zoom_amount = 1.0 + (ZOOM_FACTOR - 1.0) * normalized_mean_amp
+        
+        # Apply zoom
+        if zoom_amount > 1.0:
+            # Calculate new dimensions
+            new_h, new_w = int(h / zoom_amount), int(w / zoom_amount)
+            
+            # Calculate center of the image
+            center_y, center_x = h // 2, w // 2
+            
+            # Calculate crop coordinates
+            y1 = max(0, center_y - new_h // 2)
+            y2 = min(h, center_y + new_h // 2)
+            x1 = max(0, center_x - new_w // 2)
+            x2 = min(w, center_x + new_w // 2)
+            
+            # Crop and resize
+            zoomed = cv2.resize(processed_frame[y1:y2, x1:x2], (w, h), interpolation=cv2.INTER_LINEAR)
+            processed_frame = zoomed
+    
+    # Apply rotation effect
+    if ENABLE_ROTATION:
+        # Calculate rotation angle based on audio amplitude
+        rotation_angle = MAX_ROTATION * normalized_mean_amp
+        if abs(rotation_angle) > 0.5:  # Only rotate if the angle is significant
+            # Get rotation matrix
+            center = (w // 2, h // 2)
+            rotation_matrix = cv2.getRotationMatrix2D(center, rotation_angle, 1.0)
+            
+            # Apply rotation
+            processed_frame = cv2.warpAffine(processed_frame, rotation_matrix, (w, h), 
+                                           flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    
+    # Apply mirroring effects
+    if ENABLE_MIRROR and MIRROR_MODE and MIRROR_MODE.lower() not in ["none", ""]:
+        mirrored_frame = np.zeros_like(processed_frame)
+        
+        if MIRROR_MODE == "horizontal":
+            # Left half is original, right half is mirrored
+            half_w = w // 2
+            mirrored_frame[:, :half_w] = processed_frame[:, :half_w]
+            mirrored_frame[:, half_w:] = cv2.flip(processed_frame[:, :half_w], 1)
+            
+        elif MIRROR_MODE == "vertical":
+            # Top half is original, bottom half is mirrored
+            half_h = h // 2
+            mirrored_frame[:half_h, :] = processed_frame[:half_h, :]
+            mirrored_frame[half_h:, :] = cv2.flip(processed_frame[:half_h, :], 0)
+            
+        elif MIRROR_MODE == "quad":
+            # Top-left quadrant is original, others are mirrored
+            half_w, half_h = w // 2, h // 2
+            
+            # Top-left (original)
+            quad = processed_frame[:half_h, :half_w]
+            mirrored_frame[:half_h, :half_w] = quad
+            
+            # Top-right (horizontal flip of top-left)
+            mirrored_frame[:half_h, half_w:] = cv2.flip(quad, 1)
+            
+            # Bottom-left (vertical flip of top-left)
+            mirrored_frame[half_h:, :half_w] = cv2.flip(quad, 0)
+            
+            # Bottom-right (both horizontal and vertical flip)
+            mirrored_frame[half_h:, half_w:] = cv2.flip(quad, -1)
+            
+        elif MIRROR_MODE == "radial":
+            # Create a radial/kaleidoscope effect with 8-fold symmetry
+            # This is more complex and computationally expensive
+            center_x, center_y = w // 2, h // 2
+            segment_angle = 45  # 8 segments of 45 degrees each
+            
+            # Create a mask for the first segment
+            segment_mask = np.zeros((h, w), dtype=np.uint8)
+            
+            # Draw a filled pie/triangle for the first segment
+            pie_points = np.array([
+                [center_x, center_y],
+                [w, center_y],
+                [w, 0],
+                [center_x, 0]
+            ], dtype=np.int32)
+            
+            cv2.fillPoly(segment_mask, [pie_points], 255)
+            
+            # Extract the first segment
+            first_segment = cv2.bitwise_and(processed_frame, processed_frame, mask=segment_mask)
+            
+            # Initialize the result with the first segment
+            mirrored_frame = first_segment.copy()
+            
+            # Create remaining segments by rotation
+            for angle in range(segment_angle, 360, segment_angle):
+                # Rotate the segment mask
+                rotation_matrix = cv2.getRotationMatrix2D((center_x, center_y), angle, 1.0)
+                rotated_mask = cv2.warpAffine(segment_mask, rotation_matrix, (w, h))
+                
+                # Rotate the first segment
+                rotated_segment = cv2.warpAffine(first_segment, rotation_matrix, (w, h))
+                
+                # Add the rotated segment to the result
+                mirrored_frame = cv2.bitwise_or(mirrored_frame, rotated_segment)
+        
+        # Use the mirrored frame as the result
+        return mirrored_frame
+    
+    # If no mirroring, return the processed frame
+    return processed_frame
+
+# Extract contours from edge frames
+print("Extracting contours from edge frames...")
+
+# Extract contours (single-threaded for reliability)
+contour_frames = []
+for i, edge_frame in enumerate(edge_frames):
+    if i % 50 == 0:
+        print(f"Extracting contours from frame {i}/{len(edge_frames)}")
+    contour_frames.append(extract_contours(edge_frame))
+
+print(f"Extracted contours from {len(contour_frames)} frames")
+
+# Particle system for visual effects
+class Particle:
+    def __init__(self, x, y, color, velocity_x=0, velocity_y=0):
+        self.x = x
+        self.y = y
+        self.color = color
+        self.lifetime = PARTICLE_LIFETIME
+        self.velocity_x = velocity_x
+        self.velocity_y = velocity_y
+        self.alpha = 255  # Start fully opaque
+    
+    def update(self):
+        # Update position based on velocity
+        self.x += self.velocity_x
+        self.y += self.velocity_y
+        
+        # Reduce lifetime
+        self.lifetime -= 1
+        
+        # Fade out as lifetime decreases
+        self.alpha = int(255 * (self.lifetime / PARTICLE_LIFETIME))
+        
+        # Modify color with alpha
+        b, g, r = self.color
+        return (b, g, r, self.alpha)
+    
+    def is_alive(self):
+        return self.lifetime > 0
+
+# Function to create particles from contour points
+def create_particles(points, color, max_particles, is_spike):
+    particles = []
+    
+    if len(points) == 0:
+        return particles
+    
+    # Determine how many particles to create based on audio intensity
+    particle_count = int(max_particles * 0.2)  # Base number of particles
+    if is_spike:
+        particle_count = max_particles  # More particles during spikes
+    
+    # Create particles at random contour points
+    if particle_count > 0:
+        indices = np.random.choice(len(points), min(particle_count, len(points)), replace=False)
+        
+        for idx in indices:
+            x, y = points[idx]
+            
+            # Random velocity
+            velocity_x = (np.random.random() - 0.5) * 4  # -2 to 2
+            velocity_y = (np.random.random() - 0.5) * 4  # -2 to 2
+            
+            # Create particle with slightly varied color
+            b, g, r = color
+            color_var = 30  # Color variance
+            varied_color = (
+                min(255, max(0, b + np.random.randint(-color_var, color_var))),
+                min(255, max(0, g + np.random.randint(-color_var, color_var))),
+                min(255, max(0, r + np.random.randint(-color_var, color_var)))
+            )
+            
+            particles.append(Particle(x, y, varied_color, velocity_x, velocity_y))
+    
+    return particles
+
+# Function to render particles onto a frame
+def render_particles(frame, particles):
+    h, w = frame.shape[:2]
+    
+    # Create a transparent overlay for particles
+    overlay = np.zeros((h, w, 4), dtype=np.uint8)  # BGRA
+    
+    # Update and draw each particle
+    for particle in particles:
+        color = particle.update()
+        
+        # Only draw if particle is within bounds
+        x, y = int(particle.x), int(particle.y)
+        if 0 <= x < w and 0 <= y < h and particle.alpha > 20:  # Only draw if fairly visible
+            cv2.circle(overlay, (x, y), 2, color, -1)
+    
+    # Convert overlay to BGR format compatible with frame
+    bgr_overlay = cv2.cvtColor(overlay, cv2.COLOR_BGRA2BGR)
+    
+    # Add overlay to frame (simple addition works well for glow effect)
+    return cv2.add(frame, bgr_overlay)
+
+# Color transition variables
+current_hue = np.random.randint(0, 180)  # Random starting hue (H in HSV)
+target_hue = (current_hue + np.random.randint(30, 150)) % 180  # Random target hue
+transition_progress = 0.0  # Progress through the current transition (0.0 to 1.0)
+
+# Create oscillating frames
+oscillating_frames = []
+amplitude_factor = 4.0  # Subtle baseline oscillation
+spike_amplitude_factor = 15.0  # Much stronger amplitude for audio spikes
+frequency_factor = 2.0  # Maintain wave frequency
+
+# Spike intensity history for smooth ramping
+spike_intensity_history = []  # Store recent spike intensities for smooth transitions
+
+# Spike detection and emphasis parameters
+spike_threshold = 0.8  # Lower threshold to catch more spikes (0-1 range)
+spike_ramp_frames = 45  # Number of frames for ramping up to and down from a spike (1 sec @ 30fps)
+spike_decay_frames = 3  # Number of frames to maintain full spike effect after detection
+
+# Particle system management
+active_particles = []
+
+print("Creating oscillating frames...")
+
+# Process each frame (single-threaded)
+for i in range(len(edge_frames)):
+    if i % 10 == 0:
+        print(f"Processing frame {i}/{len(edge_frames)}")
+    
+    # Get audio data for this frame to check for spikes
+    audio_segment = get_audio_segment(audio_clip, i, samples_per_frame, audio_array_target_fps)
+    mean_amp = np.mean(np.abs(audio_segment)) if len(audio_segment) > 0 else 0
+    normalized_mean_amp = float(mean_amp) / max_amp if max_amp > 0 else 0
+    
+    # Also check for peak value in the segment for better spike detection
+    peak_amp = np.max(np.abs(audio_segment)) if len(audio_segment) > 0 else 0
+    normalized_peak_amp = float(peak_amp) / max_amp if max_amp > 0 else 0
+    
+    # Analyze frequency bands to find which band has the most energy
+    bands = analyze_audio_frequencies(audio_segment, n_bands=3)
+    dominant_band = np.argmax(bands) if len(bands) > 0 else 0
+    
+    # Determine if this is a spike frame using both mean and peak values
+    # Lower the threshold slightly to catch more spikes
+    is_spike = normalized_peak_amp > spike_threshold * 0.9 or normalized_mean_amp > spike_threshold * 0.7
+    
+    # Create a new property for extreme spikes that get special treatment
+    is_extreme_spike = normalized_peak_amp > spike_threshold * 1.3 or normalized_mean_amp > spike_threshold * 1.1
+    
+    # Calculate the raw spike intensity (0.0 to 1.0)
+    # 0.0 = no spike, 1.0 = extreme spike
+    raw_spike_intensity = 0.0
+    if is_extreme_spike:
+        raw_spike_intensity = 1.0
+    elif is_spike:
+        # Scale between 0.5 and 0.9 for regular spikes
+        raw_spike_intensity = 0.5 + 0.4 * (normalized_peak_amp / (spike_threshold * 1.3))
+    
+    # Initialize spike history if not exists
+    if len(spike_intensity_history) == 0:
+        # Fill with zeros initially
+        spike_intensity_history = [0.0] * (spike_ramp_frames * 2 + 1)
+    
+    # Add current raw intensity to history
+    spike_intensity_history.append(raw_spike_intensity)
+    
+    # Keep history at a fixed size (2x ramp frames + 1 for current frame)
+    if len(spike_intensity_history) > spike_ramp_frames * 2 + 1:
+        spike_intensity_history.pop(0)
+    
+    # Calculate ramped spike intensity using history
+    # Look ahead and behind the current frame to create smooth transitions
+    ramped_spike_intensity = raw_spike_intensity
+    
+    # Look at future frames to ramp up to upcoming spikes
+    future_max = 0.0
+    for j in range(1, min(spike_ramp_frames + 1, len(spike_intensity_history) - i - 1)):
+        if i + j < len(spike_intensity_history):
+            future_intensity = spike_intensity_history[i + j]
+            # Weight diminishes with distance
+            weight = 1.0 - (j / (spike_ramp_frames + 1))
+            future_max = max(future_max, future_intensity * weight)
+    
+    # Look at past frames to ramp down from recent spikes
+    past_max = 0.0
+    for j in range(1, min(spike_ramp_frames + 1, i + 1)):
+        if i - j >= 0 and i - j < len(spike_intensity_history):
+            past_intensity = spike_intensity_history[i - j]
+            # Weight diminishes with distance
+            weight = 1.0 - (j / (spike_ramp_frames + 1))
+            past_max = max(past_max, past_intensity * weight)
+    
+    # Combine current, future and past to get smooth ramping
+    ramped_spike_intensity = max(ramped_spike_intensity, future_max, past_max)
+    
+    # Use the ramped intensity to modify the spike status
+    # This creates a smoother transition between spike and non-spike states
+    is_spike = ramped_spike_intensity > 0.5
+    is_extreme_spike = ramped_spike_intensity > 0.9
+    
+    # Use a smoothing mechanism to reduce color flashing by maintaining color consistency
+    # We only want to change the oscillation intensity, not the colors
+    if 'last_spike_state' not in locals():
+        last_spike_state = False
+        last_extreme_spike_state = False
+        last_colors = {}
+        # Store the last non-spike colors for each band
+        for band in range(3):
+            last_colors[band] = (255, 255, 255)
+    
+    # Track which frames have spikes for persistence effects
+    spike_frames = []
+    
+    # Apply a more dramatic effect for spikes
+    if is_extreme_spike:
+        print(f"EXTREME Spike detected at frame {i} - amplitude: {normalized_peak_amp:.2f}, dominant band: {dominant_band}")
+        # Super dramatic effects for extreme spikes
+        current_amplitude = spike_amplitude_factor * 1.5
+        # Much higher frequency for extreme spikes
+        current_frequency = frequency_factor * 1.5
+        # Add to spike frames list for special rendering
+        spike_frames.append(i)
+    elif is_spike:
+        print(f"Spike detected at frame {i} - amplitude: {normalized_peak_amp:.2f}, dominant band: {dominant_band}")
+        current_amplitude = spike_amplitude_factor
+        # For spikes, we can also temporarily increase frequency for more dramatic effect
+        current_frequency = frequency_factor * 1.2
+        # Add to spike frames list for special rendering
+        spike_frames.append(i)
+    else:
+        # Apply a smoother falloff for frames after spikes
+        recent_spike = False
+        recent_extreme_spike = False
+        for j in range(1, spike_decay_frames + 1):
+            if i >= j:
+                # Check a few frames back for spikes
+                prev_i = i - j
+                if prev_i in spike_frames:
+                    # This was an extreme spike, maintain more impact
+                    if j == 1:  # Very recent extreme spike
+                        recent_extreme_spike = True
+                    recent_spike = True
+                    break
+        
+        # Gradual falloff from spike
+        if recent_extreme_spike:
+            falloff_factor = 0.9  # Keep most of the extreme spike impact
+            current_amplitude = amplitude_factor + (spike_amplitude_factor * 1.5 - amplitude_factor) * falloff_factor
+            current_frequency = frequency_factor * 1.3
+        elif recent_spike:
+            falloff_factor = 0.7  # Keeps some of the spike impact
+            current_amplitude = amplitude_factor + (spike_amplitude_factor - amplitude_factor) * falloff_factor
+            current_frequency = frequency_factor * 1.1
+        else:
+            current_amplitude = amplitude_factor
+            current_frequency = frequency_factor
+    
+    # Get the reactive color based on audio analysis
+    color = get_audio_reactive_color(audio_segment, normalized_mean_amp, i, is_spike)
+    
+    # Process the frame with appropriate amplitude and frequency
+    frame_data = (i, edge_frames[i], contour_frames[i])
+    frame = process_frame(frame_data, current_amplitude, current_frequency, max_amp, audio_clip, samples_per_frame, audio_array_target_fps)
+    
+    # Update existing particles
+    if ENABLE_PARTICLES:
+        # Remove dead particles
+        active_particles = [p for p in active_particles if p.is_alive()]
+        
+        # Create new particles on spikes or randomly based on audio level
+        if is_spike or (np.random.random() < normalized_mean_amp * 0.5):
+            # Extract random points from the current frame's contours
+            all_points = []
+            for contour in contour_frames[i]:
+                if len(contour) > 0:
+                    points = contour.reshape(-1, 2)
+                    all_points.extend(points)
+            
+            # Create new particles if we have points to use
+            if all_points:
+                new_particles = create_particles(all_points, color, MAX_PARTICLES, is_spike)
+                active_particles.extend(new_particles)
+        
+        # Apply particles to the frame
+        if active_particles:
+            frame = render_particles(frame, active_particles)
+    
+    if frame is not None:
+        oscillating_frames.append(frame)
+
+# Create final video
+reactive_edge_frames = oscillating_frames
+
+# Create video from reactive edge frames
+print("Creating reactive edge video...")
+reactive_clip = ImageSequenceClip(reactive_edge_frames, fps=fps_to_use)
+reactive_clip.write_videofile(os.path.join(TMP_DIR, "reactive_edges.mp4"),
+                             codec="libx264", audio=False, verbose=False)
+
+# 4. ─── Add audio to final video ──────────────────────────────
+print("[4/6] Adding audio to video...")
+composite = reactive_clip
+composite.write_videofile(os.path.join(TMP_DIR,"silent.mp4"),
+                          codec="libx264", fps=fps_to_use, audio=False, verbose=False)
+
+# 5. ─── Mux original audio back in with compression ─────────────────────────────
+print("[5/6] Muxing audio and compressing to under 10MB...")
+ffmpeg_path = os.path.join(".", "ffmpeg-2025-05-26-git-43a69886b2-full_build", "bin", "ffmpeg.exe")
+
+# Calculate video duration in seconds to determine target bitrate
+duration_cmd = [
+    ffmpeg_path, "-i", os.path.join(TMP_DIR,"silent.mp4"),
+    "-f", "null", "-"
+]
+
+# Redirect stderr to capture duration info
+duration_process = subprocess.Popen(duration_cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+_, stderr = duration_process.communicate()
+stderr_str = stderr.decode('utf-8')
+
+# Extract duration using regex
+import re
+duration_match = re.search(r'Duration: (\d+):(\d+):(\d+\.\d+)', stderr_str)
+if duration_match:
+    hours, minutes, seconds = duration_match.groups()
+    duration_seconds = int(hours) * 3600 + int(minutes) * 60 + float(seconds)
+    print(f"Video duration: {duration_seconds:.2f} seconds")
+    
+    # Target size in bits (10MB = 80Mbit), minus 1MB for audio
+    target_size_bits = (10 * 8 - 1) * 1024 * 1024
+    
+    # Calculate target bitrate in kbps (minus audio bitrate)
+    target_video_bitrate = int(target_size_bits / duration_seconds / 1000)
+    print(f"Target video bitrate: {target_video_bitrate}kbps")
+    
+    # Ensure we have a reasonable bitrate
+    target_video_bitrate = max(500, min(target_video_bitrate, 8000))
+else:
+    # Default to a conservative bitrate if we can't determine duration
+    target_video_bitrate = 1000
+    print("Could not determine video duration, using default bitrate")
+
+# Run the final ffmpeg command with compression settings
+subprocess.run([
+    ffmpeg_path, "-y", "-i", os.path.join(TMP_DIR,"silent.mp4"),
+    "-i", os.path.join(TMP_DIR,"audio.aac"),
+    "-c:v", "libx264", "-crf", "23", "-maxrate", f"{target_video_bitrate}k", "-bufsize", f"{target_video_bitrate*2}k",
+    "-preset", "medium", "-profile:v", "high", "-level", "4.1", "-pix_fmt", "yuv420p",
+    "-c:a", "aac", "-b:a", "128k", "-ac", "2",
+    "-fs", "10M",  # Hard file size limit of 10MB
+    OUT_FILE
+], check=True)
+
+print("✓ Done!  Output saved to", OUT_FILE)
