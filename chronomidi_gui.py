@@ -2,7 +2,7 @@
 # chronomidi_gui.py – ChronoMIDI GUI/playback/visualizer
 
 """
-ChronoMIDI v0.2.1 (5/31/2025) - A real-time MIDI playback and visualization application
+ChronoMIDI v0.2.2 (5/31/2025) - A real-time MIDI playback and visualization application
 Started 5/19/2025
 Developed by Michael Wood (github.com/mbwood33) (with coding assistance from Google Gemini + OpenAI ChatGPT)
 Kaleidoscope Visualizor idea contribution by Rayce Hinkle (github.com/Wrhinkle)
@@ -34,12 +34,9 @@ import numpy as np  # For numerical operations, especially with audio data
 import sounddevice as sd  # For audio output to speakers
 from fluidsynth import Synth  # The Python binding for FluidSynth, a software synthesizer
 
-# Custom module for optimized oscilloscope computations (assumed to be a Cython module)
-# Ensure 'oscilloscope_computations.py' or 'oscilloscope_computations.so' (Cython build) is available
-import oscilloscope_computations
-
-# Import the Cythonized kaleidoscope computations
-import kaleidoscope_computations
+# Custom modules for optimized computations (assumed to be Cython modules)
+import oscilloscope_computations    # For Oscilloscope Visualizer computations
+import kaleidoscope_computations    # For Kaleidoscope Visualizer computations
 
 # PyQt5 Core Modules
 from PyQt5.QtCore import (
