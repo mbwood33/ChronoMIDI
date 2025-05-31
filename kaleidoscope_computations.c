@@ -2774,7 +2774,7 @@ static const char __pyx_k_is_current_pattern[] = "is_current_pattern";
 static const char __pyx_k_kaleidoscope_computations[] = "kaleidoscope_computations";
 static const char __pyx_k_fill_kaleidoscope_data_cython[] = "fill_kaleidoscope_data_cython";
 static const char __pyx_k_kaleidoscope_computations_pyx[] = "kaleidoscope_computations.pyx";
-static const char __pyx_k_J_A_6_Rq_z_1_d_L_Yiwa_2V2Q_G1_2[] = "\200\001\360J\001\000\005\"\240\021\330\004\034\230A\360\010\000\005$\2406\250\022\250:\260R\260q\340\004\031\230\021\340\004\037\230z\250\022\2501\360\024\000\005/\250d\260\"\260L\300\002\300!\330\004%\240Y\250i\260w\270a\360\010\000\005)\250\013\2602\260V\2702\270Q\330\004 \240\t\250\033\260G\2701\360\010\000\005\031\230\013\2402\240Q\330\004\030\320\030.\250b\260\001\330\004\030\320\030)\250\022\2501\360\n\000\005\010\200w\210c\220\021\330\010\014\210D\220\004\220A\340\010\016\210g\220R\220q\330\010\013\2104\210s\220%\220v\230Q\330\010\014\210D\220\002\220%\220q\330\010\014\210G\2203\220d\230\"\230A\330\010\014\210G\2203\220d\230\"\230G\2402\240Q\330\010\014\210G\2203\220d\230\"\230G\2403\240d\250\"\250A\340\010\013\2105\220\004\220C\220q\330\014\017\210s\220$\220h\230c\240\021\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\030\240\021\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\030\240\021\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\023\230A\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\023\230A\340\014\017\210s\220$\220h\230c\240\021\340\004\030\230\001\330\004\030\230\001\330\004\030\230\001\330\004\036\230a\340\004\"\240!\360\032\000\005#\240%\240r\250\032\2602\260Q\340\004#\2405\250\002\250*\260B\260a\340\004\010\210\t\220\025\220a\220q\330\010\030\230\006\230c\240\026\240r\250\021\330\010\032\230.\250\002\250%\250r\260\021\330\010\022\220(\230&\240\002\240\"\240C\240w\250a\360\006\000\t\r\210N\230%\230q\240\n\250\"\250A\330\014\035\320\035/\250r\260\021\340\014\020\220\017\230u\240A\240Z\250r\260\021\330\020\025\220\\\240\022\2407\250+\260R\3207I\310\023\320L^\320^`\320`a\330\020\025\220[\240\002\240'\250\033\260B\3206H\310\003\320K]\320]_\320_`\340\020\035\230Q\330\020\023\320\023$\240C\240q\340\024!\240\036\250r\260\023\260A\260R\260r\3209J\310\"\310L\320XZ\320Z[\360\006\000\025\035\230E\240\021\240#\240Q\330\024\033\2304\230q\240\001\240\021\240\"\240B\240a\240q\250\001\330\024!\240\036\250r\260\023""\260A\260U\270\"\320<M\310R\310v\320UW\320W[\320[]\320]i\320ik\320kl\340\020\031\230\022\2302\230Q\330\020\031\230\021\340\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\033\230:\240R\240q\340\020\037\230q\320 2\260!\2605\270\001\330\020\037\230q\320 2\260!\2605\270\001\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020%\240Q\340\014\035\230W\240B\320&6\260j\300\002\300!\360\006\000\t\r\210N\230%\230q\240\n\250\"\250A\330\014\035\320\035/\250r\260\021\330\014\020\220\017\230u\240A\240Z\250r\260\021\330\020\025\220[\240\002\240'\250\033\260B\3206H\310\003\320K]\320]_\320_`\330\020\025\220\\\240\022\2407\250+\260R\3207I\310\023\320L^\320^`\320`a\340\020\035\230Q\330\020\023\320\023$\240C\240q\340\024!\240\036\250r\260\023\260A\260R\260r\3209J\310\"\310L\320XZ\320Z[\360\006\000\025\035\230E\240\021\240#\240Q\330\024\033\2304\230q\240\001\240\021\240\"\240B\240a\240q\250\001\330\024!\240\036\250r\260\023\260A\260U\270\"\320<M\310R\310v\320UW\320W[\320[]\320]i\320ik\320kl\340\020\031\230\021\330\020\031\230\022\2302\230Q\340\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\033\230:\240R\240q\340\020\037\230q\320 2\260!\2605\270\001\330\020\037\230q\320 2\260!\2605\270\001\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020%\240Q\340\014\035\230W\240B\320&6\260j\300\002\300!\340\004\033\320\033-\250R\250q\330\004\013\320\013!\240\021";
+static const char __pyx_k_J_A_6_Rq_z_1_Q_A_r_Rq_5_1_a_z_A[] = "\200\001\360J\001\000\005\"\240\021\330\004\034\230A\360\010\000\005$\2406\250\022\250:\260R\260q\340\004\031\230\021\340\004\037\230z\250\022\2501\360\014\000\005\"\240\021\330\004\035\230Q\360\006\000\005\032\230\023\230A\230\\\250\022\250<\260r\270\024\270R\270q\340\004\033\2305\240\010\250\002\250)\2601\360\n\000\005\037\230a\330\004\007\200z\220\023\220A\330\010\027\220u\230A\230Q\360\020\000\005\035\230K\240s\250!\340\004%\240Q\330\004%\240X\250T\260\022\3203H\310\002\310!\330\004\007\320\007\035\230R\230q\330\010 \240\001\330\t\037\230r\240\021\330\010 \240\001\360\016\000\005\010\200}\220C\220q\330\010\033\2301\360\006\000\t\034\2306\240\024\240R\240{\260\"\260A\330\010\013\320\013\034\230B\230a\330\014\037\230q\330\r\036\230b\240\001\330\014\037\230q\360\006\000\005\031\230\013\2402\240Q\330\004\030\320\030.\250b\260\001\330\004\030\320\030)\250\022\2501\360\n\000\005\010\200w\210c\220\021\330\010\014\210A\330\010\014\210A\330\010\014\210A\340\010\016\210g\220R\220q\330\010\013\2104\210s\220%\220v\230Q\330\010\014\210D\220\002\220%\220q\330\010\014\210G\2203\220d\230\"\230A\330\010\014\210G\2203\220d\230\"\230G\2402\240Q\330\010\014\210G\2203\220d\230\"\230G\2403\240d\250\"\250A\330\010\013\2105\220\004\220C\220q\330\014\017\210s\220$\220h\230c\240\021\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\030\240\021\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\030\240\021\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\023\230A\330\r\022\220$\220c\230\021\330\014\017\210s\220$\220c\230\023\230A\340\014\017\210s\220$\220h\230c\240\021\360\006\000\005\037\230a\330\004\007\200}\220C\220q\340\010\027\220q\360\006\000\005#\240!\360\024\000\005#\240!\330\004#\2401\330\004!\240\021\330\004\"\240!\360\006\000\005#\240%\240r\250\032\2602\260Q\330\004#\2405\250\002\250*\260B\260a\340\004\010\210\t\220\025\220a\220q\330\010\030\230\006\230c\240\026\240r\250\021\330\010\032\230.\250\002\250%\250r\260\021\330\010\022\220(\230&\240\002\240""\"\240C\240w\250a\360\006\000\t\r\210N\230%\230q\240\n\250\"\250A\330\014\035\320\035/\250r\260\021\340\014\020\220\017\230u\240A\240Z\250r\260\021\330\020\025\220\\\240\022\2407\250+\260R\3207I\310\023\320L^\320^`\320`a\330\020\025\220[\240\002\240'\250\033\260B\3206H\310\003\320K]\320]_\320_`\340\020\035\230Q\330\020\023\320\023$\240C\240q\340\024!\240\036\250r\260\023\260A\260R\260r\3209J\310\"\310L\320XZ\320Z[\360\006\000\025\035\230E\240\021\240#\240Q\330\024\033\2304\230q\240\001\240\021\240\"\240B\240a\240q\250\001\330\024!\240\036\250r\260\023\260A\260U\270\"\320<M\310R\310v\320UW\320W[\320[]\320]i\320ik\320kl\340\020\031\230\022\2302\230Q\330\020\031\230\021\340\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\033\230:\240R\240q\340\020\037\230q\320 2\260!\2605\270\001\330\020\037\230q\320 2\260!\2605\270\001\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020%\240Q\360\006\000\r\020\210q\340\020!\240\027\250\002\320*:\270*\300B\300a\330*>\270m\3103\310i\320WX\340\020!\240\027\250\002\320*:\270*\300B\300a\330*?\270}\310C\310y\320XY\360\006\000\t\r\210N\230%\230q\240\n\250\"\250A\330\014\035\320\035/\250r\260\021\330\014\020\220\017\230u\240A\240Z\250r\260\021\330\020\025\220[\240\002\240'\250\033\260B\3206H\310\003\320K]\320]_\320_`\330\020\025\220\\\240\022\2407\250+\260R\3207I\310\023\320L^\320^`\320`a\340\020\035\230Q\330\020\023\320\023$\240C\240q\340\024!\240\036\250r\260\023\260A\260R\260r\3209J\310\"\310L\320XZ\320Z[\360\006\000\025\035\230E\240\021\240#\240Q\330\024\033\2304\230q\240\001\240\021\240\"\240B\240a\240q\250\001\330\024!\240\036\250r\260\023\260A\260U\270\"\320<M\310R\310v\320UW\320W[\320[]\320]i\320ik\320kl\340\020\031\230\021\330\020\031\230\022\2302\230Q\340\020\034\230G\2402\240S""\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\034\230G\2402\240S\250\001\320):\270\"\270G\3002\300S\310\001\310\021\330\020\033\230:\240R\240q\340\020\037\230q\320 2\260!\2605\270\001\330\020\037\230q\320 2\260!\2605\270\001\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020\035\230Q\320\0360\260\001\260\025\260a\330\020%\240Q\340\014\017\210q\330\020!\240\027\250\002\320*:\270*\300B\300a\330*>\270m\3103\310i\320WX\340\020!\240\027\250\002\320*:\270*\300B\300a\330*?\270}\310C\310y\320XY\340\004\033\320\033-\250R\250q\330\004\013\320\013!\240\021";
 static const char __pyx_k_Note_that_Cython_is_deliberately[] = "Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.";
 static const char __pyx_k_numpy__core_multiarray_failed_to[] = "numpy._core.multiarray failed to import";
 static const char __pyx_k_numpy__core_umath_failed_to_impo[] = "numpy._core.umath failed to import";
@@ -4739,15 +4739,20 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cython(PyArrayObject *__pyx_v_vertices_buffer, PyArrayObject *__pyx_v_colors_buffer, int __pyx_v_start_offset, CYTHON_UNUSED float __pyx_v_rotation_angle, float __pyx_v_hue_offset, float __pyx_v_amplitude, CYTHON_UNUSED int __pyx_v_is_current_pattern, float __pyx_v_strobe_val, float __pyx_v_base_alpha, int __pyx_v_frame_count, int __pyx_v_oscillation_mode, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cython(PyArrayObject *__pyx_v_vertices_buffer, PyArrayObject *__pyx_v_colors_buffer, int __pyx_v_start_offset, CYTHON_UNUSED float __pyx_v_rotation_angle, float __pyx_v_hue_offset, float __pyx_v_amplitude, int __pyx_v_is_current_pattern, float __pyx_v_strobe_val, float __pyx_v_base_alpha, int __pyx_v_frame_count, int __pyx_v_oscillation_mode, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_current_write_idx;
   int __pyx_v_num_segments;
   float __pyx_v_dynamic_grid_size;
   int __pyx_v_num_lines;
   float __pyx_v_osc_magnitude;
-  float __pyx_v_target_saturation_hsv_float;
+  float __pyx_v_flash_threshold;
+  float __pyx_v_flash_speed;
+  float __pyx_v_raw_osc;
+  int __pyx_v_square_wave;
+  float __pyx_v_flash_factor;
+  float __pyx_v_strobe_pow;
+  float __pyx_v_desaturation_factor;
   int __pyx_v_target_saturation_hsv;
-  float __pyx_v_target_value_hsv_float;
   int __pyx_v_target_value_hsv;
   float __pyx_v_h_norm;
   float __pyx_v_s_norm;
@@ -4760,9 +4765,6 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
   float __pyx_v_p;
   float __pyx_v_q;
   float __pyx_v_t;
-  float __pyx_v_base_r;
-  float __pyx_v_base_g;
-  float __pyx_v_base_b;
   float __pyx_v_base_a_final;
   PyObject *__pyx_v_sub_draw_commands = 0;
   float __pyx_v_x;
@@ -4784,6 +4786,10 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
   int __pyx_v_line_start_idx;
   float __pyx_v_seg_rot_angle;
   float __pyx_v_scale_y;
+  float __pyx_v_ghost_line_width;
+  float __pyx_v_ghost_flash_width;
+  float __pyx_v_core_line_width;
+  float __pyx_v_core_flash_width;
   float __pyx_v_osc_spatial_freq;
   float __pyx_v_osc_temporal_freq;
   int __pyx_v_total_vertices_added;
@@ -4793,26 +4799,25 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
   __Pyx_Buffer __pyx_pybuffer_vertices_buffer;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  float __pyx_t_1;
-  double __pyx_t_2;
-  double __pyx_t_3;
-  int __pyx_t_4;
-  double __pyx_t_5;
-  float __pyx_t_6;
-  float __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  int __pyx_t_10;
-  int __pyx_t_11;
-  long __pyx_t_12;
+  int __pyx_t_1;
+  int __pyx_t_2;
+  float __pyx_t_3;
+  float __pyx_t_4;
+  float __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  int __pyx_t_8;
+  double __pyx_t_9;
+  long __pyx_t_10;
+  long __pyx_t_11;
+  int __pyx_t_12;
   long __pyx_t_13;
-  int __pyx_t_14;
-  long __pyx_t_15;
-  long __pyx_t_16;
-  int __pyx_t_17;
+  long __pyx_t_14;
+  int __pyx_t_15;
+  PyObject *__pyx_t_16 = NULL;
+  PyObject *__pyx_t_17 = NULL;
   PyObject *__pyx_t_18 = NULL;
-  PyObject *__pyx_t_19 = NULL;
-  int __pyx_t_20;
+  int __pyx_t_19;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4837,7 +4842,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
   __pyx_pybuffernd_colors_buffer.diminfo[0].strides = __pyx_pybuffernd_colors_buffer.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_colors_buffer.diminfo[0].shape = __pyx_pybuffernd_colors_buffer.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_colors_buffer.diminfo[1].strides = __pyx_pybuffernd_colors_buffer.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_colors_buffer.diminfo[1].shape = __pyx_pybuffernd_colors_buffer.rcbuffer->pybuffer.shape[1];
 
   /* "kaleidoscope_computations.pyx":48
- *                list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip) for each line.
+ *                list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip, line_width) for each line.
  *     """
  *     cdef int current_write_idx = start_offset             # <<<<<<<<<<<<<<
  *     cdef int num_segments = 12
@@ -4857,189 +4862,400 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
   /* "kaleidoscope_computations.pyx":53
  *     # Dynamic grid size based on amplitude for "scatter" effect
  *     # Base grid size 150, expands up to 350 with max amplitude
- *     cdef float dynamic_grid_size = 150.0 + amplitude * 200.0             # <<<<<<<<<<<<<<
+ *     cdef float dynamic_grid_size = 150.0 + amplitude * 300.0 # Increased scatter range             # <<<<<<<<<<<<<<
  * 
  *     cdef int num_lines = 10
 */
-  __pyx_v_dynamic_grid_size = (150.0 + (__pyx_v_amplitude * 200.0));
+  __pyx_v_dynamic_grid_size = (150.0 + (__pyx_v_amplitude * 300.0));
 
   /* "kaleidoscope_computations.pyx":55
- *     cdef float dynamic_grid_size = 150.0 + amplitude * 200.0
+ *     cdef float dynamic_grid_size = 150.0 + amplitude * 300.0 # Increased scatter range
  * 
  *     cdef int num_lines = 10             # <<<<<<<<<<<<<<
- *     # Increased oscillation magnitude significantly
- *     cdef float osc_magnitude = amplitude * 1000.0 # Even more exaggerated oscillation
+ *     # Amplify oscillation magnitude even more
+ *     cdef float osc_magnitude = amplitude * 1200.0 # Even more exaggerated oscillation
 */
   __pyx_v_num_lines = 10;
 
   /* "kaleidoscope_computations.pyx":57
  *     cdef int num_lines = 10
- *     # Increased oscillation magnitude significantly
- *     cdef float osc_magnitude = amplitude * 1000.0 # Even more exaggerated oscillation             # <<<<<<<<<<<<<<
+ *     # Amplify oscillation magnitude even more
+ *     cdef float osc_magnitude = amplitude * 1200.0 # Even more exaggerated oscillation             # <<<<<<<<<<<<<<
  * 
- *     # Calculate saturation and value based on strobe_val (which is audio amplitude reactive)
+ *     # --- STROBE / FLASH LOGIC ---
 */
-  __pyx_v_osc_magnitude = (__pyx_v_amplitude * 1000.0);
+  __pyx_v_osc_magnitude = (__pyx_v_amplitude * 1200.0);
+
+  /* "kaleidoscope_computations.pyx":63
+ *     # If amplitude is above a small threshold, we let flash_mode flip between 0 or 1 quickly.
+ *     # You can adjust flash_speed to taste (higher => faster toggling).
+ *     cdef float flash_threshold = 0.25  # amplitude threshold to even consider flashing             # <<<<<<<<<<<<<<
+ *     cdef float flash_speed = 0.5       # in cycles per frame; bigger => faster flicker
+ * 
+*/
+  __pyx_v_flash_threshold = 0.25;
+
+  /* "kaleidoscope_computations.pyx":64
+ *     # You can adjust flash_speed to taste (higher => faster toggling).
+ *     cdef float flash_threshold = 0.25  # amplitude threshold to even consider flashing
+ *     cdef float flash_speed = 0.5       # in cycles per frame; bigger => faster flicker             # <<<<<<<<<<<<<<
+ * 
+ *     # Compute a raw oscillator that goes between -1 and +1.
+*/
+  __pyx_v_flash_speed = 0.5;
 
   /* "kaleidoscope_computations.pyx":67
- *     # Saturation: goes from 255 (full color) down to 0 (pure white)
- *     # This makes it fully desaturated (white) at max amplitude.
- *     cdef float target_saturation_hsv_float = (1.0 - strobe_val) * 255.0             # <<<<<<<<<<<<<<
- *     cdef int target_saturation_hsv = <int>max(0.0, min(255.0, target_saturation_hsv_float))
+ * 
+ *     # Compute a raw oscillator that goes between -1 and +1.
+ *     cdef float raw_osc = sin(frame_count * flash_speed * 2.0 * M_PI)             # <<<<<<<<<<<<<<
+ *     # Turn that into a square wave (0 or 1)
+ *     cdef int square_wave = 1 if raw_osc > 0.0 else 0
+*/
+  __pyx_v_raw_osc = sin((((__pyx_v_frame_count * __pyx_v_flash_speed) * 2.0) * M_PI));
+
+  /* "kaleidoscope_computations.pyx":69
+ *     cdef float raw_osc = sin(frame_count * flash_speed * 2.0 * M_PI)
+ *     # Turn that into a square wave (0 or 1)
+ *     cdef int square_wave = 1 if raw_osc > 0.0 else 0             # <<<<<<<<<<<<<<
+ * 
+ *     # Now define a flash_factor:
+*/
+  __pyx_t_2 = (__pyx_v_raw_osc > 0.0);
+  if (__pyx_t_2) {
+    __pyx_t_1 = 1;
+  } else {
+    __pyx_t_1 = 0;
+  }
+  __pyx_v_square_wave = __pyx_t_1;
+
+  /* "kaleidoscope_computations.pyx":74
+ *     #   if amplitude < flash_threshold, always 0.
+ *     #   else its the square_wave (so it toggles on/off when audio is loud enough).
+ *     cdef float flash_factor = 0.0             # <<<<<<<<<<<<<<
+ *     if amplitude >= flash_threshold:
+ *         flash_factor = float(square_wave)
+*/
+  __pyx_v_flash_factor = 0.0;
+
+  /* "kaleidoscope_computations.pyx":75
+ *     #   else its the square_wave (so it toggles on/off when audio is loud enough).
+ *     cdef float flash_factor = 0.0
+ *     if amplitude >= flash_threshold:             # <<<<<<<<<<<<<<
+ *         flash_factor = float(square_wave)
  * 
 */
-  __pyx_v_target_saturation_hsv_float = ((1.0 - __pyx_v_strobe_val) * 255.0);
+  __pyx_t_2 = (__pyx_v_amplitude >= __pyx_v_flash_threshold);
+  if (__pyx_t_2) {
 
-  /* "kaleidoscope_computations.pyx":68
- *     # This makes it fully desaturated (white) at max amplitude.
- *     cdef float target_saturation_hsv_float = (1.0 - strobe_val) * 255.0
- *     cdef int target_saturation_hsv = <int>max(0.0, min(255.0, target_saturation_hsv_float))             # <<<<<<<<<<<<<<
+    /* "kaleidoscope_computations.pyx":76
+ *     cdef float flash_factor = 0.0
+ *     if amplitude >= flash_threshold:
+ *         flash_factor = float(square_wave)             # <<<<<<<<<<<<<<
  * 
- *     # Value: Ensures brightness is always high, from 100 (normal) to 255 (dazzlingly bright).
+ *     # --- AGGRESSIVE SATURATION / VALUE BASED ON STROBE + FLASH ---
 */
-  __pyx_t_1 = __pyx_v_target_saturation_hsv_float;
-  __pyx_t_2 = 255.0;
-  __pyx_t_4 = (__pyx_t_1 < __pyx_t_2);
-  if (__pyx_t_4) {
-    __pyx_t_3 = __pyx_t_1;
-  } else {
-    __pyx_t_3 = __pyx_t_2;
-  }
-  __pyx_t_2 = __pyx_t_3;
-  __pyx_t_3 = 0.0;
-  __pyx_t_4 = (__pyx_t_2 > __pyx_t_3);
-  if (__pyx_t_4) {
-    __pyx_t_5 = __pyx_t_2;
-  } else {
-    __pyx_t_5 = __pyx_t_3;
-  }
-  __pyx_v_target_saturation_hsv = ((int)__pyx_t_5);
+    __pyx_v_flash_factor = ((double)__pyx_v_square_wave);
 
-  /* "kaleidoscope_computations.pyx":72
- *     # Value: Ensures brightness is always high, from 100 (normal) to 255 (dazzlingly bright).
- *     # This means it never gets darker, only brighter with louder audio.
- *     cdef float target_value_hsv_float = strobe_val * 155.0 + 100.0             # <<<<<<<<<<<<<<
- *     cdef int target_value_hsv = <int>max(100.0, min(255.0, target_value_hsv_float))
+    /* "kaleidoscope_computations.pyx":75
+ *     #   else its the square_wave (so it toggles on/off when audio is loud enough).
+ *     cdef float flash_factor = 0.0
+ *     if amplitude >= flash_threshold:             # <<<<<<<<<<<<<<
+ *         flash_factor = float(square_wave)
  * 
 */
-  __pyx_v_target_value_hsv_float = ((__pyx_v_strobe_val * 155.0) + 100.0);
+  }
 
-  /* "kaleidoscope_computations.pyx":73
- *     # This means it never gets darker, only brighter with louder audio.
- *     cdef float target_value_hsv_float = strobe_val * 155.0 + 100.0
- *     cdef int target_value_hsv = <int>max(100.0, min(255.0, target_value_hsv_float))             # <<<<<<<<<<<<<<
+  /* "kaleidoscope_computations.pyx":84
  * 
- *     # Convert HSV to RGB for OpenGL
+ *     # exponentiate strobe_val for sharper ramp
+ *     cdef float strobe_pow = strobe_val ** 6.0 # bigger exponent => sharper effect             # <<<<<<<<<<<<<<
+ *     # desat is how much we reduce saturation when strobing
+ *     cdef float desaturation_factor = strobe_pow
 */
-  __pyx_t_1 = __pyx_v_target_value_hsv_float;
-  __pyx_t_5 = 255.0;
-  __pyx_t_4 = (__pyx_t_1 < __pyx_t_5);
-  if (__pyx_t_4) {
-    __pyx_t_2 = __pyx_t_1;
-  } else {
-    __pyx_t_2 = __pyx_t_5;
-  }
-  __pyx_t_5 = __pyx_t_2;
-  __pyx_t_2 = 100.0;
-  __pyx_t_4 = (__pyx_t_5 > __pyx_t_2);
-  if (__pyx_t_4) {
-    __pyx_t_3 = __pyx_t_5;
-  } else {
-    __pyx_t_3 = __pyx_t_2;
-  }
-  __pyx_v_target_value_hsv = ((int)__pyx_t_3);
+  __pyx_v_strobe_pow = pow(((double)__pyx_v_strobe_val), 6.0);
 
-  /* "kaleidoscope_computations.pyx":77
- *     # Convert HSV to RGB for OpenGL
- *     # Manual HSV to RGB conversion (simplified for Cython)
- *     cdef float h_norm = hue_offset / 360.0 # Normalize hue to 0-1             # <<<<<<<<<<<<<<
- *     cdef float s_norm = target_saturation_hsv / 255.0 # Normalize saturation to 0-1
- *     cdef float v_norm = target_value_hsv / 255.0 # Normalize value to 0-1
+  /* "kaleidoscope_computations.pyx":86
+ *     cdef float strobe_pow = strobe_val ** 6.0 # bigger exponent => sharper effect
+ *     # desat is how much we reduce saturation when strobing
+ *     cdef float desaturation_factor = strobe_pow             # <<<<<<<<<<<<<<
+ *     cdef int target_saturation_hsv = <int>( (1.0 - desaturation_factor) * 255.0 )
+ *     if target_saturation_hsv < 0:
+*/
+  __pyx_v_desaturation_factor = __pyx_v_strobe_pow;
+
+  /* "kaleidoscope_computations.pyx":87
+ *     # desat is how much we reduce saturation when strobing
+ *     cdef float desaturation_factor = strobe_pow
+ *     cdef int target_saturation_hsv = <int>( (1.0 - desaturation_factor) * 255.0 )             # <<<<<<<<<<<<<<
+ *     if target_saturation_hsv < 0:
+ *         target_saturation_hsv = 0
+*/
+  __pyx_v_target_saturation_hsv = ((int)((1.0 - __pyx_v_desaturation_factor) * 255.0));
+
+  /* "kaleidoscope_computations.pyx":88
+ *     cdef float desaturation_factor = strobe_pow
+ *     cdef int target_saturation_hsv = <int>( (1.0 - desaturation_factor) * 255.0 )
+ *     if target_saturation_hsv < 0:             # <<<<<<<<<<<<<<
+ *         target_saturation_hsv = 0
+ *     elif target_saturation_hsv > 255:
+*/
+  __pyx_t_2 = (__pyx_v_target_saturation_hsv < 0);
+  if (__pyx_t_2) {
+
+    /* "kaleidoscope_computations.pyx":89
+ *     cdef int target_saturation_hsv = <int>( (1.0 - desaturation_factor) * 255.0 )
+ *     if target_saturation_hsv < 0:
+ *         target_saturation_hsv = 0             # <<<<<<<<<<<<<<
+ *     elif target_saturation_hsv > 255:
+ *         target_saturation_hsv = 255
+*/
+    __pyx_v_target_saturation_hsv = 0;
+
+    /* "kaleidoscope_computations.pyx":88
+ *     cdef float desaturation_factor = strobe_pow
+ *     cdef int target_saturation_hsv = <int>( (1.0 - desaturation_factor) * 255.0 )
+ *     if target_saturation_hsv < 0:             # <<<<<<<<<<<<<<
+ *         target_saturation_hsv = 0
+ *     elif target_saturation_hsv > 255:
+*/
+    goto __pyx_L4;
+  }
+
+  /* "kaleidoscope_computations.pyx":90
+ *     if target_saturation_hsv < 0:
+ *         target_saturation_hsv = 0
+ *     elif target_saturation_hsv > 255:             # <<<<<<<<<<<<<<
+ *         target_saturation_hsv = 255
+ * 
+*/
+  __pyx_t_2 = (__pyx_v_target_saturation_hsv > 0xFF);
+  if (__pyx_t_2) {
+
+    /* "kaleidoscope_computations.pyx":91
+ *         target_saturation_hsv = 0
+ *     elif target_saturation_hsv > 255:
+ *         target_saturation_hsv = 255             # <<<<<<<<<<<<<<
+ * 
+ *     # Now manage brightness/value:
+*/
+    __pyx_v_target_saturation_hsv = 0xFF;
+
+    /* "kaleidoscope_computations.pyx":90
+ *     if target_saturation_hsv < 0:
+ *         target_saturation_hsv = 0
+ *     elif target_saturation_hsv > 255:             # <<<<<<<<<<<<<<
+ *         target_saturation_hsv = 255
+ * 
+*/
+  }
+  __pyx_L4:;
+
+  /* "kaleidoscope_computations.pyx":98
+ *     # MODIFIED: Increased base value for target_value_hsv to make quieter colors brighter.
+ *     cdef int target_value_hsv
+ *     if flash_factor >= 1.0:             # <<<<<<<<<<<<<<
+ *         target_value_hsv = 255
+ *     else:
+*/
+  __pyx_t_2 = (__pyx_v_flash_factor >= 1.0);
+  if (__pyx_t_2) {
+
+    /* "kaleidoscope_computations.pyx":99
+ *     cdef int target_value_hsv
+ *     if flash_factor >= 1.0:
+ *         target_value_hsv = 255             # <<<<<<<<<<<<<<
+ *     else:
+ *         # Base brightness is 100, ramps up to 255 with strobe_pow
+*/
+    __pyx_v_target_value_hsv = 0xFF;
+
+    /* "kaleidoscope_computations.pyx":98
+ *     # MODIFIED: Increased base value for target_value_hsv to make quieter colors brighter.
+ *     cdef int target_value_hsv
+ *     if flash_factor >= 1.0:             # <<<<<<<<<<<<<<
+ *         target_value_hsv = 255
+ *     else:
+*/
+    goto __pyx_L5;
+  }
+
+  /* "kaleidoscope_computations.pyx":102
+ *     else:
+ *         # Base brightness is 100, ramps up to 255 with strobe_pow
+ *         target_value_hsv = <int>(100 + strobe_pow * 155.0) # Range from 100 to 255             # <<<<<<<<<<<<<<
+ *         if target_value_hsv < 100: # Ensure minimum brightness for quiet audio
+ *             target_value_hsv = 100
+*/
+  /*else*/ {
+    __pyx_v_target_value_hsv = ((int)(100.0 + (__pyx_v_strobe_pow * 155.0)));
+
+    /* "kaleidoscope_computations.pyx":103
+ *         # Base brightness is 100, ramps up to 255 with strobe_pow
+ *         target_value_hsv = <int>(100 + strobe_pow * 155.0) # Range from 100 to 255
+ *         if target_value_hsv < 100: # Ensure minimum brightness for quiet audio             # <<<<<<<<<<<<<<
+ *             target_value_hsv = 100
+ *         elif target_value_hsv > 255:
+*/
+    __pyx_t_2 = (__pyx_v_target_value_hsv < 0x64);
+    if (__pyx_t_2) {
+
+      /* "kaleidoscope_computations.pyx":104
+ *         target_value_hsv = <int>(100 + strobe_pow * 155.0) # Range from 100 to 255
+ *         if target_value_hsv < 100: # Ensure minimum brightness for quiet audio
+ *             target_value_hsv = 100             # <<<<<<<<<<<<<<
+ *         elif target_value_hsv > 255:
+ *             target_value_hsv = 255
+*/
+      __pyx_v_target_value_hsv = 0x64;
+
+      /* "kaleidoscope_computations.pyx":103
+ *         # Base brightness is 100, ramps up to 255 with strobe_pow
+ *         target_value_hsv = <int>(100 + strobe_pow * 155.0) # Range from 100 to 255
+ *         if target_value_hsv < 100: # Ensure minimum brightness for quiet audio             # <<<<<<<<<<<<<<
+ *             target_value_hsv = 100
+ *         elif target_value_hsv > 255:
+*/
+      goto __pyx_L6;
+    }
+
+    /* "kaleidoscope_computations.pyx":105
+ *         if target_value_hsv < 100: # Ensure minimum brightness for quiet audio
+ *             target_value_hsv = 100
+ *         elif target_value_hsv > 255:             # <<<<<<<<<<<<<<
+ *             target_value_hsv = 255
+ * 
+*/
+    __pyx_t_2 = (__pyx_v_target_value_hsv > 0xFF);
+    if (__pyx_t_2) {
+
+      /* "kaleidoscope_computations.pyx":106
+ *             target_value_hsv = 100
+ *         elif target_value_hsv > 255:
+ *             target_value_hsv = 255             # <<<<<<<<<<<<<<
+ * 
+ *     # Convert HSV => RGB (0..1 floats)
+*/
+      __pyx_v_target_value_hsv = 0xFF;
+
+      /* "kaleidoscope_computations.pyx":105
+ *         if target_value_hsv < 100: # Ensure minimum brightness for quiet audio
+ *             target_value_hsv = 100
+ *         elif target_value_hsv > 255:             # <<<<<<<<<<<<<<
+ *             target_value_hsv = 255
+ * 
+*/
+    }
+    __pyx_L6:;
+  }
+  __pyx_L5:;
+
+  /* "kaleidoscope_computations.pyx":109
+ * 
+ *     # Convert HSV => RGB (0..1 floats)
+ *     cdef float h_norm = hue_offset / 360.0             # <<<<<<<<<<<<<<
+ *     cdef float s_norm = target_saturation_hsv / 255.0
+ *     cdef float v_norm = target_value_hsv / 255.0
 */
   __pyx_v_h_norm = (((double)__pyx_v_hue_offset) / 360.0);
 
-  /* "kaleidoscope_computations.pyx":78
- *     # Manual HSV to RGB conversion (simplified for Cython)
- *     cdef float h_norm = hue_offset / 360.0 # Normalize hue to 0-1
- *     cdef float s_norm = target_saturation_hsv / 255.0 # Normalize saturation to 0-1             # <<<<<<<<<<<<<<
- *     cdef float v_norm = target_value_hsv / 255.0 # Normalize value to 0-1
+  /* "kaleidoscope_computations.pyx":110
+ *     # Convert HSV => RGB (0..1 floats)
+ *     cdef float h_norm = hue_offset / 360.0
+ *     cdef float s_norm = target_saturation_hsv / 255.0             # <<<<<<<<<<<<<<
+ *     cdef float v_norm = target_value_hsv / 255.0
  * 
 */
   __pyx_v_s_norm = (((double)__pyx_v_target_saturation_hsv) / 255.0);
 
-  /* "kaleidoscope_computations.pyx":79
- *     cdef float h_norm = hue_offset / 360.0 # Normalize hue to 0-1
- *     cdef float s_norm = target_saturation_hsv / 255.0 # Normalize saturation to 0-1
- *     cdef float v_norm = target_value_hsv / 255.0 # Normalize value to 0-1             # <<<<<<<<<<<<<<
+  /* "kaleidoscope_computations.pyx":111
+ *     cdef float h_norm = hue_offset / 360.0
+ *     cdef float s_norm = target_saturation_hsv / 255.0
+ *     cdef float v_norm = target_value_hsv / 255.0             # <<<<<<<<<<<<<<
  * 
  *     cdef float r, g, b
 */
   __pyx_v_v_norm = (((double)__pyx_v_target_value_hsv) / 255.0);
 
-  /* "kaleidoscope_computations.pyx":84
+  /* "kaleidoscope_computations.pyx":116
  *     cdef float i_h, f, p, q, t
  * 
  *     if s_norm == 0.0:             # <<<<<<<<<<<<<<
- *         r = g = b = v_norm
- *     else:
+ *         r = v_norm
+ *         g = v_norm
 */
-  __pyx_t_4 = (__pyx_v_s_norm == 0.0);
-  if (__pyx_t_4) {
+  __pyx_t_2 = (__pyx_v_s_norm == 0.0);
+  if (__pyx_t_2) {
 
-    /* "kaleidoscope_computations.pyx":85
+    /* "kaleidoscope_computations.pyx":117
  * 
  *     if s_norm == 0.0:
- *         r = g = b = v_norm             # <<<<<<<<<<<<<<
+ *         r = v_norm             # <<<<<<<<<<<<<<
+ *         g = v_norm
+ *         b = v_norm
+*/
+    __pyx_v_r = __pyx_v_v_norm;
+
+    /* "kaleidoscope_computations.pyx":118
+ *     if s_norm == 0.0:
+ *         r = v_norm
+ *         g = v_norm             # <<<<<<<<<<<<<<
+ *         b = v_norm
+ *     else:
+*/
+    __pyx_v_g = __pyx_v_v_norm;
+
+    /* "kaleidoscope_computations.pyx":119
+ *         r = v_norm
+ *         g = v_norm
+ *         b = v_norm             # <<<<<<<<<<<<<<
  *     else:
  *         i_h = h_norm * 6.0
 */
-    __pyx_v_r = __pyx_v_v_norm;
-    __pyx_v_g = __pyx_v_v_norm;
     __pyx_v_b = __pyx_v_v_norm;
 
-    /* "kaleidoscope_computations.pyx":84
+    /* "kaleidoscope_computations.pyx":116
  *     cdef float i_h, f, p, q, t
  * 
  *     if s_norm == 0.0:             # <<<<<<<<<<<<<<
- *         r = g = b = v_norm
- *     else:
+ *         r = v_norm
+ *         g = v_norm
 */
-    goto __pyx_L3;
+    goto __pyx_L7;
   }
 
-  /* "kaleidoscope_computations.pyx":87
- *         r = g = b = v_norm
+  /* "kaleidoscope_computations.pyx":121
+ *         b = v_norm
  *     else:
  *         i_h = h_norm * 6.0             # <<<<<<<<<<<<<<
- *         if i_h == 6.0: i_h = 0.0 # Handle wrap-around for hue
+ *         if i_h == 6.0: i_h = 0.0
  *         f = i_h - <int>i_h
 */
   /*else*/ {
     __pyx_v_i_h = (__pyx_v_h_norm * 6.0);
 
-    /* "kaleidoscope_computations.pyx":88
+    /* "kaleidoscope_computations.pyx":122
  *     else:
  *         i_h = h_norm * 6.0
- *         if i_h == 6.0: i_h = 0.0 # Handle wrap-around for hue             # <<<<<<<<<<<<<<
+ *         if i_h == 6.0: i_h = 0.0             # <<<<<<<<<<<<<<
  *         f = i_h - <int>i_h
  *         p = v_norm * (1.0 - s_norm)
 */
-    __pyx_t_4 = (__pyx_v_i_h == 6.0);
-    if (__pyx_t_4) {
+    __pyx_t_2 = (__pyx_v_i_h == 6.0);
+    if (__pyx_t_2) {
       __pyx_v_i_h = 0.0;
     }
 
-    /* "kaleidoscope_computations.pyx":89
+    /* "kaleidoscope_computations.pyx":123
  *         i_h = h_norm * 6.0
- *         if i_h == 6.0: i_h = 0.0 # Handle wrap-around for hue
+ *         if i_h == 6.0: i_h = 0.0
  *         f = i_h - <int>i_h             # <<<<<<<<<<<<<<
  *         p = v_norm * (1.0 - s_norm)
  *         q = v_norm * (1.0 - s_norm * f)
 */
     __pyx_v_f = (__pyx_v_i_h - ((int)__pyx_v_i_h));
 
-    /* "kaleidoscope_computations.pyx":90
- *         if i_h == 6.0: i_h = 0.0 # Handle wrap-around for hue
+    /* "kaleidoscope_computations.pyx":124
+ *         if i_h == 6.0: i_h = 0.0
  *         f = i_h - <int>i_h
  *         p = v_norm * (1.0 - s_norm)             # <<<<<<<<<<<<<<
  *         q = v_norm * (1.0 - s_norm * f)
@@ -5047,292 +5263,329 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
     __pyx_v_p = (__pyx_v_v_norm * (1.0 - __pyx_v_s_norm));
 
-    /* "kaleidoscope_computations.pyx":91
+    /* "kaleidoscope_computations.pyx":125
  *         f = i_h - <int>i_h
  *         p = v_norm * (1.0 - s_norm)
  *         q = v_norm * (1.0 - s_norm * f)             # <<<<<<<<<<<<<<
  *         t = v_norm * (1.0 - s_norm * (1.0 - f))
- * 
+ *         if <int>i_h == 0:
 */
     __pyx_v_q = (__pyx_v_v_norm * (1.0 - (__pyx_v_s_norm * __pyx_v_f)));
 
-    /* "kaleidoscope_computations.pyx":92
+    /* "kaleidoscope_computations.pyx":126
  *         p = v_norm * (1.0 - s_norm)
  *         q = v_norm * (1.0 - s_norm * f)
  *         t = v_norm * (1.0 - s_norm * (1.0 - f))             # <<<<<<<<<<<<<<
- * 
  *         if <int>i_h == 0:
+ *             r, g, b = v_norm, t, p
 */
     __pyx_v_t = (__pyx_v_v_norm * (1.0 - (__pyx_v_s_norm * (1.0 - __pyx_v_f))));
 
-    /* "kaleidoscope_computations.pyx":94
+    /* "kaleidoscope_computations.pyx":127
+ *         q = v_norm * (1.0 - s_norm * f)
  *         t = v_norm * (1.0 - s_norm * (1.0 - f))
- * 
  *         if <int>i_h == 0:             # <<<<<<<<<<<<<<
  *             r, g, b = v_norm, t, p
  *         elif <int>i_h == 1:
 */
-    __pyx_t_4 = (((int)__pyx_v_i_h) == 0);
-    if (__pyx_t_4) {
+    __pyx_t_2 = (((int)__pyx_v_i_h) == 0);
+    if (__pyx_t_2) {
 
-      /* "kaleidoscope_computations.pyx":95
- * 
+      /* "kaleidoscope_computations.pyx":128
+ *         t = v_norm * (1.0 - s_norm * (1.0 - f))
  *         if <int>i_h == 0:
  *             r, g, b = v_norm, t, p             # <<<<<<<<<<<<<<
  *         elif <int>i_h == 1:
  *             r, g, b = q, v_norm, p
 */
-      __pyx_t_1 = __pyx_v_v_norm;
-      __pyx_t_6 = __pyx_v_t;
-      __pyx_t_7 = __pyx_v_p;
-      __pyx_v_r = __pyx_t_1;
-      __pyx_v_g = __pyx_t_6;
-      __pyx_v_b = __pyx_t_7;
+      __pyx_t_3 = __pyx_v_v_norm;
+      __pyx_t_4 = __pyx_v_t;
+      __pyx_t_5 = __pyx_v_p;
+      __pyx_v_r = __pyx_t_3;
+      __pyx_v_g = __pyx_t_4;
+      __pyx_v_b = __pyx_t_5;
 
-      /* "kaleidoscope_computations.pyx":94
+      /* "kaleidoscope_computations.pyx":127
+ *         q = v_norm * (1.0 - s_norm * f)
  *         t = v_norm * (1.0 - s_norm * (1.0 - f))
- * 
  *         if <int>i_h == 0:             # <<<<<<<<<<<<<<
  *             r, g, b = v_norm, t, p
  *         elif <int>i_h == 1:
 */
-      goto __pyx_L5;
+      goto __pyx_L9;
     }
 
-    /* "kaleidoscope_computations.pyx":96
+    /* "kaleidoscope_computations.pyx":129
  *         if <int>i_h == 0:
  *             r, g, b = v_norm, t, p
  *         elif <int>i_h == 1:             # <<<<<<<<<<<<<<
  *             r, g, b = q, v_norm, p
  *         elif <int>i_h == 2:
 */
-    __pyx_t_4 = (((int)__pyx_v_i_h) == 1);
-    if (__pyx_t_4) {
+    __pyx_t_2 = (((int)__pyx_v_i_h) == 1);
+    if (__pyx_t_2) {
 
-      /* "kaleidoscope_computations.pyx":97
+      /* "kaleidoscope_computations.pyx":130
  *             r, g, b = v_norm, t, p
  *         elif <int>i_h == 1:
  *             r, g, b = q, v_norm, p             # <<<<<<<<<<<<<<
  *         elif <int>i_h == 2:
  *             r, g, b = p, v_norm, t
 */
-      __pyx_t_7 = __pyx_v_q;
-      __pyx_t_6 = __pyx_v_v_norm;
-      __pyx_t_1 = __pyx_v_p;
-      __pyx_v_r = __pyx_t_7;
-      __pyx_v_g = __pyx_t_6;
-      __pyx_v_b = __pyx_t_1;
+      __pyx_t_5 = __pyx_v_q;
+      __pyx_t_4 = __pyx_v_v_norm;
+      __pyx_t_3 = __pyx_v_p;
+      __pyx_v_r = __pyx_t_5;
+      __pyx_v_g = __pyx_t_4;
+      __pyx_v_b = __pyx_t_3;
 
-      /* "kaleidoscope_computations.pyx":96
+      /* "kaleidoscope_computations.pyx":129
  *         if <int>i_h == 0:
  *             r, g, b = v_norm, t, p
  *         elif <int>i_h == 1:             # <<<<<<<<<<<<<<
  *             r, g, b = q, v_norm, p
  *         elif <int>i_h == 2:
 */
-      goto __pyx_L5;
+      goto __pyx_L9;
     }
 
-    /* "kaleidoscope_computations.pyx":98
+    /* "kaleidoscope_computations.pyx":131
  *         elif <int>i_h == 1:
  *             r, g, b = q, v_norm, p
  *         elif <int>i_h == 2:             # <<<<<<<<<<<<<<
  *             r, g, b = p, v_norm, t
  *         elif <int>i_h == 3:
 */
-    __pyx_t_4 = (((int)__pyx_v_i_h) == 2);
-    if (__pyx_t_4) {
+    __pyx_t_2 = (((int)__pyx_v_i_h) == 2);
+    if (__pyx_t_2) {
 
-      /* "kaleidoscope_computations.pyx":99
+      /* "kaleidoscope_computations.pyx":132
  *             r, g, b = q, v_norm, p
  *         elif <int>i_h == 2:
  *             r, g, b = p, v_norm, t             # <<<<<<<<<<<<<<
  *         elif <int>i_h == 3:
  *             r, g, b = p, q, v_norm
 */
-      __pyx_t_1 = __pyx_v_p;
-      __pyx_t_6 = __pyx_v_v_norm;
-      __pyx_t_7 = __pyx_v_t;
-      __pyx_v_r = __pyx_t_1;
-      __pyx_v_g = __pyx_t_6;
-      __pyx_v_b = __pyx_t_7;
+      __pyx_t_3 = __pyx_v_p;
+      __pyx_t_4 = __pyx_v_v_norm;
+      __pyx_t_5 = __pyx_v_t;
+      __pyx_v_r = __pyx_t_3;
+      __pyx_v_g = __pyx_t_4;
+      __pyx_v_b = __pyx_t_5;
 
-      /* "kaleidoscope_computations.pyx":98
+      /* "kaleidoscope_computations.pyx":131
  *         elif <int>i_h == 1:
  *             r, g, b = q, v_norm, p
  *         elif <int>i_h == 2:             # <<<<<<<<<<<<<<
  *             r, g, b = p, v_norm, t
  *         elif <int>i_h == 3:
 */
-      goto __pyx_L5;
+      goto __pyx_L9;
     }
 
-    /* "kaleidoscope_computations.pyx":100
+    /* "kaleidoscope_computations.pyx":133
  *         elif <int>i_h == 2:
  *             r, g, b = p, v_norm, t
  *         elif <int>i_h == 3:             # <<<<<<<<<<<<<<
  *             r, g, b = p, q, v_norm
  *         elif <int>i_h == 4:
 */
-    __pyx_t_4 = (((int)__pyx_v_i_h) == 3);
-    if (__pyx_t_4) {
+    __pyx_t_2 = (((int)__pyx_v_i_h) == 3);
+    if (__pyx_t_2) {
 
-      /* "kaleidoscope_computations.pyx":101
+      /* "kaleidoscope_computations.pyx":134
  *             r, g, b = p, v_norm, t
  *         elif <int>i_h == 3:
  *             r, g, b = p, q, v_norm             # <<<<<<<<<<<<<<
  *         elif <int>i_h == 4:
  *             r, g, b = t, p, v_norm
 */
-      __pyx_t_7 = __pyx_v_p;
-      __pyx_t_6 = __pyx_v_q;
-      __pyx_t_1 = __pyx_v_v_norm;
-      __pyx_v_r = __pyx_t_7;
-      __pyx_v_g = __pyx_t_6;
-      __pyx_v_b = __pyx_t_1;
+      __pyx_t_5 = __pyx_v_p;
+      __pyx_t_4 = __pyx_v_q;
+      __pyx_t_3 = __pyx_v_v_norm;
+      __pyx_v_r = __pyx_t_5;
+      __pyx_v_g = __pyx_t_4;
+      __pyx_v_b = __pyx_t_3;
 
-      /* "kaleidoscope_computations.pyx":100
+      /* "kaleidoscope_computations.pyx":133
  *         elif <int>i_h == 2:
  *             r, g, b = p, v_norm, t
  *         elif <int>i_h == 3:             # <<<<<<<<<<<<<<
  *             r, g, b = p, q, v_norm
  *         elif <int>i_h == 4:
 */
-      goto __pyx_L5;
+      goto __pyx_L9;
     }
 
-    /* "kaleidoscope_computations.pyx":102
+    /* "kaleidoscope_computations.pyx":135
  *         elif <int>i_h == 3:
  *             r, g, b = p, q, v_norm
  *         elif <int>i_h == 4:             # <<<<<<<<<<<<<<
  *             r, g, b = t, p, v_norm
  *         else: # <int>i_h == 5
 */
-    __pyx_t_4 = (((int)__pyx_v_i_h) == 4);
-    if (__pyx_t_4) {
+    __pyx_t_2 = (((int)__pyx_v_i_h) == 4);
+    if (__pyx_t_2) {
 
-      /* "kaleidoscope_computations.pyx":103
+      /* "kaleidoscope_computations.pyx":136
  *             r, g, b = p, q, v_norm
  *         elif <int>i_h == 4:
  *             r, g, b = t, p, v_norm             # <<<<<<<<<<<<<<
  *         else: # <int>i_h == 5
  *             r, g, b = v_norm, p, q
 */
-      __pyx_t_1 = __pyx_v_t;
-      __pyx_t_6 = __pyx_v_p;
-      __pyx_t_7 = __pyx_v_v_norm;
-      __pyx_v_r = __pyx_t_1;
-      __pyx_v_g = __pyx_t_6;
-      __pyx_v_b = __pyx_t_7;
+      __pyx_t_3 = __pyx_v_t;
+      __pyx_t_4 = __pyx_v_p;
+      __pyx_t_5 = __pyx_v_v_norm;
+      __pyx_v_r = __pyx_t_3;
+      __pyx_v_g = __pyx_t_4;
+      __pyx_v_b = __pyx_t_5;
 
-      /* "kaleidoscope_computations.pyx":102
+      /* "kaleidoscope_computations.pyx":135
  *         elif <int>i_h == 3:
  *             r, g, b = p, q, v_norm
  *         elif <int>i_h == 4:             # <<<<<<<<<<<<<<
  *             r, g, b = t, p, v_norm
  *         else: # <int>i_h == 5
 */
-      goto __pyx_L5;
+      goto __pyx_L9;
     }
 
-    /* "kaleidoscope_computations.pyx":105
+    /* "kaleidoscope_computations.pyx":138
  *             r, g, b = t, p, v_norm
  *         else: # <int>i_h == 5
  *             r, g, b = v_norm, p, q             # <<<<<<<<<<<<<<
  * 
- *     cdef float base_r = r
+ *     # Well optionally drive alpha higher when flash_factor==1, so lines briefly max out opacity.
 */
     /*else*/ {
-      __pyx_t_7 = __pyx_v_v_norm;
-      __pyx_t_6 = __pyx_v_p;
-      __pyx_t_1 = __pyx_v_q;
-      __pyx_v_r = __pyx_t_7;
-      __pyx_v_g = __pyx_t_6;
-      __pyx_v_b = __pyx_t_1;
+      __pyx_t_5 = __pyx_v_v_norm;
+      __pyx_t_4 = __pyx_v_p;
+      __pyx_t_3 = __pyx_v_q;
+      __pyx_v_r = __pyx_t_5;
+      __pyx_v_g = __pyx_t_4;
+      __pyx_v_b = __pyx_t_3;
     }
-    __pyx_L5:;
+    __pyx_L9:;
   }
-  __pyx_L3:;
+  __pyx_L7:;
 
-  /* "kaleidoscope_computations.pyx":107
- *             r, g, b = v_norm, p, q
+  /* "kaleidoscope_computations.pyx":141
  * 
- *     cdef float base_r = r             # <<<<<<<<<<<<<<
- *     cdef float base_g = g
- *     cdef float base_b = b
-*/
-  __pyx_v_base_r = __pyx_v_r;
-
-  /* "kaleidoscope_computations.pyx":108
- * 
- *     cdef float base_r = r
- *     cdef float base_g = g             # <<<<<<<<<<<<<<
- *     cdef float base_b = b
- *     cdef float base_a_final = base_alpha # Alpha is passed directly
-*/
-  __pyx_v_base_g = __pyx_v_g;
-
-  /* "kaleidoscope_computations.pyx":109
- *     cdef float base_r = r
- *     cdef float base_g = g
- *     cdef float base_b = b             # <<<<<<<<<<<<<<
- *     cdef float base_a_final = base_alpha # Alpha is passed directly
- * 
-*/
-  __pyx_v_base_b = __pyx_v_b;
-
-  /* "kaleidoscope_computations.pyx":110
- *     cdef float base_g = g
- *     cdef float base_b = b
- *     cdef float base_a_final = base_alpha # Alpha is passed directly             # <<<<<<<<<<<<<<
- * 
- *     cdef list sub_draw_commands = [] # To store (relative_start_idx, num_points_in_strip)
+ *     # Well optionally drive alpha higher when flash_factor==1, so lines briefly max out opacity.
+ *     cdef float base_a_final = base_alpha             # <<<<<<<<<<<<<<
+ *     if flash_factor >= 1.0:
+ *         # temporarily bump alpha for a very sharp flash
 */
   __pyx_v_base_a_final = __pyx_v_base_alpha;
 
-  /* "kaleidoscope_computations.pyx":112
- *     cdef float base_a_final = base_alpha # Alpha is passed directly
+  /* "kaleidoscope_computations.pyx":142
+ *     # Well optionally drive alpha higher when flash_factor==1, so lines briefly max out opacity.
+ *     cdef float base_a_final = base_alpha
+ *     if flash_factor >= 1.0:             # <<<<<<<<<<<<<<
+ *         # temporarily bump alpha for a very sharp flash
+ *         base_a_final = 1.0
+*/
+  __pyx_t_2 = (__pyx_v_flash_factor >= 1.0);
+  if (__pyx_t_2) {
+
+    /* "kaleidoscope_computations.pyx":144
+ *     if flash_factor >= 1.0:
+ *         # temporarily bump alpha for a very sharp flash
+ *         base_a_final = 1.0             # <<<<<<<<<<<<<<
  * 
- *     cdef list sub_draw_commands = [] # To store (relative_start_idx, num_points_in_strip)             # <<<<<<<<<<<<<<
+ *     # Prepare return structure for line widths. We'll override these in Python if needed.
+*/
+    __pyx_v_base_a_final = 1.0;
+
+    /* "kaleidoscope_computations.pyx":142
+ *     # Well optionally drive alpha higher when flash_factor==1, so lines briefly max out opacity.
+ *     cdef float base_a_final = base_alpha
+ *     if flash_factor >= 1.0:             # <<<<<<<<<<<<<<
+ *         # temporarily bump alpha for a very sharp flash
+ *         base_a_final = 1.0
+*/
+  }
+
+  /* "kaleidoscope_computations.pyx":147
+ * 
+ *     # Prepare return structure for line widths. We'll override these in Python if needed.
+ *     cdef list sub_draw_commands = []             # <<<<<<<<<<<<<<
  * 
  *     cdef float x, y, temp_x, temp_y, rotated_x, rotated_y, scaled_y, osc_offset
 */
-  __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_v_sub_draw_commands = ((PyObject*)__pyx_t_8);
-  __pyx_t_8 = 0;
+  __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_v_sub_draw_commands = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
 
-  /* "kaleidoscope_computations.pyx":125
- *     # Dynamic oscillation frequency multipliers
- *     # Spatial frequency: increases waviness with amplitude
- *     cdef float osc_spatial_freq = 0.05 + amplitude * 0.25             # <<<<<<<<<<<<<<
- *     # Temporal frequency: increases speed of oscillation with amplitude
- *     cdef float osc_temporal_freq = 0.05 + amplitude * 0.2
+  /* "kaleidoscope_computations.pyx":157
+ * 
+ *     # Define pulse line width: when flash_factor==1, use a much fatter line.
+ *     cdef float ghost_line_width = 2.0             # <<<<<<<<<<<<<<
+ *     cdef float ghost_flash_width = 5.0  # fatter on flash
+ *     cdef float core_line_width = 4.0
 */
-  __pyx_v_osc_spatial_freq = (0.05 + (__pyx_v_amplitude * 0.25));
+  __pyx_v_ghost_line_width = 2.0;
 
-  /* "kaleidoscope_computations.pyx":127
- *     cdef float osc_spatial_freq = 0.05 + amplitude * 0.25
- *     # Temporal frequency: increases speed of oscillation with amplitude
- *     cdef float osc_temporal_freq = 0.05 + amplitude * 0.2             # <<<<<<<<<<<<<<
+  /* "kaleidoscope_computations.pyx":158
+ *     # Define pulse line width: when flash_factor==1, use a much fatter line.
+ *     cdef float ghost_line_width = 2.0
+ *     cdef float ghost_flash_width = 5.0  # fatter on flash             # <<<<<<<<<<<<<<
+ *     cdef float core_line_width = 4.0
+ *     cdef float core_flash_width = 8.0
+*/
+  __pyx_v_ghost_flash_width = 5.0;
+
+  /* "kaleidoscope_computations.pyx":159
+ *     cdef float ghost_line_width = 2.0
+ *     cdef float ghost_flash_width = 5.0  # fatter on flash
+ *     cdef float core_line_width = 4.0             # <<<<<<<<<<<<<<
+ *     cdef float core_flash_width = 8.0
+ * 
+*/
+  __pyx_v_core_line_width = 4.0;
+
+  /* "kaleidoscope_computations.pyx":160
+ *     cdef float ghost_flash_width = 5.0  # fatter on flash
+ *     cdef float core_line_width = 4.0
+ *     cdef float core_flash_width = 8.0             # <<<<<<<<<<<<<<
+ * 
+ *     # Spatial & temporal freq for sinusoidal oscillation
+*/
+  __pyx_v_core_flash_width = 8.0;
+
+  /* "kaleidoscope_computations.pyx":163
+ * 
+ *     # Spatial & temporal freq for sinusoidal oscillation
+ *     cdef float osc_spatial_freq = 0.05 + amplitude * 0.3             # <<<<<<<<<<<<<<
+ *     cdef float osc_temporal_freq = 0.05 + amplitude * 0.25
+ * 
+*/
+  __pyx_v_osc_spatial_freq = (0.05 + (__pyx_v_amplitude * 0.3));
+
+  /* "kaleidoscope_computations.pyx":164
+ *     # Spatial & temporal freq for sinusoidal oscillation
+ *     cdef float osc_spatial_freq = 0.05 + amplitude * 0.3
+ *     cdef float osc_temporal_freq = 0.05 + amplitude * 0.25             # <<<<<<<<<<<<<<
  * 
  *     for i_seg in range(num_segments): # Changed 'i' to 'i_seg' to avoid conflict with 'i_h'
 */
-  __pyx_v_osc_temporal_freq = (0.05 + (__pyx_v_amplitude * 0.2));
+  __pyx_v_osc_temporal_freq = (0.05 + (__pyx_v_amplitude * 0.25));
 
-  /* "kaleidoscope_computations.pyx":129
- *     cdef float osc_temporal_freq = 0.05 + amplitude * 0.2
+  /* "kaleidoscope_computations.pyx":166
+ *     cdef float osc_temporal_freq = 0.05 + amplitude * 0.25
  * 
  *     for i_seg in range(num_segments): # Changed 'i' to 'i_seg' to avoid conflict with 'i_h'             # <<<<<<<<<<<<<<
  *         seg_rot_angle = i_seg * (360.0 / num_segments) # Assign value here
  *         rad_seg_rot_val = seg_rot_angle * M_PI / 180.0 # Calculate radians here
 */
-  __pyx_t_9 = __pyx_v_num_segments;
-  __pyx_t_10 = __pyx_t_9;
-  for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
-    __pyx_v_i_seg = __pyx_t_11;
+  __pyx_t_1 = __pyx_v_num_segments;
+  __pyx_t_7 = __pyx_t_1;
+  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
+    __pyx_v_i_seg = __pyx_t_8;
 
-    /* "kaleidoscope_computations.pyx":130
+    /* "kaleidoscope_computations.pyx":167
  * 
  *     for i_seg in range(num_segments): # Changed 'i' to 'i_seg' to avoid conflict with 'i_h'
  *         seg_rot_angle = i_seg * (360.0 / num_segments) # Assign value here             # <<<<<<<<<<<<<<
@@ -5341,11 +5594,11 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
     if (unlikely(__pyx_v_num_segments == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 130, __pyx_L1_error)
+      __PYX_ERR(0, 167, __pyx_L1_error)
     }
     __pyx_v_seg_rot_angle = (__pyx_v_i_seg * (360.0 / ((double)__pyx_v_num_segments)));
 
-    /* "kaleidoscope_computations.pyx":131
+    /* "kaleidoscope_computations.pyx":168
  *     for i_seg in range(num_segments): # Changed 'i' to 'i_seg' to avoid conflict with 'i_h'
  *         seg_rot_angle = i_seg * (360.0 / num_segments) # Assign value here
  *         rad_seg_rot_val = seg_rot_angle * M_PI / 180.0 # Calculate radians here             # <<<<<<<<<<<<<<
@@ -5354,34 +5607,34 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
     __pyx_v_rad_seg_rot_val = ((__pyx_v_seg_rot_angle * M_PI) / 180.0);
 
-    /* "kaleidoscope_computations.pyx":132
+    /* "kaleidoscope_computations.pyx":169
  *         seg_rot_angle = i_seg * (360.0 / num_segments) # Assign value here
  *         rad_seg_rot_val = seg_rot_angle * M_PI / 180.0 # Calculate radians here
  *         scale_y = -1.0 if i_seg % 2 == 1 else 1.0 # Assign value here             # <<<<<<<<<<<<<<
  * 
  *         # Horizontal lines
 */
-    __pyx_t_4 = (__Pyx_mod_long(__pyx_v_i_seg, 2, 1) == 1);
-    if (__pyx_t_4) {
-      __pyx_t_3 = -1.0;
+    __pyx_t_2 = (__Pyx_mod_long(__pyx_v_i_seg, 2, 1) == 1);
+    if (__pyx_t_2) {
+      __pyx_t_9 = -1.0;
     } else {
-      __pyx_t_3 = 1.0;
+      __pyx_t_9 = 1.0;
     }
-    __pyx_v_scale_y = __pyx_t_3;
+    __pyx_v_scale_y = __pyx_t_9;
 
-    /* "kaleidoscope_computations.pyx":135
+    /* "kaleidoscope_computations.pyx":172
  * 
  *         # Horizontal lines
  *         for y_line_idx in range(num_lines + 1): # Outer loop for horizontal lines             # <<<<<<<<<<<<<<
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
  * 
 */
-    __pyx_t_12 = (__pyx_v_num_lines + 1);
-    __pyx_t_13 = __pyx_t_12;
-    for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
-      __pyx_v_y_line_idx = __pyx_t_14;
+    __pyx_t_10 = (__pyx_v_num_lines + 1);
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_y_line_idx = __pyx_t_12;
 
-      /* "kaleidoscope_computations.pyx":136
+      /* "kaleidoscope_computations.pyx":173
  *         # Horizontal lines
  *         for y_line_idx in range(num_lines + 1): # Outer loop for horizontal lines
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip             # <<<<<<<<<<<<<<
@@ -5390,19 +5643,19 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
       __pyx_v_line_start_idx = (__pyx_v_current_write_idx - __pyx_v_start_offset);
 
-      /* "kaleidoscope_computations.pyx":138
+      /* "kaleidoscope_computations.pyx":175
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
  * 
  *             for x_point_idx in range(num_lines + 1): # Iterate for points along this line             # <<<<<<<<<<<<<<
  *                 x = (x_point_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
  *                 y = (y_line_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
 */
-      __pyx_t_15 = (__pyx_v_num_lines + 1);
-      __pyx_t_16 = __pyx_t_15;
-      for (__pyx_t_17 = 0; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
-        __pyx_v_x_point_idx = __pyx_t_17;
+      __pyx_t_13 = (__pyx_v_num_lines + 1);
+      __pyx_t_14 = __pyx_t_13;
+      for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
+        __pyx_v_x_point_idx = __pyx_t_15;
 
-        /* "kaleidoscope_computations.pyx":139
+        /* "kaleidoscope_computations.pyx":176
  * 
  *             for x_point_idx in range(num_lines + 1): # Iterate for points along this line
  *                 x = (x_point_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)             # <<<<<<<<<<<<<<
@@ -5411,11 +5664,11 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         if (unlikely(((float)__pyx_v_num_lines) == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 139, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_v_x = (((((float)__pyx_v_x_point_idx) / ((float)__pyx_v_num_lines)) * __pyx_v_dynamic_grid_size) - (((double)__pyx_v_dynamic_grid_size) / 2.0));
 
-        /* "kaleidoscope_computations.pyx":140
+        /* "kaleidoscope_computations.pyx":177
  *             for x_point_idx in range(num_lines + 1): # Iterate for points along this line
  *                 x = (x_point_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
  *                 y = (y_line_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)             # <<<<<<<<<<<<<<
@@ -5424,11 +5677,11 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         if (unlikely(((float)__pyx_v_num_lines) == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 140, __pyx_L1_error)
+          __PYX_ERR(0, 177, __pyx_L1_error)
         }
         __pyx_v_y = (((((float)__pyx_v_y_line_idx) / ((float)__pyx_v_num_lines)) * __pyx_v_dynamic_grid_size) - (((double)__pyx_v_dynamic_grid_size) / 2.0));
 
-        /* "kaleidoscope_computations.pyx":142
+        /* "kaleidoscope_computations.pyx":179
  *                 y = (y_line_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
  * 
  *                 osc_offset = 0.0             # <<<<<<<<<<<<<<
@@ -5437,17 +5690,17 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_osc_offset = 0.0;
 
-        /* "kaleidoscope_computations.pyx":143
+        /* "kaleidoscope_computations.pyx":180
  * 
  *                 osc_offset = 0.0
  *                 if oscillation_mode == 0:             # <<<<<<<<<<<<<<
  *                     # Linear mode oscillation: depends on y-position and frame count
  *                     osc_offset = osc_magnitude * sin(y * osc_spatial_freq + frame_count * osc_temporal_freq)
 */
-        __pyx_t_4 = (__pyx_v_oscillation_mode == 0);
-        if (__pyx_t_4) {
+        __pyx_t_2 = (__pyx_v_oscillation_mode == 0);
+        if (__pyx_t_2) {
 
-          /* "kaleidoscope_computations.pyx":145
+          /* "kaleidoscope_computations.pyx":182
  *                 if oscillation_mode == 0:
  *                     # Linear mode oscillation: depends on y-position and frame count
  *                     osc_offset = osc_magnitude * sin(y * osc_spatial_freq + frame_count * osc_temporal_freq)             # <<<<<<<<<<<<<<
@@ -5456,17 +5709,17 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
           __pyx_v_osc_offset = (__pyx_v_osc_magnitude * sin(((__pyx_v_y * __pyx_v_osc_spatial_freq) + (__pyx_v_frame_count * __pyx_v_osc_temporal_freq))));
 
-          /* "kaleidoscope_computations.pyx":143
+          /* "kaleidoscope_computations.pyx":180
  * 
  *                 osc_offset = 0.0
  *                 if oscillation_mode == 0:             # <<<<<<<<<<<<<<
  *                     # Linear mode oscillation: depends on y-position and frame count
  *                     osc_offset = osc_magnitude * sin(y * osc_spatial_freq + frame_count * osc_temporal_freq)
 */
-          goto __pyx_L12;
+          goto __pyx_L17;
         }
 
-        /* "kaleidoscope_computations.pyx":148
+        /* "kaleidoscope_computations.pyx":185
  *                 else:
  *                     # Circular mode oscillation: depends on distance from center, angle, and frame count
  *                     angle = atan2(y, x)             # <<<<<<<<<<<<<<
@@ -5476,7 +5729,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
         /*else*/ {
           __pyx_v_angle = atan2(__pyx_v_y, __pyx_v_x);
 
-          /* "kaleidoscope_computations.pyx":149
+          /* "kaleidoscope_computations.pyx":186
  *                     # Circular mode oscillation: depends on distance from center, angle, and frame count
  *                     angle = atan2(y, x)
  *                     dist = sqrt(x*x + y*y)             # <<<<<<<<<<<<<<
@@ -5485,7 +5738,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
           __pyx_v_dist = sqrt(((__pyx_v_x * __pyx_v_x) + (__pyx_v_y * __pyx_v_y)));
 
-          /* "kaleidoscope_computations.pyx":150
+          /* "kaleidoscope_computations.pyx":187
  *                     angle = atan2(y, x)
  *                     dist = sqrt(x*x + y*y)
  *                     osc_offset = osc_magnitude * sin(dist * osc_spatial_freq + angle * 2.0 + frame_count * osc_temporal_freq)             # <<<<<<<<<<<<<<
@@ -5494,9 +5747,9 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
           __pyx_v_osc_offset = (__pyx_v_osc_magnitude * sin((((__pyx_v_dist * __pyx_v_osc_spatial_freq) + (__pyx_v_angle * 2.0)) + (__pyx_v_frame_count * __pyx_v_osc_temporal_freq))));
         }
-        __pyx_L12:;
+        __pyx_L17:;
 
-        /* "kaleidoscope_computations.pyx":152
+        /* "kaleidoscope_computations.pyx":189
  *                     osc_offset = osc_magnitude * sin(dist * osc_spatial_freq + angle * 2.0 + frame_count * osc_temporal_freq)
  * 
  *                 temp_x = x + osc_offset             # <<<<<<<<<<<<<<
@@ -5505,7 +5758,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_temp_x = (__pyx_v_x + __pyx_v_osc_offset);
 
-        /* "kaleidoscope_computations.pyx":153
+        /* "kaleidoscope_computations.pyx":190
  * 
  *                 temp_x = x + osc_offset
  *                 temp_y = y             # <<<<<<<<<<<<<<
@@ -5514,7 +5767,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_temp_y = __pyx_v_y;
 
-        /* "kaleidoscope_computations.pyx":155
+        /* "kaleidoscope_computations.pyx":192
  *                 temp_y = y
  * 
  *                 rotated_x = temp_x * cos(rad_seg_rot_val) - temp_y * sin(rad_seg_rot_val) # Use rad_seg_rot_val             # <<<<<<<<<<<<<<
@@ -5523,7 +5776,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_rotated_x = ((__pyx_v_temp_x * cos(__pyx_v_rad_seg_rot_val)) - (__pyx_v_temp_y * sin(__pyx_v_rad_seg_rot_val)));
 
-        /* "kaleidoscope_computations.pyx":156
+        /* "kaleidoscope_computations.pyx":193
  * 
  *                 rotated_x = temp_x * cos(rad_seg_rot_val) - temp_y * sin(rad_seg_rot_val) # Use rad_seg_rot_val
  *                 rotated_y = temp_x * sin(rad_seg_rot_val) + temp_y * cos(rad_seg_rot_val) # Use rad_seg_rot_val             # <<<<<<<<<<<<<<
@@ -5532,7 +5785,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_rotated_y = ((__pyx_v_temp_x * sin(__pyx_v_rad_seg_rot_val)) + (__pyx_v_temp_y * cos(__pyx_v_rad_seg_rot_val)));
 
-        /* "kaleidoscope_computations.pyx":157
+        /* "kaleidoscope_computations.pyx":194
  *                 rotated_x = temp_x * cos(rad_seg_rot_val) - temp_y * sin(rad_seg_rot_val) # Use rad_seg_rot_val
  *                 rotated_y = temp_x * sin(rad_seg_rot_val) + temp_y * cos(rad_seg_rot_val) # Use rad_seg_rot_val
  *                 scaled_y = rotated_y * scale_y             # <<<<<<<<<<<<<<
@@ -5541,142 +5794,248 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_scaled_y = (__pyx_v_rotated_y * __pyx_v_scale_y);
 
-        /* "kaleidoscope_computations.pyx":159
+        /* "kaleidoscope_computations.pyx":196
  *                 scaled_y = rotated_y * scale_y
  * 
  *                 vertices_buffer[current_write_idx][0] = rotated_x             # <<<<<<<<<<<<<<
  *                 vertices_buffer[current_write_idx][1] = scaled_y
- *                 colors_buffer[current_write_idx][0] = base_r
+ *                 colors_buffer[current_write_idx][0] = r
 */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_rotated_x); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 159, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 0, __pyx_t_8, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 159, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_rotated_x); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 0, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 196, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":160
+        /* "kaleidoscope_computations.pyx":197
  * 
  *                 vertices_buffer[current_write_idx][0] = rotated_x
  *                 vertices_buffer[current_write_idx][1] = scaled_y             # <<<<<<<<<<<<<<
- *                 colors_buffer[current_write_idx][0] = base_r
- *                 colors_buffer[current_write_idx][1] = base_g
+ *                 colors_buffer[current_write_idx][0] = r
+ *                 colors_buffer[current_write_idx][1] = g
 */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_scaled_y); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 160, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 160, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 1, __pyx_t_8, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 160, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_scaled_y); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 197, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 197, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 1, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 197, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":161
+        /* "kaleidoscope_computations.pyx":198
  *                 vertices_buffer[current_write_idx][0] = rotated_x
  *                 vertices_buffer[current_write_idx][1] = scaled_y
- *                 colors_buffer[current_write_idx][0] = base_r             # <<<<<<<<<<<<<<
- *                 colors_buffer[current_write_idx][1] = base_g
- *                 colors_buffer[current_write_idx][2] = base_b
+ *                 colors_buffer[current_write_idx][0] = r             # <<<<<<<<<<<<<<
+ *                 colors_buffer[current_write_idx][1] = g
+ *                 colors_buffer[current_write_idx][2] = b
 */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_base_r); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 0, __pyx_t_8, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 161, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_r); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 198, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 198, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 0, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 198, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":162
+        /* "kaleidoscope_computations.pyx":199
  *                 vertices_buffer[current_write_idx][1] = scaled_y
- *                 colors_buffer[current_write_idx][0] = base_r
- *                 colors_buffer[current_write_idx][1] = base_g             # <<<<<<<<<<<<<<
- *                 colors_buffer[current_write_idx][2] = base_b
+ *                 colors_buffer[current_write_idx][0] = r
+ *                 colors_buffer[current_write_idx][1] = g             # <<<<<<<<<<<<<<
+ *                 colors_buffer[current_write_idx][2] = b
  *                 colors_buffer[current_write_idx][3] = base_a_final
 */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_base_g); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 162, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 1, __pyx_t_8, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 162, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_g); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 199, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 199, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 1, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 199, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":163
- *                 colors_buffer[current_write_idx][0] = base_r
- *                 colors_buffer[current_write_idx][1] = base_g
- *                 colors_buffer[current_write_idx][2] = base_b             # <<<<<<<<<<<<<<
+        /* "kaleidoscope_computations.pyx":200
+ *                 colors_buffer[current_write_idx][0] = r
+ *                 colors_buffer[current_write_idx][1] = g
+ *                 colors_buffer[current_write_idx][2] = b             # <<<<<<<<<<<<<<
  *                 colors_buffer[current_write_idx][3] = base_a_final
  *                 current_write_idx += 1
 */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_base_b); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 2, __pyx_t_8, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_b); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 200, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 200, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 2, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 200, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":164
- *                 colors_buffer[current_write_idx][1] = base_g
- *                 colors_buffer[current_write_idx][2] = base_b
+        /* "kaleidoscope_computations.pyx":201
+ *                 colors_buffer[current_write_idx][1] = g
+ *                 colors_buffer[current_write_idx][2] = b
  *                 colors_buffer[current_write_idx][3] = base_a_final             # <<<<<<<<<<<<<<
  *                 current_write_idx += 1
  * 
 */
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_base_a_final); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 3, __pyx_t_8, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_base_a_final); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 3, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":165
- *                 colors_buffer[current_write_idx][2] = base_b
+        /* "kaleidoscope_computations.pyx":202
+ *                 colors_buffer[current_write_idx][2] = b
  *                 colors_buffer[current_write_idx][3] = base_a_final
  *                 current_write_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             sub_draw_commands.append((line_start_idx, num_lines + 1))
+ *             # Decide which line width to use for this horizontal strip:
 */
         __pyx_v_current_write_idx = (__pyx_v_current_write_idx + 1);
       }
 
-      /* "kaleidoscope_computations.pyx":167
- *                 current_write_idx += 1
+      /* "kaleidoscope_computations.pyx":205
  * 
- *             sub_draw_commands.append((line_start_idx, num_lines + 1))             # <<<<<<<<<<<<<<
+ *             # Decide which line width to use for this horizontal strip:
+ *             if is_current_pattern:             # <<<<<<<<<<<<<<
+ *                 # core is current pattern  thicker
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+*/
+      if (__pyx_v_is_current_pattern) {
+
+        /* "kaleidoscope_computations.pyx":207
+ *             if is_current_pattern:
+ *                 # core is current pattern  thicker
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+*/
+        __pyx_t_6 = __Pyx_PyLong_From_int(__pyx_v_line_start_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 207, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_PyLong_From_long((__pyx_v_num_lines + 1)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 207, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+
+        /* "kaleidoscope_computations.pyx":208
+ *                 # core is current pattern  thicker
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))             # <<<<<<<<<<<<<<
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+*/
+        __pyx_t_2 = (__pyx_v_flash_factor >= 1.0);
+        if (__pyx_t_2) {
+          __pyx_t_18 = PyFloat_FromDouble(__pyx_v_core_flash_width); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 208, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_18);
+          __pyx_t_17 = __pyx_t_18;
+          __pyx_t_18 = 0;
+        } else {
+          __pyx_t_18 = PyFloat_FromDouble(__pyx_v_core_line_width); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 208, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_18);
+          __pyx_t_17 = __pyx_t_18;
+          __pyx_t_18 = 0;
+        }
+
+        /* "kaleidoscope_computations.pyx":207
+ *             if is_current_pattern:
+ *                 # core is current pattern  thicker
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+*/
+        __pyx_t_18 = PyTuple_New(3); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 207, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_18);
+        __Pyx_GIVEREF(__pyx_t_6);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_6) != (0)) __PYX_ERR(0, 207, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_16);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_16) != (0)) __PYX_ERR(0, 207, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_17);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 2, __pyx_t_17) != (0)) __PYX_ERR(0, 207, __pyx_L1_error);
+        __pyx_t_6 = 0;
+        __pyx_t_16 = 0;
+        __pyx_t_17 = 0;
+        __pyx_t_19 = __Pyx_PyList_Append(__pyx_v_sub_draw_commands, __pyx_t_18); if (unlikely(__pyx_t_19 == ((int)-1))) __PYX_ERR(0, 207, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+
+        /* "kaleidoscope_computations.pyx":205
+ * 
+ *             # Decide which line width to use for this horizontal strip:
+ *             if is_current_pattern:             # <<<<<<<<<<<<<<
+ *                 # core is current pattern  thicker
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+*/
+        goto __pyx_L18;
+      }
+
+      /* "kaleidoscope_computations.pyx":210
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
+ * 
+*/
+      /*else*/ {
+        __pyx_t_18 = __Pyx_PyLong_From_int(__pyx_v_line_start_idx); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_18);
+        __pyx_t_17 = __Pyx_PyLong_From_long((__pyx_v_num_lines + 1)); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_17);
+
+        /* "kaleidoscope_computations.pyx":211
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))             # <<<<<<<<<<<<<<
  * 
  *         # Vertical lines
 */
-      __pyx_t_8 = __Pyx_PyLong_From_int(__pyx_v_line_start_idx); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 167, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_18 = __Pyx_PyLong_From_long((__pyx_v_num_lines + 1)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 167, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_18);
-      __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 167, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_19);
-      __Pyx_GIVEREF(__pyx_t_8);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_t_8) != (0)) __PYX_ERR(0, 167, __pyx_L1_error);
-      __Pyx_GIVEREF(__pyx_t_18);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_18) != (0)) __PYX_ERR(0, 167, __pyx_L1_error);
-      __pyx_t_8 = 0;
-      __pyx_t_18 = 0;
-      __pyx_t_20 = __Pyx_PyList_Append(__pyx_v_sub_draw_commands, __pyx_t_19); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 167, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_2 = (__pyx_v_flash_factor >= 1.0);
+        if (__pyx_t_2) {
+          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_ghost_flash_width); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 211, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __pyx_t_16 = __pyx_t_6;
+          __pyx_t_6 = 0;
+        } else {
+          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_ghost_line_width); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 211, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __pyx_t_16 = __pyx_t_6;
+          __pyx_t_6 = 0;
+        }
+
+        /* "kaleidoscope_computations.pyx":210
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
+ * 
+*/
+        __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_GIVEREF(__pyx_t_18);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_18) != (0)) __PYX_ERR(0, 210, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_17);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_17) != (0)) __PYX_ERR(0, 210, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_16);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_16) != (0)) __PYX_ERR(0, 210, __pyx_L1_error);
+        __pyx_t_18 = 0;
+        __pyx_t_17 = 0;
+        __pyx_t_16 = 0;
+        __pyx_t_19 = __Pyx_PyList_Append(__pyx_v_sub_draw_commands, __pyx_t_6); if (unlikely(__pyx_t_19 == ((int)-1))) __PYX_ERR(0, 210, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      }
+      __pyx_L18:;
     }
 
-    /* "kaleidoscope_computations.pyx":170
+    /* "kaleidoscope_computations.pyx":214
  * 
  *         # Vertical lines
  *         for x_line_idx in range(num_lines + 1): # Outer loop for vertical lines             # <<<<<<<<<<<<<<
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
  *             for y_point_idx in range(num_lines + 1): # Iterate for points along this line
 */
-    __pyx_t_12 = (__pyx_v_num_lines + 1);
-    __pyx_t_13 = __pyx_t_12;
-    for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
-      __pyx_v_x_line_idx = __pyx_t_14;
+    __pyx_t_10 = (__pyx_v_num_lines + 1);
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_x_line_idx = __pyx_t_12;
 
-      /* "kaleidoscope_computations.pyx":171
+      /* "kaleidoscope_computations.pyx":215
  *         # Vertical lines
  *         for x_line_idx in range(num_lines + 1): # Outer loop for vertical lines
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip             # <<<<<<<<<<<<<<
@@ -5685,19 +6044,19 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
       __pyx_v_line_start_idx = (__pyx_v_current_write_idx - __pyx_v_start_offset);
 
-      /* "kaleidoscope_computations.pyx":172
+      /* "kaleidoscope_computations.pyx":216
  *         for x_line_idx in range(num_lines + 1): # Outer loop for vertical lines
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
  *             for y_point_idx in range(num_lines + 1): # Iterate for points along this line             # <<<<<<<<<<<<<<
  *                 x = (x_line_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
  *                 y = (y_point_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
 */
-      __pyx_t_15 = (__pyx_v_num_lines + 1);
-      __pyx_t_16 = __pyx_t_15;
-      for (__pyx_t_17 = 0; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
-        __pyx_v_y_point_idx = __pyx_t_17;
+      __pyx_t_13 = (__pyx_v_num_lines + 1);
+      __pyx_t_14 = __pyx_t_13;
+      for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
+        __pyx_v_y_point_idx = __pyx_t_15;
 
-        /* "kaleidoscope_computations.pyx":173
+        /* "kaleidoscope_computations.pyx":217
  *             line_start_idx = current_write_idx - start_offset # Relative start index for this line strip
  *             for y_point_idx in range(num_lines + 1): # Iterate for points along this line
  *                 x = (x_line_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)             # <<<<<<<<<<<<<<
@@ -5706,11 +6065,11 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         if (unlikely(((float)__pyx_v_num_lines) == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 173, __pyx_L1_error)
+          __PYX_ERR(0, 217, __pyx_L1_error)
         }
         __pyx_v_x = (((((float)__pyx_v_x_line_idx) / ((float)__pyx_v_num_lines)) * __pyx_v_dynamic_grid_size) - (((double)__pyx_v_dynamic_grid_size) / 2.0));
 
-        /* "kaleidoscope_computations.pyx":174
+        /* "kaleidoscope_computations.pyx":218
  *             for y_point_idx in range(num_lines + 1): # Iterate for points along this line
  *                 x = (x_line_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
  *                 y = (y_point_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)             # <<<<<<<<<<<<<<
@@ -5719,11 +6078,11 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         if (unlikely(((float)__pyx_v_num_lines) == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 174, __pyx_L1_error)
+          __PYX_ERR(0, 218, __pyx_L1_error)
         }
         __pyx_v_y = (((((float)__pyx_v_y_point_idx) / ((float)__pyx_v_num_lines)) * __pyx_v_dynamic_grid_size) - (((double)__pyx_v_dynamic_grid_size) / 2.0));
 
-        /* "kaleidoscope_computations.pyx":176
+        /* "kaleidoscope_computations.pyx":220
  *                 y = (y_point_idx / <float>num_lines) * dynamic_grid_size - (dynamic_grid_size / 2.0)
  * 
  *                 osc_offset = 0.0             # <<<<<<<<<<<<<<
@@ -5732,17 +6091,17 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_osc_offset = 0.0;
 
-        /* "kaleidoscope_computations.pyx":177
+        /* "kaleidoscope_computations.pyx":221
  * 
  *                 osc_offset = 0.0
  *                 if oscillation_mode == 0:             # <<<<<<<<<<<<<<
  *                     # Linear mode oscillation: depends on x-position and frame count
  *                     osc_offset = osc_magnitude * sin(x * osc_spatial_freq + frame_count * osc_temporal_freq)
 */
-        __pyx_t_4 = (__pyx_v_oscillation_mode == 0);
-        if (__pyx_t_4) {
+        __pyx_t_2 = (__pyx_v_oscillation_mode == 0);
+        if (__pyx_t_2) {
 
-          /* "kaleidoscope_computations.pyx":179
+          /* "kaleidoscope_computations.pyx":223
  *                 if oscillation_mode == 0:
  *                     # Linear mode oscillation: depends on x-position and frame count
  *                     osc_offset = osc_magnitude * sin(x * osc_spatial_freq + frame_count * osc_temporal_freq)             # <<<<<<<<<<<<<<
@@ -5751,17 +6110,17 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
           __pyx_v_osc_offset = (__pyx_v_osc_magnitude * sin(((__pyx_v_x * __pyx_v_osc_spatial_freq) + (__pyx_v_frame_count * __pyx_v_osc_temporal_freq))));
 
-          /* "kaleidoscope_computations.pyx":177
+          /* "kaleidoscope_computations.pyx":221
  * 
  *                 osc_offset = 0.0
  *                 if oscillation_mode == 0:             # <<<<<<<<<<<<<<
  *                     # Linear mode oscillation: depends on x-position and frame count
  *                     osc_offset = osc_magnitude * sin(x * osc_spatial_freq + frame_count * osc_temporal_freq)
 */
-          goto __pyx_L17;
+          goto __pyx_L23;
         }
 
-        /* "kaleidoscope_computations.pyx":182
+        /* "kaleidoscope_computations.pyx":226
  *                 else:
  *                     # Circular mode oscillation: depends on distance from center, angle, and frame count
  *                     angle = atan2(y, x)             # <<<<<<<<<<<<<<
@@ -5771,7 +6130,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
         /*else*/ {
           __pyx_v_angle = atan2(__pyx_v_y, __pyx_v_x);
 
-          /* "kaleidoscope_computations.pyx":183
+          /* "kaleidoscope_computations.pyx":227
  *                     # Circular mode oscillation: depends on distance from center, angle, and frame count
  *                     angle = atan2(y, x)
  *                     dist = sqrt(x*x + y*y)             # <<<<<<<<<<<<<<
@@ -5780,7 +6139,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
           __pyx_v_dist = sqrt(((__pyx_v_x * __pyx_v_x) + (__pyx_v_y * __pyx_v_y)));
 
-          /* "kaleidoscope_computations.pyx":184
+          /* "kaleidoscope_computations.pyx":228
  *                     angle = atan2(y, x)
  *                     dist = sqrt(x*x + y*y)
  *                     osc_offset = osc_magnitude * sin(dist * osc_spatial_freq + angle * 2.0 + frame_count * osc_temporal_freq)             # <<<<<<<<<<<<<<
@@ -5789,9 +6148,9 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
           __pyx_v_osc_offset = (__pyx_v_osc_magnitude * sin((((__pyx_v_dist * __pyx_v_osc_spatial_freq) + (__pyx_v_angle * 2.0)) + (__pyx_v_frame_count * __pyx_v_osc_temporal_freq))));
         }
-        __pyx_L17:;
+        __pyx_L23:;
 
-        /* "kaleidoscope_computations.pyx":186
+        /* "kaleidoscope_computations.pyx":230
  *                     osc_offset = osc_magnitude * sin(dist * osc_spatial_freq + angle * 2.0 + frame_count * osc_temporal_freq)
  * 
  *                 temp_x = x             # <<<<<<<<<<<<<<
@@ -5800,7 +6159,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_temp_x = __pyx_v_x;
 
-        /* "kaleidoscope_computations.pyx":187
+        /* "kaleidoscope_computations.pyx":231
  * 
  *                 temp_x = x
  *                 temp_y = y + osc_offset             # <<<<<<<<<<<<<<
@@ -5809,7 +6168,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_temp_y = (__pyx_v_y + __pyx_v_osc_offset);
 
-        /* "kaleidoscope_computations.pyx":189
+        /* "kaleidoscope_computations.pyx":233
  *                 temp_y = y + osc_offset
  * 
  *                 rotated_x = temp_x * cos(rad_seg_rot_val) - temp_y * sin(rad_seg_rot_val) # Use rad_seg_rot_val             # <<<<<<<<<<<<<<
@@ -5818,7 +6177,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_rotated_x = ((__pyx_v_temp_x * cos(__pyx_v_rad_seg_rot_val)) - (__pyx_v_temp_y * sin(__pyx_v_rad_seg_rot_val)));
 
-        /* "kaleidoscope_computations.pyx":190
+        /* "kaleidoscope_computations.pyx":234
  * 
  *                 rotated_x = temp_x * cos(rad_seg_rot_val) - temp_y * sin(rad_seg_rot_val) # Use rad_seg_rot_val
  *                 rotated_y = temp_x * sin(rad_seg_rot_val) + temp_y * cos(rad_seg_rot_val) # Use rad_seg_rot_val             # <<<<<<<<<<<<<<
@@ -5827,7 +6186,7 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_rotated_y = ((__pyx_v_temp_x * sin(__pyx_v_rad_seg_rot_val)) + (__pyx_v_temp_y * cos(__pyx_v_rad_seg_rot_val)));
 
-        /* "kaleidoscope_computations.pyx":191
+        /* "kaleidoscope_computations.pyx":235
  *                 rotated_x = temp_x * cos(rad_seg_rot_val) - temp_y * sin(rad_seg_rot_val) # Use rad_seg_rot_val
  *                 rotated_y = temp_x * sin(rad_seg_rot_val) + temp_y * cos(rad_seg_rot_val) # Use rad_seg_rot_val
  *                 scaled_y = rotated_y * scale_y             # <<<<<<<<<<<<<<
@@ -5836,156 +6195,262 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 */
         __pyx_v_scaled_y = (__pyx_v_rotated_y * __pyx_v_scale_y);
 
-        /* "kaleidoscope_computations.pyx":193
+        /* "kaleidoscope_computations.pyx":237
  *                 scaled_y = rotated_y * scale_y
  * 
  *                 vertices_buffer[current_write_idx][0] = rotated_x             # <<<<<<<<<<<<<<
  *                 vertices_buffer[current_write_idx][1] = scaled_y
- *                 colors_buffer[current_write_idx][0] = base_r
+ *                 colors_buffer[current_write_idx][0] = r
 */
-        __pyx_t_19 = PyFloat_FromDouble(__pyx_v_rotated_x); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 193, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_19);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 193, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 0, __pyx_t_19, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 193, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_rotated_x); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 237, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 237, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 0, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 237, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":194
+        /* "kaleidoscope_computations.pyx":238
  * 
  *                 vertices_buffer[current_write_idx][0] = rotated_x
  *                 vertices_buffer[current_write_idx][1] = scaled_y             # <<<<<<<<<<<<<<
- *                 colors_buffer[current_write_idx][0] = base_r
- *                 colors_buffer[current_write_idx][1] = base_g
+ *                 colors_buffer[current_write_idx][0] = r
+ *                 colors_buffer[current_write_idx][1] = g
 */
-        __pyx_t_19 = PyFloat_FromDouble(__pyx_v_scaled_y); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 194, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_19);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 194, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 1, __pyx_t_19, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 194, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_scaled_y); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 238, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vertices_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 238, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 1, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 238, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":195
+        /* "kaleidoscope_computations.pyx":239
  *                 vertices_buffer[current_write_idx][0] = rotated_x
  *                 vertices_buffer[current_write_idx][1] = scaled_y
- *                 colors_buffer[current_write_idx][0] = base_r             # <<<<<<<<<<<<<<
- *                 colors_buffer[current_write_idx][1] = base_g
- *                 colors_buffer[current_write_idx][2] = base_b
+ *                 colors_buffer[current_write_idx][0] = r             # <<<<<<<<<<<<<<
+ *                 colors_buffer[current_write_idx][1] = g
+ *                 colors_buffer[current_write_idx][2] = b
 */
-        __pyx_t_19 = PyFloat_FromDouble(__pyx_v_base_r); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 195, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_19);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 195, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 0, __pyx_t_19, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 195, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_r); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 239, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 239, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 0, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 239, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":196
+        /* "kaleidoscope_computations.pyx":240
  *                 vertices_buffer[current_write_idx][1] = scaled_y
- *                 colors_buffer[current_write_idx][0] = base_r
- *                 colors_buffer[current_write_idx][1] = base_g             # <<<<<<<<<<<<<<
- *                 colors_buffer[current_write_idx][2] = base_b
+ *                 colors_buffer[current_write_idx][0] = r
+ *                 colors_buffer[current_write_idx][1] = g             # <<<<<<<<<<<<<<
+ *                 colors_buffer[current_write_idx][2] = b
  *                 colors_buffer[current_write_idx][3] = base_a_final
 */
-        __pyx_t_19 = PyFloat_FromDouble(__pyx_v_base_g); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 196, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_19);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 196, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 1, __pyx_t_19, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 196, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_g); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 1, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 240, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":197
- *                 colors_buffer[current_write_idx][0] = base_r
- *                 colors_buffer[current_write_idx][1] = base_g
- *                 colors_buffer[current_write_idx][2] = base_b             # <<<<<<<<<<<<<<
+        /* "kaleidoscope_computations.pyx":241
+ *                 colors_buffer[current_write_idx][0] = r
+ *                 colors_buffer[current_write_idx][1] = g
+ *                 colors_buffer[current_write_idx][2] = b             # <<<<<<<<<<<<<<
  *                 colors_buffer[current_write_idx][3] = base_a_final
  *                 current_write_idx += 1
 */
-        __pyx_t_19 = PyFloat_FromDouble(__pyx_v_base_b); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 197, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_19);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 197, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 2, __pyx_t_19, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 197, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_b); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 241, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 241, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 2, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 241, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":198
- *                 colors_buffer[current_write_idx][1] = base_g
- *                 colors_buffer[current_write_idx][2] = base_b
+        /* "kaleidoscope_computations.pyx":242
+ *                 colors_buffer[current_write_idx][1] = g
+ *                 colors_buffer[current_write_idx][2] = b
  *                 colors_buffer[current_write_idx][3] = base_a_final             # <<<<<<<<<<<<<<
  *                 current_write_idx += 1
  * 
 */
-        __pyx_t_19 = PyFloat_FromDouble(__pyx_v_base_a_final); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 198, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_19);
-        __pyx_t_18 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 198, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        if (unlikely((__Pyx_SetItemInt(__pyx_t_18, 3, __pyx_t_19, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 198, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-        __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_base_a_final); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 242, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_GetItemInt(((PyObject *)__pyx_v_colors_buffer), __pyx_v_current_write_idx, int, 1, __Pyx_PyLong_From_int, 0, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 242, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (unlikely((__Pyx_SetItemInt(__pyx_t_16, 3, __pyx_t_6, long, 1, __Pyx_PyLong_From_long, 0, 0, 0) < 0))) __PYX_ERR(0, 242, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "kaleidoscope_computations.pyx":199
- *                 colors_buffer[current_write_idx][2] = base_b
+        /* "kaleidoscope_computations.pyx":243
+ *                 colors_buffer[current_write_idx][2] = b
  *                 colors_buffer[current_write_idx][3] = base_a_final
  *                 current_write_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             sub_draw_commands.append((line_start_idx, num_lines + 1))
+ *             if is_current_pattern:
 */
         __pyx_v_current_write_idx = (__pyx_v_current_write_idx + 1);
       }
 
-      /* "kaleidoscope_computations.pyx":201
+      /* "kaleidoscope_computations.pyx":245
  *                 current_write_idx += 1
  * 
- *             sub_draw_commands.append((line_start_idx, num_lines + 1))             # <<<<<<<<<<<<<<
+ *             if is_current_pattern:             # <<<<<<<<<<<<<<
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+*/
+      if (__pyx_v_is_current_pattern) {
+
+        /* "kaleidoscope_computations.pyx":246
+ * 
+ *             if is_current_pattern:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+*/
+        __pyx_t_6 = __Pyx_PyLong_From_int(__pyx_v_line_start_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 246, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_16 = __Pyx_PyLong_From_long((__pyx_v_num_lines + 1)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 246, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+
+        /* "kaleidoscope_computations.pyx":247
+ *             if is_current_pattern:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))             # <<<<<<<<<<<<<<
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+*/
+        __pyx_t_2 = (__pyx_v_flash_factor >= 1.0);
+        if (__pyx_t_2) {
+          __pyx_t_18 = PyFloat_FromDouble(__pyx_v_core_flash_width); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 247, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_18);
+          __pyx_t_17 = __pyx_t_18;
+          __pyx_t_18 = 0;
+        } else {
+          __pyx_t_18 = PyFloat_FromDouble(__pyx_v_core_line_width); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 247, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_18);
+          __pyx_t_17 = __pyx_t_18;
+          __pyx_t_18 = 0;
+        }
+
+        /* "kaleidoscope_computations.pyx":246
+ * 
+ *             if is_current_pattern:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+*/
+        __pyx_t_18 = PyTuple_New(3); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 246, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_18);
+        __Pyx_GIVEREF(__pyx_t_6);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_6) != (0)) __PYX_ERR(0, 246, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_16);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_16) != (0)) __PYX_ERR(0, 246, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_17);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 2, __pyx_t_17) != (0)) __PYX_ERR(0, 246, __pyx_L1_error);
+        __pyx_t_6 = 0;
+        __pyx_t_16 = 0;
+        __pyx_t_17 = 0;
+        __pyx_t_19 = __Pyx_PyList_Append(__pyx_v_sub_draw_commands, __pyx_t_18); if (unlikely(__pyx_t_19 == ((int)-1))) __PYX_ERR(0, 246, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+
+        /* "kaleidoscope_computations.pyx":245
+ *                 current_write_idx += 1
+ * 
+ *             if is_current_pattern:             # <<<<<<<<<<<<<<
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+*/
+        goto __pyx_L24;
+      }
+
+      /* "kaleidoscope_computations.pyx":249
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
+ * 
+*/
+      /*else*/ {
+        __pyx_t_18 = __Pyx_PyLong_From_int(__pyx_v_line_start_idx); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 249, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_18);
+        __pyx_t_17 = __Pyx_PyLong_From_long((__pyx_v_num_lines + 1)); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 249, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_17);
+
+        /* "kaleidoscope_computations.pyx":250
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))             # <<<<<<<<<<<<<<
  * 
  *     total_vertices_added = current_write_idx - start_offset
 */
-      __pyx_t_19 = __Pyx_PyLong_From_int(__pyx_v_line_start_idx); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 201, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_19);
-      __pyx_t_18 = __Pyx_PyLong_From_long((__pyx_v_num_lines + 1)); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 201, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_18);
-      __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 201, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_GIVEREF(__pyx_t_19);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_19) != (0)) __PYX_ERR(0, 201, __pyx_L1_error);
-      __Pyx_GIVEREF(__pyx_t_18);
-      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_18) != (0)) __PYX_ERR(0, 201, __pyx_L1_error);
-      __pyx_t_19 = 0;
-      __pyx_t_18 = 0;
-      __pyx_t_20 = __Pyx_PyList_Append(__pyx_v_sub_draw_commands, __pyx_t_8); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 201, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_2 = (__pyx_v_flash_factor >= 1.0);
+        if (__pyx_t_2) {
+          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_ghost_flash_width); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 250, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __pyx_t_16 = __pyx_t_6;
+          __pyx_t_6 = 0;
+        } else {
+          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_ghost_line_width); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 250, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __pyx_t_16 = __pyx_t_6;
+          __pyx_t_6 = 0;
+        }
+
+        /* "kaleidoscope_computations.pyx":249
+ *                                           core_flash_width if flash_factor >= 1.0 else core_line_width))
+ *             else:
+ *                 sub_draw_commands.append((line_start_idx, num_lines + 1,             # <<<<<<<<<<<<<<
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
+ * 
+*/
+        __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 249, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_GIVEREF(__pyx_t_18);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_18) != (0)) __PYX_ERR(0, 249, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_17);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_17) != (0)) __PYX_ERR(0, 249, __pyx_L1_error);
+        __Pyx_GIVEREF(__pyx_t_16);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_16) != (0)) __PYX_ERR(0, 249, __pyx_L1_error);
+        __pyx_t_18 = 0;
+        __pyx_t_17 = 0;
+        __pyx_t_16 = 0;
+        __pyx_t_19 = __Pyx_PyList_Append(__pyx_v_sub_draw_commands, __pyx_t_6); if (unlikely(__pyx_t_19 == ((int)-1))) __PYX_ERR(0, 249, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      }
+      __pyx_L24:;
     }
   }
 
-  /* "kaleidoscope_computations.pyx":203
- *             sub_draw_commands.append((line_start_idx, num_lines + 1))
+  /* "kaleidoscope_computations.pyx":252
+ *                                           ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
  * 
  *     total_vertices_added = current_write_idx - start_offset             # <<<<<<<<<<<<<<
  *     return total_vertices_added, sub_draw_commands
 */
   __pyx_v_total_vertices_added = (__pyx_v_current_write_idx - __pyx_v_start_offset);
 
-  /* "kaleidoscope_computations.pyx":204
+  /* "kaleidoscope_computations.pyx":253
  * 
  *     total_vertices_added = current_write_idx - start_offset
  *     return total_vertices_added, sub_draw_commands             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_8 = __Pyx_PyLong_From_int(__pyx_v_total_vertices_added); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 204, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_18 = PyTuple_New(2); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 204, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_18);
-  __Pyx_GIVEREF(__pyx_t_8);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_8) != (0)) __PYX_ERR(0, 204, __pyx_L1_error);
+  __pyx_t_6 = __Pyx_PyLong_From_int(__pyx_v_total_vertices_added); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyTuple_New(2); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_16);
+  __Pyx_GIVEREF(__pyx_t_6);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_6) != (0)) __PYX_ERR(0, 253, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_sub_draw_commands);
   __Pyx_GIVEREF(__pyx_v_sub_draw_commands);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_v_sub_draw_commands) != (0)) __PYX_ERR(0, 204, __pyx_L1_error);
-  __pyx_t_8 = 0;
-  __pyx_r = ((PyObject*)__pyx_t_18);
-  __pyx_t_18 = 0;
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_v_sub_draw_commands) != (0)) __PYX_ERR(0, 253, __pyx_L1_error);
+  __pyx_t_6 = 0;
+  __pyx_r = ((PyObject*)__pyx_t_16);
+  __pyx_t_16 = 0;
   goto __pyx_L0;
 
   /* "kaleidoscope_computations.pyx":11
@@ -5998,9 +6463,10 @@ static PyObject *__pyx_f_25kaleidoscope_computations_fill_kaleidoscope_data_cyth
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_16);
+  __Pyx_XDECREF(__pyx_t_17);
   __Pyx_XDECREF(__pyx_t_18);
-  __Pyx_XDECREF(__pyx_t_19);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
@@ -6029,7 +6495,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_25kaleidoscope_computations_fill_kaleidoscope_data_cython, "\n    Fills vertex and color data for a single kaleidoscope pattern (current or ghost)\n    into pre-allocated NumPy arrays, optimized with Cython.\n\n    Args:\n        vertices_buffer (np.ndarray): The NumPy array for vertex coordinates (modified in-place).\n        colors_buffer (np.ndarray): The NumPy array for vertex colors (modified in-place).\n        start_offset (int): The starting index in the buffers for this pattern's data.\n        rotation_angle (float): The rotation angle for this pattern.\n        hue_offset (float): The hue offset for this pattern's color (0-360).\n        amplitude (float): The audio amplitude for this pattern (0.0-1.0), for oscillation.\n        is_current_pattern (bool): True if this is the live pattern, False for ghosts.\n        strobe_val (float): The current strobing value (0.0-1.0) to apply to colors.\n        base_alpha (float): The base alpha for this pattern (0.0-1.0, fading for ghosts).\n        frame_count (int): Current animation frame count for temporal oscillation phase.\n        oscillation_mode (int): 0 for linear oscillation, 1 for circular.\n\n    Returns:\n        tuple: A tuple (total_vertices_added, list_of_sub_draw_commands).\n               total_vertices_added (int): The total number of vertices written for this pattern.\n               list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip) for each line.\n    ");
+PyDoc_STRVAR(__pyx_doc_25kaleidoscope_computations_fill_kaleidoscope_data_cython, "\n    Fills vertex and color data for a single kaleidoscope pattern (current or ghost)\n    into pre-allocated NumPy arrays, optimized with Cython.\n\n    Args:\n        vertices_buffer (np.ndarray): The NumPy array for vertex coordinates (modified in-place).\n        colors_buffer (np.ndarray): The NumPy array for vertex colors (modified in-place).\n        start_offset (int): The starting index in the buffers for this pattern's data.\n        rotation_angle (float): The rotation angle for this pattern.\n        hue_offset (float): The hue offset for this pattern's color (0-360).\n        amplitude (float): The audio amplitude for this pattern (0.0-1.0), for oscillation.\n        is_current_pattern (bool): True if this is the live pattern, False for ghosts.\n        strobe_val (float): The current strobing value (0.0-1.0) to apply to colors.\n        base_alpha (float): The base alpha for this pattern (0.0-1.0, fading for ghosts).\n        frame_count (int): Current animation frame count for temporal oscillation phase.\n        oscillation_mode (int): 0 for linear oscillation, 1 for circular.\n\n    Returns:\n        tuple: A tuple (total_vertices_added, list_of_sub_draw_commands).\n               total_vertices_added (int): The total number of vertices written for this pattern.\n               list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip, line_width) for each line.\n    ");
 static PyMethodDef __pyx_mdef_25kaleidoscope_computations_1fill_kaleidoscope_data_cython = {"fill_kaleidoscope_data_cython", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_25kaleidoscope_computations_1fill_kaleidoscope_data_cython, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_25kaleidoscope_computations_fill_kaleidoscope_data_cython};
 static PyObject *__pyx_pw_25kaleidoscope_computations_1fill_kaleidoscope_data_cython(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -6930,7 +7396,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry const *t, PyObject **target, c
 
 static int __Pyx_InitCachedBuiltins(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_range); if (!__pyx_builtin_range) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_range); if (!__pyx_builtin_range) __PYX_ERR(0, 166, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1051, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -6982,9 +7448,9 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {11, 0, 0, 11, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 11, 1267};
+    const __Pyx_PyCode_New_function_description descr = {11, 0, 0, 11, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 11, 1530};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_vertices_buffer, __pyx_mstate->__pyx_n_u_colors_buffer, __pyx_mstate->__pyx_n_u_start_offset, __pyx_mstate->__pyx_n_u_rotation_angle, __pyx_mstate->__pyx_n_u_hue_offset, __pyx_mstate->__pyx_n_u_amplitude, __pyx_mstate->__pyx_n_u_is_current_pattern, __pyx_mstate->__pyx_n_u_strobe_val, __pyx_mstate->__pyx_n_u_base_alpha, __pyx_mstate->__pyx_n_u_frame_count, __pyx_mstate->__pyx_n_u_oscillation_mode};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_kaleidoscope_computations_pyx, __pyx_mstate->__pyx_n_u_fill_kaleidoscope_data_cython, __pyx_k_J_A_6_Rq_z_1_d_L_Yiwa_2V2Q_G1_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_kaleidoscope_computations_pyx, __pyx_mstate->__pyx_n_u_fill_kaleidoscope_data_cython, __pyx_k_J_A_6_Rq_z_1_Q_A_r_Rq_5_1_a_z_A, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

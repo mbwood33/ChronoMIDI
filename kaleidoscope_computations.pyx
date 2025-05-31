@@ -43,54 +43,87 @@ cpdef tuple fill_kaleidoscope_data_cython(
     Returns:
         tuple: A tuple (total_vertices_added, list_of_sub_draw_commands).
                total_vertices_added (int): The total number of vertices written for this pattern.
-               list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip) for each line.
+               list_of_sub_draw_commands (list): List of (relative_start_idx, num_points_in_strip, line_width) for each line.
     """
     cdef int current_write_idx = start_offset
     cdef int num_segments = 12
     
     # Dynamic grid size based on amplitude for "scatter" effect
     # Base grid size 150, expands up to 350 with max amplitude
-    cdef float dynamic_grid_size = 150.0 + amplitude * 200.0
+    cdef float dynamic_grid_size = 150.0 + amplitude * 300.0 # Increased scatter range
     
     cdef int num_lines = 10
-    # Increased oscillation magnitude significantly
-    cdef float osc_magnitude = amplitude * 1000.0 # Even more exaggerated oscillation
+    # Amplify oscillation magnitude even more
+    cdef float osc_magnitude = amplitude * 1200.0 # Even more exaggerated oscillation
 
-    # Calculate saturation and value based on strobe_val (which is audio amplitude reactive)
-    # Saturation: High amplitude -> low saturation (closer to white)
-    #             Low amplitude -> high saturation (full color)
-    # Value:      High amplitude -> high value (bright)
-    #             Low amplitude -> low value (dark)
-    
-    # Saturation: goes from 255 (full color) down to 0 (pure white)
-    # This makes it fully desaturated (white) at max amplitude.
-    cdef float target_saturation_hsv_float = (1.0 - strobe_val) * 255.0
-    cdef int target_saturation_hsv = <int>max(0.0, min(255.0, target_saturation_hsv_float))
-    
-    # Value: Ensures brightness is always high, from 100 (normal) to 255 (dazzlingly bright).
-    # This means it never gets darker, only brighter with louder audio.
-    cdef float target_value_hsv_float = strobe_val * 155.0 + 100.0
-    cdef int target_value_hsv = <int>max(100.0, min(255.0, target_value_hsv_float))
+    # --- STROBE / FLASH LOGIC ---
+    # Introduce a fast “square wave” based on frame_count to create a momentary flash.
+    # If amplitude is above a small threshold, we let “flash_mode” flip between 0 or 1 quickly.
+    # You can adjust flash_speed to taste (higher => faster toggling).
+    cdef float flash_threshold = 0.25  # amplitude threshold to even consider flashing
+    cdef float flash_speed = 0.5       # in cycles per frame; bigger => faster flicker
 
-    # Convert HSV to RGB for OpenGL
-    # Manual HSV to RGB conversion (simplified for Cython)
-    cdef float h_norm = hue_offset / 360.0 # Normalize hue to 0-1
-    cdef float s_norm = target_saturation_hsv / 255.0 # Normalize saturation to 0-1
-    cdef float v_norm = target_value_hsv / 255.0 # Normalize value to 0-1
-    
+    # Compute a raw “oscillator” that goes between -1 and +1.
+    cdef float raw_osc = sin(frame_count * flash_speed * 2.0 * M_PI)
+    # Turn that into a square wave (0 or 1)
+    cdef int square_wave = 1 if raw_osc > 0.0 else 0
+
+    # Now define a flash_factor: 
+    #   if amplitude < flash_threshold, always 0. 
+    #   else it’s the square_wave (so it toggles on/off when audio is loud enough).
+    cdef float flash_factor = 0.0
+    if amplitude >= flash_threshold:
+        flash_factor = float(square_wave)
+
+    # --- AGGRESSIVE SATURATION / VALUE BASED ON STROBE + FLASH ---
+    # We still want strobe_val in [0,1] from Python. We raise it to a higher power for
+    # more dramatic desaturation near max strobe. Then we optionally force a full-white
+    # flash if flash_factor==1.
+
+    # exponentiate strobe_val for sharper ramp
+    cdef float strobe_pow = strobe_val ** 6.0 # bigger exponent => sharper effect
+    # “desat” is how much we reduce saturation when strobing
+    cdef float desaturation_factor = strobe_pow 
+    cdef int target_saturation_hsv = <int>( (1.0 - desaturation_factor) * 255.0 )
+    if target_saturation_hsv < 0:
+        target_saturation_hsv = 0
+    elif target_saturation_hsv > 255:
+        target_saturation_hsv = 255
+
+    # Now manage brightness/value:
+    # If flash_factor is 1 => force full white (V=255).
+    # else do a normal ramp (from 100 to 255) based on strobe_pow.
+    # MODIFIED: Increased base value for target_value_hsv to make quieter colors brighter.
+    cdef int target_value_hsv
+    if flash_factor >= 1.0:
+        target_value_hsv = 255
+    else:
+        # Base brightness is 100, ramps up to 255 with strobe_pow
+        target_value_hsv = <int>(100 + strobe_pow * 155.0) # Range from 100 to 255
+        if target_value_hsv < 100: # Ensure minimum brightness for quiet audio
+            target_value_hsv = 100
+        elif target_value_hsv > 255:
+            target_value_hsv = 255
+
+    # Convert HSV => RGB (0..1 floats) 
+    cdef float h_norm = hue_offset / 360.0
+    cdef float s_norm = target_saturation_hsv / 255.0
+    cdef float v_norm = target_value_hsv / 255.0
+
     cdef float r, g, b
     cdef float i_h, f, p, q, t
 
     if s_norm == 0.0:
-        r = g = b = v_norm
+        r = v_norm
+        g = v_norm
+        b = v_norm
     else:
         i_h = h_norm * 6.0
-        if i_h == 6.0: i_h = 0.0 # Handle wrap-around for hue
+        if i_h == 6.0: i_h = 0.0
         f = i_h - <int>i_h
         p = v_norm * (1.0 - s_norm)
         q = v_norm * (1.0 - s_norm * f)
         t = v_norm * (1.0 - s_norm * (1.0 - f))
-        
         if <int>i_h == 0:
             r, g, b = v_norm, t, p
         elif <int>i_h == 1:
@@ -103,28 +136,32 @@ cpdef tuple fill_kaleidoscope_data_cython(
             r, g, b = t, p, v_norm
         else: # <int>i_h == 5
             r, g, b = v_norm, p, q
-    
-    cdef float base_r = r
-    cdef float base_g = g
-    cdef float base_b = b
-    cdef float base_a_final = base_alpha # Alpha is passed directly
 
-    cdef list sub_draw_commands = [] # To store (relative_start_idx, num_points_in_strip)
+    # We’ll optionally drive alpha higher when flash_factor==1, so lines briefly max out opacity.
+    cdef float base_a_final = base_alpha
+    if flash_factor >= 1.0:
+        # temporarily bump alpha for a very sharp flash
+        base_a_final = 1.0
+
+    # Prepare return structure for line widths. We'll override these in Python if needed.
+    cdef list sub_draw_commands = []
 
     cdef float x, y, temp_x, temp_y, rotated_x, rotated_y, scaled_y, osc_offset
     cdef float rad_seg_rot_val, angle, dist
     cdef int i_seg, y_line_idx, x_point_idx, x_line_idx, y_point_idx
     cdef int line_start_idx
-
-    # Declare seg_rot_angle and scale_y outside the loop
     cdef float seg_rot_angle
     cdef float scale_y
 
-    # Dynamic oscillation frequency multipliers
-    # Spatial frequency: increases waviness with amplitude
-    cdef float osc_spatial_freq = 0.05 + amplitude * 0.25 
-    # Temporal frequency: increases speed of oscillation with amplitude
-    cdef float osc_temporal_freq = 0.05 + amplitude * 0.2 
+    # Define “pulse” line width: when flash_factor==1, use a much fatter line.
+    cdef float ghost_line_width = 2.0
+    cdef float ghost_flash_width = 5.0  # fatter on flash
+    cdef float core_line_width = 4.0
+    cdef float core_flash_width = 8.0
+
+    # Spatial & temporal freq for sinusoidal oscillation
+    cdef float osc_spatial_freq = 0.05 + amplitude * 0.3
+    cdef float osc_temporal_freq = 0.05 + amplitude * 0.25
 
     for i_seg in range(num_segments): # Changed 'i' to 'i_seg' to avoid conflict with 'i_h'
         seg_rot_angle = i_seg * (360.0 / num_segments) # Assign value here
@@ -158,13 +195,20 @@ cpdef tuple fill_kaleidoscope_data_cython(
 
                 vertices_buffer[current_write_idx][0] = rotated_x
                 vertices_buffer[current_write_idx][1] = scaled_y
-                colors_buffer[current_write_idx][0] = base_r
-                colors_buffer[current_write_idx][1] = base_g
-                colors_buffer[current_write_idx][2] = base_b
+                colors_buffer[current_write_idx][0] = r
+                colors_buffer[current_write_idx][1] = g
+                colors_buffer[current_write_idx][2] = b
                 colors_buffer[current_write_idx][3] = base_a_final
                 current_write_idx += 1
             
-            sub_draw_commands.append((line_start_idx, num_lines + 1))
+            # Decide which line width to use for this horizontal strip:
+            if is_current_pattern:
+                # core is “current pattern” → thicker
+                sub_draw_commands.append((line_start_idx, num_lines + 1, 
+                                          core_flash_width if flash_factor >= 1.0 else core_line_width))
+            else:
+                sub_draw_commands.append((line_start_idx, num_lines + 1, 
+                                          ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
 
         # Vertical lines
         for x_line_idx in range(num_lines + 1): # Outer loop for vertical lines
@@ -192,13 +236,18 @@ cpdef tuple fill_kaleidoscope_data_cython(
 
                 vertices_buffer[current_write_idx][0] = rotated_x
                 vertices_buffer[current_write_idx][1] = scaled_y
-                colors_buffer[current_write_idx][0] = base_r
-                colors_buffer[current_write_idx][1] = base_g
-                colors_buffer[current_write_idx][2] = base_b
+                colors_buffer[current_write_idx][0] = r
+                colors_buffer[current_write_idx][1] = g
+                colors_buffer[current_write_idx][2] = b
                 colors_buffer[current_write_idx][3] = base_a_final
                 current_write_idx += 1
-            
-            sub_draw_commands.append((line_start_idx, num_lines + 1))
-    
+
+            if is_current_pattern:
+                sub_draw_commands.append((line_start_idx, num_lines + 1, 
+                                          core_flash_width if flash_factor >= 1.0 else core_line_width))
+            else:
+                sub_draw_commands.append((line_start_idx, num_lines + 1, 
+                                          ghost_flash_width if flash_factor >= 1.0 else ghost_line_width))
+
     total_vertices_added = current_write_idx - start_offset
     return total_vertices_added, sub_draw_commands

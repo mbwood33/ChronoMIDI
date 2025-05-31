@@ -2,13 +2,23 @@
 # chronomidi_gui.py – ChronoMIDI GUI/playback/visualizer
 
 """
-ChronoMIDI - A real-time MIDI playback and visualization application.
+ChronoMIDI v0.2.1 (5/31/2025) - A real-time MIDI playback and visualization application
+Started 5/19/2025
+Developed by Michael Wood (github.com/mbwood33) (with coding assistance from Google Gemini + OpenAI ChatGPT)
+Kaleidoscope Visualizor idea contribution by Rayce Hinkle (github.com/Wrhinkle)
 
 This script implements a PyQt5-based graphical user interface for playing MIDI files,
 visualizing audio output with an equalizer and oscilloscope, and analyzing MIDI event data.
 It integrates with external libraries like mido for MIDI parsing, numpy and sounddevice
 for audio processing, and pyfluidsynth for MIDI synthesis. OpenGL is used for
 high-performance visualizations.
+
+Features include:
+🎼 MIDI playback and MIDI event analysis/display
+📊 Real-time Equalizer visualization
+🌀 Real-time Oscilloscope and Kaleidoscope visualizations
+💻 Real-time MIDI event analysis and display
+💾 MIDI-to-MP3 audio export using currently loaded Soundfont
 """
 
 import sys
@@ -28,7 +38,7 @@ from fluidsynth import Synth  # The Python binding for FluidSynth, a software sy
 # Ensure 'oscilloscope_computations.py' or 'oscilloscope_computations.so' (Cython build) is available
 import oscilloscope_computations
 
-# NEW: Import the Cythonized kaleidoscope computations
+# Import the Cythonized kaleidoscope computations
 import kaleidoscope_computations
 
 # PyQt5 Core Modules
@@ -910,8 +920,8 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
                 self.frame_count, self.oscillation_mode # Pass frame_count and oscillation_mode
             )
             # Add each sub-command with its line width, z_offset, and rotation_angle
-            for rel_start_idx, num_pts in sub_commands:
-                kaleidoscope_draw_commands.append((current_kaleidoscope_vertex_offset + rel_start_idx, num_pts, 2.0, z_offset, hist_rot_angle)) # Thinner lines for ghosts
+            for rel_start_idx, num_pts, line_w in sub_commands: # Unpack line_w
+                kaleidoscope_draw_commands.append((current_kaleidoscope_vertex_offset + rel_start_idx, num_pts, line_w, z_offset, hist_rot_angle)) # Use line_w
             current_kaleidoscope_vertex_offset += total_vertices_added
 
 
@@ -924,8 +934,8 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
             True, strobe_val_for_current, 1.0, # Current pattern at Z=0, full opacity
             self.frame_count, self.oscillation_mode
         )
-        for rel_start_idx, num_pts in sub_commands:
-            kaleidoscope_draw_commands.append((current_kaleidoscope_vertex_offset + rel_start_idx, num_pts, 4.0, 0.0, self.rotation_angle)) # Thicker lines for current pattern
+        for rel_start_idx, num_pts, line_w in sub_commands: # Unpack line_w
+            kaleidoscope_draw_commands.append((current_kaleidoscope_vertex_offset + rel_start_idx, num_pts, line_w, 0.0, self.rotation_angle)) # Use line_w
         current_kaleidoscope_vertex_offset += total_vertices_added
 
         # --- Send ALL kaleidoscope data to GPU ---
@@ -945,12 +955,12 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
         glColorPointer(4, GL_FLOAT, 0, None)
 
         # Execute ALL kaleidoscope draw calls
-        for start_idx, num_pts, line_width, z_offset_for_draw, rotation_angle_for_draw in kaleidoscope_draw_commands:
+        for start_idx, num_pts, line_w, z_offset_for_draw, rotation_angle_for_draw in kaleidoscope_draw_commands:
             glPushMatrix() # Push current modelview matrix
             glTranslatef(0, 0, z_offset_for_draw) # Apply Z-translation
             glRotatef(rotation_angle_for_draw, 0, 0, 1) # Apply rotation
             
-            glLineWidth(line_width)
+            glLineWidth(line_w) # <-- use the passed-in line width
             glDrawArrays(GL_LINE_STRIP, start_idx, num_pts)
             glPopMatrix() # Pop matrix to restore previous state
 
@@ -969,7 +979,7 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
                 # Fade out particles based on initial lifetime, starting more transparent
                 # Alpha curve for orb-like fade: starts lower, peaks, then fades out
                 normalized_lifetime = p['lifetime'] / p['initial_lifetime']
-                alpha = math.sin(normalized_lifetime * math.pi) * 0.6 # Max 60% opacity, starts/ends at 0
+                alpha = math.sin(normalized_lifetime * math.pi) * 1.0 # Max 100% opacity, starts/ends at 0
                 alpha = max(0.0, min(1.0, alpha)) # Clamp alpha
 
                 glPushMatrix() # Save current matrix state for particle
@@ -978,14 +988,31 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
                 glTranslatef(p['x'], p['y'], -200.0) # Z-offset to make particles visible in perspective
                 glRotatef(self.rotation_angle, 0, 0, 1) # Rotate particles with kaleidoscope
 
-                # Apply strobing to particle color
-                r, g, b, _ = p['color']
-                strobe_r = r * (self.current_amplitude * 0.9 + 0.1) # Apply strobe to particle color
-                strobe_g = g * (self.current_amplitude * 0.9 + 0.1)
-                strobe_b = b * (self.current_amplitude * 0.9 + 0.1)
+                # Apply strobing to particle color using the same logic as in Cython
+                # Re-calculate strobe_pow_particle based on current_amplitude
+                strobe_pow_particle = self.current_amplitude ** 6.0 # Use the same power as in Cython
+                
+                # Desaturation for particles
+                desaturation_factor_particle = strobe_pow_particle
+                target_saturation_hsv_particle = int((1.0 - desaturation_factor_particle) * 255)
+                target_saturation_hsv_particle = max(0, min(255, target_saturation_hsv_particle))
+
+                # Brightness for particles
+                # MODIFIED: Increased the base value for particle brightness
+                target_value_hsv_particle = int(150 + strobe_pow_particle * 105.0) # Range from 150 to 255
+                target_value_hsv_particle = max(150, min(255, target_value_hsv_particle)) # Ensure it's clamped correctly
+
+                # Convert original particle color (r,g,b) to a QColor to use its HSV conversion
+                original_particle_qcolor = QColor.fromRgbF(*p['color']) # Unpack original color
+                original_h = original_particle_qcolor.hue()
+                
+                # Apply the same HSV logic as in Cython for particle color
+                particle_strobe_qcolor = QColor.fromHsv(original_h, target_saturation_hsv_particle, target_value_hsv_particle)
+                strobe_r, strobe_g, strobe_b, _ = particle_strobe_qcolor.getRgbF()
 
                 # Draw aura (larger, more transparent)
-                glColor4f(strobe_r, strobe_g, strobe_b, alpha * 0.5) # Half alpha for aura
+                # MODIFIED: Increased aura alpha multiplier
+                glColor4f(strobe_r, strobe_g, strobe_b, alpha * 0.7) # More opaque aura
                 glBegin(GL_QUADS)
                 aura_size = p['initial_size'] * 3.0 # Larger for aura
                 glVertex2f(-aura_size, -aura_size)
@@ -1005,6 +1032,7 @@ class KaleidoscopeVisualizerGLWidget(QOpenGLWidget):
                 glEnd()
                 glPopMatrix() # Restore matrix state
         self.particles = new_particles
+
 
 class KaleidoscopeVisualizerWindow(QMainWindow):
     """
@@ -1370,7 +1398,7 @@ class ChronoMIDI(QMainWindow):
 
         # NEW: Clear and populate tempo and time signature change lists
         self.tempo_changes = []         # Stores (absolute_tick, tempo_in_bpm) tuples for beat/measure calculation
-        # time_signature_changes will now store (absolute_tick, numerator, denominator, cumulative_measures_at_this_tick)
+        # time_signature_changes will now store (absolute_tick, numerator, denominator, cumulative_measures)
         self.time_signature_changes = []
         self.tempo_changes_by_time_s = [] # Stores (time_s, tempo_in_bpm) for GUI updates
         self.time_signature_changes_by_time_s = [] # Stores (time_s, numerator, denominator) for GUI updates
